@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/pages/login.dart';
 
 void main() {
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.black,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarIconBrightness: Brightness.light));
+      systemNavigationBarColor: Color(0xff5db17f),
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarIconBrightness: Brightness.dark));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,14 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Mofer',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-      useMaterial3: true,
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal),
-      ),
+          brightness: Brightness.light,
+          useMaterial3: true,
+          colorSchemeSeed: Color(0xFF86c88f)),
       home: const Login(),
     );
   }
 }
-
-
