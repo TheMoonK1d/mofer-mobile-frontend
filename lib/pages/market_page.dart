@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MarketPage extends StatefulWidget {
+  const MarketPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MarketPage> createState() => _MarketPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MarketPageState extends State<MarketPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Home",
+          "Market",
           style: GoogleFonts.montserrat(
             fontSize: 25,
             fontWeight: FontWeight.w900,
@@ -23,7 +22,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         automaticallyImplyLeading: false,
-        //leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu_rounded)),
       ),
     );
   }
