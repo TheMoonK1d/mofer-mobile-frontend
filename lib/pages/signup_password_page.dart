@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mofer/pages/payment_page.dart';
+import 'package:mofer/pages/verify_page.dart';
 
-import 'package:mofer/pages/signup_name_page.dart';
+class SignUpPasswordPage extends StatelessWidget {
+  const SignUpPasswordPage({super.key});
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
-
-  @override
-  State<SignupPage> createState() => _SignupPageState();
-}
-
-class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +27,7 @@ class _SignupPageState extends State<SignupPage> {
                           children: [
                             Text(
                               textAlign: TextAlign.start,
-                              "Sign Up",
+                              "Almost done",
                               style: GoogleFonts.montserrat(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w900,
@@ -45,7 +40,7 @@ class _SignupPageState extends State<SignupPage> {
                           children: [
                             Text(
                               textAlign: TextAlign.start,
-                              "Who should we call you?",
+                              "Hide your plants 👀",
                               style: GoogleFonts.montserrat(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -61,9 +56,10 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: true,
                       decoration: InputDecoration(
-                        hintText: "First Name",
+                        hintText: "Password",
                         hintStyle: GoogleFonts.montserrat(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -79,9 +75,10 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: true,
                       decoration: InputDecoration(
-                        hintText: "Last Name",
+                        hintText: "Confirm Password",
                         hintStyle: GoogleFonts.montserrat(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -100,7 +97,7 @@ class _SignupPageState extends State<SignupPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SignUpName()),
+                              builder: (context) => const VerifyEmailPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(

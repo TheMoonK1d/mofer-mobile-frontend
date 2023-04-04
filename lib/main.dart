@@ -9,6 +9,8 @@ void main() {
   ));
 }
 
+//send token
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -20,13 +22,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
-        useMaterial3: true,
-        colorSchemeSeed: Colors.greenAccent,
+        primarySwatch: Colors.green,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        useMaterial3: true,
-        colorSchemeSeed: Colors.greenAccent,
+        primarySwatch: Colors.green,
       ),
       themeMode: ThemeMode.system,
       home: const LoginPage(),

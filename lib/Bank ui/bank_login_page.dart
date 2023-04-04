@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mofer/Bank%20ui/bank_payment.dart';
 
+import 'bank_otp.dart';
+
+//init function
+/*
+  get pkg id
+  get amount
+
+ */
 class BankLoginPage extends StatelessWidget {
   const BankLoginPage({super.key});
 
@@ -79,10 +86,14 @@ class BankLoginPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       onPressed: () {
+                        //send username and password
+                        //wait for response
+                        //if response is token next page and pass the token, pkg id, amount value
+                        //else show msg
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BankPaymentPage()),
+                              builder: (context) => const OTPPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(

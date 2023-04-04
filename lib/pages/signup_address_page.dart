@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mofer/pages/signup_password_page.dart';
 
-import 'package:mofer/pages/signup_name_page.dart';
-
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class SignUpAddressPage extends StatefulWidget {
+  const SignUpAddressPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<SignUpAddressPage> createState() => _SignUpAddressPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignUpAddressPageState extends State<SignUpAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +44,7 @@ class _SignupPageState extends State<SignupPage> {
                           children: [
                             Text(
                               textAlign: TextAlign.start,
-                              "Who should we call you?",
+                              "Where to find you?",
                               style: GoogleFonts.montserrat(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -56,14 +55,30 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                       ],
                     )),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: "City",
+                        hintStyle: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    )),
+                const SizedBox(
+                  height: 20,
+                ),
 
                 //Email
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.streetAddress,
                       decoration: InputDecoration(
-                        hintText: "First Name",
+                        hintText: "Street",
                         hintStyle: GoogleFonts.montserrat(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -79,9 +94,9 @@ class _SignupPageState extends State<SignupPage> {
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                        hintText: "Last Name",
+                        hintText: "Kebele",
                         hintStyle: GoogleFonts.montserrat(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -100,7 +115,7 @@ class _SignupPageState extends State<SignupPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SignUpName()),
+                              builder: (context) => const SignUpPasswordPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(

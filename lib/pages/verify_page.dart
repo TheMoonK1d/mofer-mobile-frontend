@@ -103,7 +103,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     //1c7a47
                     //foregroundColor: const Color(0xff0e3920),
                     //backgroundColor: const Color(0xff2a9d8f),
-                    elevation: 20,
+                    elevation: 1,
                     minimumSize: const Size(400, 50),
                   ),
                   child: Text(

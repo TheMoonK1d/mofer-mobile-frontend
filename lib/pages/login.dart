@@ -9,6 +9,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           "Mofer",
@@ -25,160 +26,166 @@ class LoginPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(child: Container()),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
+          SizedBox(
+            height: 400,
+            child: Column(
               children: [
-                Text(
-                  textAlign: TextAlign.start,
-                  "Sign In",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                    fontStyle: FontStyle.normal,
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Text(
+                        textAlign: TextAlign.start,
+                        "Sign In",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w900,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
 
-          //Email
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: "Email",
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  hintStyle: GoogleFonts.montserrat(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
+                //Email
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintText: "Email",
+                        hintStyle: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    )),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        hintStyle: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    )),
+
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Forgot password?",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.normal,
+                              //color: const Color(0xff2a9d8f),
+                            ),
+                          )),
+                    ],
                   ),
                 ),
-              )),
 
-          const SizedBox(
-            height: 20,
-          ),
-
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "Password",
-                  prefixIcon: const Icon(Icons.password_outlined),
-                  hintStyle: GoogleFonts.montserrat(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    fontStyle: FontStyle.normal,
-                  ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (Context) => AlertDialog(
+                            title: Text(
+                              "Still on Alpha",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                            content: Text(
+                              "You can long press the Login Button to skip this page",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "Okay",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      onLongPress: (() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MainPage()),
+                        );
+                      }),
+                      style: ElevatedButton.styleFrom(
+                        //1c7a47
+                        //foregroundColor: const Color(0xff0e3920),
+                        //backgroundColor: const Color(0xff2a9d8f),
+                        elevation: 1,
+                        minimumSize: const Size(400, 50),
+                      ),
+                      child: Text(
+                        'Log in',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          fontStyle: FontStyle.normal,
+                          // color: Colors.white,
+                        ),
+                      )),
                 ),
-              )),
 
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignupPage()),
+                      );
+                    },
                     child: Text(
-                      "Forgot password?",
+                      "Create an account",
                       style: GoogleFonts.montserrat(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.normal,
                         //color: const Color(0xff2a9d8f),
+                        //0xFF0d1b2a
                       ),
                     )),
               ],
             ),
           ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-            child: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (Context) => AlertDialog(
-                      title: Text(
-                        "Still on Alpha",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w900,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                      content: Text(
-                        "You can long press the Login Button to skip this page",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Okay",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-                onLongPress: (() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MainPage()),
-                  );
-                }),
-                style: ElevatedButton.styleFrom(
-                  //1c7a47
-                  //foregroundColor: const Color(0xff0e3920),
-                  //backgroundColor: const Color(0xff2a9d8f),
-                  elevation: 20,
-                  minimumSize: const Size(400, 50),
-                ),
-                child: Text(
-                  'Log in',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    fontStyle: FontStyle.normal,
-                    // color: Colors.white,
-                  ),
-                )),
-          ),
-
-          TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignupPage()),
-                );
-              },
-              child: Text(
-                "Create an account",
-                style: GoogleFonts.montserrat(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  fontStyle: FontStyle.normal,
-                  //color: const Color(0xff2a9d8f),
-                  //0xFF0d1b2a
-                ),
-              )),
-
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
