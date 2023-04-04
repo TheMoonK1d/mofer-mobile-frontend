@@ -14,18 +14,31 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  getPackage() async {
-    var response =
-        await http.get(Uri.parse('https://reqres.in/api/users?page=2'));
-    debugPrint(response.body);
-  }
+  Map? data;
+  List? lst;
 
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
     getPackage();
     debugPrint("Ready!");
+  }
+
+  Future getPackage() async {
+    debugPrint("Fetching data");
+    final response =
+        await http.get(Uri.parse('https://reqres.in/api/users?page=2'));
+    debugPrint(response.statusCode.toString());
+    var decode = jsonDecode(response.body);
+
+    data = jsonDecode(response.body);
+
+    setState(() {
+      lst = data!["data"];
+    });
+    debugPrint(lst.toString());
   }
 
   @override
@@ -46,35 +59,43 @@ class _PaymentPageState extends State<PaymentPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // Expanded(
-            //   child: PageView(
-            //     scrollDirection: Axis.horizontal,
-            //     children: List.generate(
-            //         3,
-            //         (index) => Padding(
-            //             padding: EdgeInsets.symmetric(horizontal: 20),
-            //             child: Column(
-            //               children: [
-            //                 Padding(
-            //                   padding: EdgeInsets.all(20),
-            //                   child: Text(
-            //                     "Swipe 👈 to see listings",
-            //                     style: GoogleFonts.montserrat(
-            //                       fontSize: 15,
-            //                       fontWeight: FontWeight.w600,
-            //                       fontStyle: FontStyle.normal,
-            //                     ),
-            //                   ),
-            //                 ),
-            //                 Card(
-            //                   elevation: 5,
-            //                   child: Container(height: 500),
-            //                 ),
-            //               ],
-            //             ))),
-            //   ),
-            // ),
-
+            Expanded(
+              child: PageView.builder(
+                  itemCount: lst == null ? 0 : lst!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text(
+                              "Swipe 👈 to see listings",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                          ),
+                          Card(
+                            elevation: 5,
+                            child: Container(
+                              height: 500,
+                              width: 300,
+                              child: Column(
+                                children: [
+                                  Text("${lst![index]["email"]}"),
+                                  Text("${lst![index]["first_name"]}"),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
