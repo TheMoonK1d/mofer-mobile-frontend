@@ -22,11 +22,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.green,
+        useMaterial3: true,
+        colorSchemeSeed: Colors.green,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.green,
+        useMaterial3: true,
+        colorSchemeSeed: Colors.green,
       ),
       themeMode: ThemeMode.system,
       home: const LoginPage(),

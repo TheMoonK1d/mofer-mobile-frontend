@@ -16,6 +16,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   Map? data;
   List? lst;
+  int index = 0;
 
   @override
   void initState() {
@@ -29,14 +30,14 @@ class _PaymentPageState extends State<PaymentPage> {
   Future getPackage() async {
     debugPrint("Fetching data");
     final response =
-        await http.get(Uri.parse('https://reqres.in/api/users?page=2'));
+        await http.get(Uri.parse('http://192.168.211.209:5000/p/allPackages'));
     debugPrint(response.statusCode.toString());
     var decode = jsonDecode(response.body);
 
     data = jsonDecode(response.body);
 
     setState(() {
-      lst = data!["data"];
+      lst = data!["result"];
     });
     debugPrint(lst.toString());
   }
@@ -60,41 +61,79 @@ class _PaymentPageState extends State<PaymentPage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Expanded(
-              child: PageView.builder(
-                  itemCount: lst == null ? 0 : lst!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Text(
-                              "Swipe 👈 to see listings",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.normal,
+              child: GestureDetector(
+                onTap: () {
+                  print(index);
+                },
+                child: PageView.builder(
+                    itemCount: lst == null ? 0 : lst!.length,
+                    itemBuilder: (BuildContext context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                "${lst![index]["swipe"]}",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.normal,
+                                ),
                               ),
                             ),
-                          ),
-                          Card(
-                            elevation: 5,
-                            child: Container(
-                              height: 500,
-                              width: 300,
-                              child: Column(
-                                children: [
-                                  Text("${lst![index]["email"]}"),
-                                  Text("${lst![index]["first_name"]}"),
-                                ],
+                            Card(
+                              elevation: 5,
+                              child: Container(
+                                height: 500,
+                                width: 400,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "${lst![index]["package_id"]}",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${lst![index]["package_title"]}",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                    Text(
+                                      //Remember to change this
+                                      "${lst![index]["package_desciption".toString()]}",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${lst![index]["package_price"]}",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
+                          ],
+                        ),
+                      );
+                    }),
+              ),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,11 +198,4 @@ class _PaymentPageState extends State<PaymentPage> {
           ],
         ));
   }
-}
-
-class Package {
-  String title, desc;
-  int price;
-
-  Package(this.title, this.desc, this.price);
 }
