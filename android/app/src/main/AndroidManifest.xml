@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mofer">
+    package="com.meinab.mofer">
    <application
         android:label="mofer"
         android:name="${applicationName}"

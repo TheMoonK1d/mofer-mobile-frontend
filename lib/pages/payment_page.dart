@@ -23,7 +23,7 @@ class _PaymentPageState extends State<PaymentPage> {
     // TODO: implement initState
 
     super.initState();
-    getPackage();
+    //getPackage();
     debugPrint("Ready!");
   }
 

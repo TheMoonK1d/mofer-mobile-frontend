@@ -13,7 +13,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -100,11 +102,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    //1c7a47
-                    //foregroundColor: const Color(0xff0e3920),
-                    //backgroundColor: const Color(0xff2a9d8f),
+                    backgroundColor: const Color(0xff2a9d8f),
                     elevation: 1,
                     minimumSize: const Size(400, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                   child: Text(
                     'Check Email 📩',

@@ -1,4 +1,4 @@
-package com.example.mofer
+package com.meinab.mofer
 
 import io.flutter.embedding.android.FlutterActivity
 
