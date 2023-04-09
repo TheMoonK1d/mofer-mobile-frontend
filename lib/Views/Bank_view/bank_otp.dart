@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_text_field/otp_field.dart';
 
-/**
- * Send token, amount, receiver account
- */
+// Send token, amount, receiver account
 
 //create an await function that will receive order id
 
@@ -25,7 +23,7 @@ class _OTPPageState extends State<OTPPage> {
         appBar: AppBar(),
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
               "Enter the number we just sent you over SMS",
               style: GoogleFonts.montserrat(
@@ -44,9 +42,9 @@ class _OTPPageState extends State<OTPPage> {
               textFieldAlignment: MainAxisAlignment.spaceEvenly,
               fieldWidth: 40,
               outlineBorderRadius: 20,
-              style: TextStyle(fontSize: 17),
+              style: const TextStyle(fontSize: 17),
               onChanged: (pin) {
-                print("Changed: " + pin);
+
               },
               onCompleted: (pin) {
                 //send order id and opt value
@@ -67,10 +65,9 @@ class _OTPPageState extends State<OTPPage> {
 
                 //return to ???????????????
 
-                print("Completed: " + pin);
               }),
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Text(
               "you can resend sms in 1 min",
               style: GoogleFonts.montserrat(

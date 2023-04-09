@@ -113,7 +113,7 @@ class BankLoginPage extends StatelessWidget {
                       )),
                 ],
               )),
-          SizedBox(
+          const SizedBox(
             height: 150,
           )
         ],

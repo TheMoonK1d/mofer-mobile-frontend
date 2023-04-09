@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mofer/Bank%20ui/bank_login_page.dart';
 import 'package:http/http.dart' as http;
+
+import 'Bank_view/bank_login_page.dart';
+
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -23,21 +23,21 @@ class _PaymentPageState extends State<PaymentPage> {
     // TODO: implement initState
 
     super.initState();
-    //getPackage();
+    getPackage();
     debugPrint("Ready!");
   }
 
   Future getPackage() async {
     debugPrint("Fetching data");
     final response =
-        await http.get(Uri.parse('http://192.168.211.209:5000/p/allPackages'));
+        await http.get(Uri.parse('http://192.168.0.21:5000/p/allPackages'));
     debugPrint(response.statusCode.toString());
     var decode = jsonDecode(response.body);
-
+    print(decode);
     data = jsonDecode(response.body);
-
+    print(data);
     setState(() {
-      lst = data!["result"];
+      lst = data!["data"];
     });
     debugPrint(lst.toString());
   }

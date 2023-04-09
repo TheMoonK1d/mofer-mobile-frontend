@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mofer/pages/data_page.dart';
-import 'package:mofer/pages/home_page.dart';
-import 'package:mofer/pages/market_page.dart';
+
+import 'data_page.dart';
+import 'home_page.dart';
+import 'market_page.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -18,8 +21,35 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: page[index],
+    Color navColor = ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surface,
+        Theme.of(context).colorScheme.surfaceTint,
+        0);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        systemNavigationBarContrastEnforced: true,
+        systemNavigationBarColor: navColor,
+        statusBarColor: navColor,
+        systemNavigationBarDividerColor: navColor,
+        systemNavigationBarIconBrightness:
+        Theme.of(context).brightness == Brightness.light
+            ? Brightness.dark
+            : Brightness.light,
+        statusBarIconBrightness:
+        Theme.of(context).brightness == Brightness.light
+            ? Brightness.dark
+            : Brightness.light,
+      ),
+    child: Scaffold(
+      //body: page[index],
+      body: Column(
+        children: [
+          const Text("Test Page"),
+          ElevatedButton(onPressed: (){
+            FirebaseAuth.instance.signOut();
+          }, child: const Text("Logout"))
+        ],
+      ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
             labelTextStyle: MaterialStateProperty.all(
@@ -72,7 +102,7 @@ class _MainPageState extends State<MainPage> {
                 ))
           ],
         ),
-      ),
+      ),),
     );
   }
 }

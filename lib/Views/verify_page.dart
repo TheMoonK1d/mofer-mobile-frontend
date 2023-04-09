@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mofer/pages/payment_page.dart';
+import 'package:mofer/Views/payment_page.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
@@ -103,7 +103,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff2a9d8f),
-                    elevation: 1,
+                    elevation: 20,
                     minimumSize: const Size(400, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -113,6 +113,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     'Check Email 📩',
                     style: GoogleFonts.montserrat(
                       fontSize: 15,
+                      color: Colors.white,
                       fontWeight: FontWeight.w800,
                       fontStyle: FontStyle.normal,
                       // color: Colors.white,
