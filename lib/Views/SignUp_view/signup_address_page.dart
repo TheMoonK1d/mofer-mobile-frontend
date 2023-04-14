@@ -13,9 +13,9 @@ class SignUpAddressPage extends StatelessWidget {
     required this.phone,
     required this.email
   });
-  TextEditingController _city = TextEditingController();
-  TextEditingController _street = TextEditingController();
-  TextEditingController _kebele =  TextEditingController();
+  final TextEditingController _city = TextEditingController();
+  final TextEditingController _street = TextEditingController();
+  final TextEditingController _kebele =  TextEditingController();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -69,18 +69,19 @@ class SignUpAddressPage extends StatelessWidget {
                     //City
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextFormField(
+                        child: TextFormField(
                             keyboardType: TextInputType.text,
                             controller: _city,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value)=> locationValidator(value, "City"),
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                               hintText: "City",
                               hintStyle: GoogleFonts.montserrat(
                                 fontSize: 15,
@@ -88,7 +89,7 @@ class SignUpAddressPage extends StatelessWidget {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                          ),
+
                         )),
                     const SizedBox(
                       height: 20,
@@ -97,18 +98,19 @@ class SignUpAddressPage extends StatelessWidget {
                     //Street
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextFormField(
+                        child: TextFormField(
                             keyboardType: TextInputType.streetAddress,
                             controller: _street,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value)=> locationValidator(value, "Street"),
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                               hintText: "Street",
                               hintStyle: GoogleFonts.montserrat(
                                 fontSize: 15,
@@ -116,7 +118,7 @@ class SignUpAddressPage extends StatelessWidget {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                          ),
+
                         )),
 
                     const SizedBox(
@@ -125,18 +127,19 @@ class SignUpAddressPage extends StatelessWidget {
                     //Kebele
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextFormField(
+                        child: TextFormField(
                             keyboardType: TextInputType.phone,
                             controller: _kebele,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value)=> locationValidator(value, "Kebele"),
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                               hintText: "Kebele",
                               hintStyle: GoogleFonts.montserrat(
                                 fontSize: 15,
@@ -144,7 +147,7 @@ class SignUpAddressPage extends StatelessWidget {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                          ),
+
                         )),
                     const SizedBox(
                       height: 20,

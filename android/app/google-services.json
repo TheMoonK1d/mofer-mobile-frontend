@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "182289102972",
+    "project_id": "mofer-fa621",
+    "storage_bucket": "mofer-fa621.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182289102972:android:b0e9d1bba7eb7130c871f9",
+        "android_client_info": {
+          "package_name": "com.meinab.mofer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182289102972-12pdt9anvgvjr9c4ol50s82uq2uv20q8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB69EBWo8F0wl1H3oisPWyYdcxPR-cSb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182289102972-12pdt9anvgvjr9c4ol50s82uq2uv20q8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

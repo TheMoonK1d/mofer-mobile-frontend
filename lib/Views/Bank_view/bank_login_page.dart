@@ -9,8 +9,14 @@ import 'bank_otp.dart';
   get amount
 
  */
+
+//http://192.168.1.6:7000/useraccount/login
+
+
 class BankLoginPage extends StatelessWidget {
-  const BankLoginPage({super.key});
+  final String id, amount;
+
+  const BankLoginPage({super.key, required this.id, required this.amount});
 
   @override
   Widget build(BuildContext context) {

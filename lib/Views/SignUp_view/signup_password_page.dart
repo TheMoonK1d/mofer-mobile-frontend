@@ -78,19 +78,20 @@ final formKey = GlobalKey<FormState>();
                     //Password
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextFormField(
+                        child: TextFormField(
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
                             controller: _password,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value)=> signUpPasswordValidator(value),
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                               hintText: "Password",
                               hintStyle: GoogleFonts.montserrat(
                                 fontSize: 15,
@@ -98,7 +99,7 @@ final formKey = GlobalKey<FormState>();
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                          ),
+
                         )),
                     const SizedBox(
                       height: 20,
@@ -107,19 +108,20 @@ final formKey = GlobalKey<FormState>();
                     //Confirm Password
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextFormField(
+                        child: TextFormField(
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
                             controller: _cPassword,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value)=> signUpcPasswordValidator(value),
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                               hintText: "Confirm Password",
                               hintStyle: GoogleFonts.montserrat(
                                 fontSize: 15,
@@ -127,7 +129,7 @@ final formKey = GlobalKey<FormState>();
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                          ),
+
                         )),
                   ],
                 ),

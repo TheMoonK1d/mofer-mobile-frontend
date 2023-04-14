@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Future errorDialog(context, error){
-  return showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
+AlertDialog errorDialog(context, error){
+  return AlertDialog(
       title: Text(
         "✋🏾",
         style: GoogleFonts.montserrat(
@@ -36,6 +34,5 @@ Future errorDialog(context, error){
           ),
         ),
       ],
-    ),
   );
 }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/models/signup_models.dart';
+import 'package:http/http.dart' as http;
 
 class InfoCheckPage extends StatelessWidget {
-  late String fName, lName, email, phone, city, kebele, street, password;
-  InfoCheckPage({
+  final String fName, lName, email, phone, city, kebele, street, password;
+  const InfoCheckPage({
     super.key,
     required this.password,
     required this.kebele,
@@ -18,7 +19,9 @@ class InfoCheckPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SignUp signup = SignUp(email, password, context);
+
+
+    SignUp signup = SignUp(email, password, context, fName, lName, phone, street, kebele,city);
     return Scaffold(
         body: Container(
       decoration: const BoxDecoration(
@@ -56,7 +59,7 @@ class InfoCheckPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     height: 200,
                     width: 400,
                     decoration: BoxDecoration(
@@ -99,8 +102,8 @@ class InfoCheckPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             const Icon(Icons.phone_outlined),
                             const SizedBox(
@@ -169,7 +172,7 @@ class InfoCheckPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
             child: ElevatedButton(
                 onPressed: () {
-                 signup.signUp(context, email, password);
+                 signup.signUp(context, email, password, kebele,city,phone,street,fName,lName);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff2a9d8f),

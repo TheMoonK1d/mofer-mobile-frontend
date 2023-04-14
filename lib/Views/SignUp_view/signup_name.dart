@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mofer/Controller/AuthController/login_controller.dart';
 import 'package:mofer/Views/SignUp_view/signup_contact_page.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:mofer/main.dart';
-
 import '../../Controller/AuthController/signup_controller.dart';
 
 
@@ -32,7 +28,6 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/new_bk.png"),
-              // fit: BoxFit.cover,
             ),
           ),
           child: Form(
@@ -80,18 +75,19 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
                     //First Name
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextFormField(
+                        child: TextFormField(
                             keyboardType: TextInputType.name,
                             controller: _fName,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value)=> nameValidator(value, "First name"),
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                               hintText: "First Name",
                               hintStyle: GoogleFonts.montserrat(
                                 fontSize: 15,
@@ -99,7 +95,7 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                          ),
+
                         )),
 
                     const SizedBox(
@@ -109,18 +105,19 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
                     //Last Name
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: TextFormField(
+                        child: TextFormField(
                             keyboardType: TextInputType.name,
                             controller: _lName,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value)=> nameValidator(value, "Last name"),
                             decoration: InputDecoration(
-                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                               hintText: "Last Name",
                               hintStyle: GoogleFonts.montserrat(
                                 fontSize: 15,
@@ -128,7 +125,7 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                          ),
+
                         )),
                   ],
                 ),

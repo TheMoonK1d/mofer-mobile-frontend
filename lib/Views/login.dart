@@ -4,8 +4,8 @@ import 'package:mofer/Controller/AuthController/auth_validation_controller.dart'
 import 'package:mofer/Controller/AuthController/login_controller.dart';
 import 'package:mofer/Views/forgot_password.dart';
 import 'package:flutter/services.dart';
+import 'package:mofer/Views/payment_page.dart';
 import 'package:mofer/models/login_model.dart';
-import '../main.dart';
 import 'SignUp_view/signup_name.dart';
 
 class LoginPage extends StatelessWidget {
@@ -39,6 +39,14 @@ class LoginPage extends StatelessWidget {
         child: SafeArea(
           child: SafeArea(
             child: Scaffold(
+              appBar: AppBar(
+                title: Text("Test Mode"),
+
+                actions: [
+                  IconButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> const PaymentPage()))
+                      , icon: Icon(Icons.navigate_next))
+                ],
+              ),
               body: Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -53,7 +61,7 @@ class LoginPage extends StatelessWidget {
                       Expanded(
                           child: Center(
                         child: SizedBox(
-                          height: 200,
+                          height: 300,
                           width: 200,
                           child: Image.asset("assets/final.png",
                           color: Colors.black.withOpacity(0.2),),
@@ -81,18 +89,20 @@ class LoginPage extends StatelessWidget {
                           //Email
                           Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: TextFormField(
+                              child: TextFormField(
+
                                   keyboardType: TextInputType.emailAddress,
                                   controller: emailController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   validator: (email)=> emailValidator(email),
                                   decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide.none
+                                    ),
+                                    filled: true,
+                                    fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                                     hintText: "Email",
                                     hintStyle: GoogleFonts.montserrat(
                                       fontSize: 15,
@@ -100,7 +110,7 @@ class LoginPage extends StatelessWidget {
                                       fontStyle: FontStyle.normal,
                                     ),
                                   ),
-                                ),
+
                               )),
 
                           const SizedBox(
@@ -110,19 +120,20 @@ class LoginPage extends StatelessWidget {
                           //password
                           Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: TextFormField(
+                              child: TextFormField(
                                   keyboardType: TextInputType.visiblePassword,
                                   obscureText: true,
                                   controller: passwordController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   validator: (value)=> passwordValidator(value),
                                   decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderSide: BorderSide.none
+                                    ),
+                                    filled: true,
+                                    fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                                     hintText: "Password",
                                     hintStyle: GoogleFonts.montserrat(
                                       fontSize: 15,
@@ -130,7 +141,7 @@ class LoginPage extends StatelessWidget {
                                       fontStyle: FontStyle.normal,
                                     ),
                                   ),
-                                ),
+
                               )),
 
                           Padding(
@@ -140,7 +151,7 @@ class LoginPage extends StatelessWidget {
                               children: [
                                 TextButton(
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const ForgotPassword()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPassword()));
                                     },
                                     child: Text(
                                       "Forgot password?",
@@ -190,7 +201,7 @@ class LoginPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SignUpNamePage(fName: 'null', lName: 'null',)),
+                                      builder: (context) => const SignUpNamePage(fName: 'null', lName: 'null',)),
                                 );
                               },
                               child: Text(

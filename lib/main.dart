@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Utils/error_util.dart';
 import 'Views/home_page.dart';
 import 'Views/login.dart';
 
@@ -10,9 +11,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-  ));
 }
 
 //send token
@@ -27,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Mofer',
         debugShowCheckedModeBanner: false,
+        //scaffoldMessengerKey: Utils.messageKey,
         theme: ThemeData(
           brightness: Brightness.light,
           useMaterial3: true,

@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:mofer/Controller/AuthController/auth_validation_controller.dart';
 
 class ForgotPassword extends StatelessWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+   ForgotPassword({Key? key}) : super(key: key);
+   final formKey = GlobalKey<FormState>();
+
   sendData()async{
     debugPrint("Function called");
-    //final url = Uri.parse('http://192.168.0.21:5000/c/forget_password');
-    final data = {'customer_email': 'abinettamiru28@gmail.com'};
-    final uri = Uri.http('192.168.0.21:5000','/c/forget_password', data);
+    final data = {'customer_email': emailController.text.toString()};
+    final uri = Uri.http('192.168.1.6:5000','/c/forget_password', data);
 
     final response = await http.get(uri);
-    print(response.body);
-    print(response.headers);
     if (response.statusCode == 200) {
-      debugPrint("i guess it worked");
+      debugPrint("Sent email to ${emailController.text} the request data is as followed : $data");
     } else {
-      debugPrint("something went wrong");
+      debugPrint("${emailController.text} does not exist");
     }
   }
-  @override
+
+  final emailController = TextEditingController();
+   // String _email = email.text.trim();
+   @override
   Widget build(BuildContext context) {
-    TextEditingController _email = TextEditingController();
+    TextEditingController email = TextEditingController();
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(),
@@ -32,137 +35,108 @@ class ForgotPassword extends StatelessWidget {
               // fit: BoxFit.cover,
             ),
           ),
-          child: Column(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                textAlign: TextAlign.start,
-                                "Reset Password",
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w900,
-                                  fontStyle: FontStyle.normal,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Flexible(
-                                child: Text(
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
                                   textAlign: TextAlign.start,
-                                  "Don't worry, We can help",
+                                  "Reset Password",
                                   style: GoogleFonts.montserrat(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w900,
                                     fontStyle: FontStyle.normal,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: TextField(
-                          keyboardType: TextInputType.name,
-                          controller: _email,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Enter your email",
-                            hintStyle: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
+                              ],
                             ),
-                          ),
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    textAlign: TextAlign.start,
+                                    "Don't worry, We can help",
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                            keyboardType: TextInputType.name,
+                            controller: emailController,
+                            validator: (value)=> emailValidator(value),
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                              hintText: "Enter your email",
+                              hintStyle: GoogleFonts.montserrat(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+
+                        )),
+                  ],
+                ),
+                Expanded(child: Container()),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        if(formKey.currentState!.validate()){
+                          sendData();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xff2a9d8f),
+                        elevation: 20,
+                        minimumSize: const Size(400, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      child: Text(
+                        'Reset',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontStyle: FontStyle.normal,
+                          // color: Colors.white,
                         ),
                       )),
-                ],
-              ),
-              Expanded(child: Container()),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-                child: ElevatedButton(
-                    onPressed: () {
-                      if(_email.text.isEmpty){
-                        AlertDialog(
-                          title: Text(
-                            "Oops",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w900,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                          content: Text(
-                            "You forgot to enter your email",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                          actions: [
-
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                "Okay",
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FontStyle.normal,
-                                ),
-                              ),
-                            )
-                          ],
-                        );
-                      }
-                      sendData();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff2a9d8f),
-                      elevation: 20,
-                      minimumSize: const Size(400, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    child: Text(
-                      'Reset',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontStyle: FontStyle.normal,
-                        // color: Colors.white,
-                      ),
-                    )),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-            ],
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
           ),
         ));
   }

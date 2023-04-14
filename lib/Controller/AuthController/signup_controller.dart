@@ -1,7 +1,4 @@
 
-//phone validation
-import 'package:flutter/cupertino.dart';
-
 String? tempPass;
 phoneValidator(value) {
   if (value!.isEmpty) {
@@ -38,7 +35,6 @@ signUpPasswordValidator(value){
     return 'Password is to short';
   } else{
     tempPass = value;
-    debugPrint("Temp password: $tempPass");
     return null;
   }
 }
@@ -49,8 +45,6 @@ signUpcPasswordValidator(value){
   }else if (tempPass != value){
     return 'Password does not match';
   }else{
-    debugPrint("Confirm password: $value");
-    debugPrint("Temp password: $tempPass");
     return null;
   }
 }
