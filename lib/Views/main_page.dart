@@ -41,15 +41,8 @@ class _MainPageState extends State<MainPage> {
             : Brightness.light,
       ),
     child: Scaffold(
-      //body: page[index],
-      body: Column(
-        children: [
-          const Text("Test Page"),
-          ElevatedButton(onPressed: (){
-            FirebaseAuth.instance.signOut();
-          }, child: const Text("Logout"))
-        ],
-      ),
+      body: page[index],
+
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
             labelTextStyle: MaterialStateProperty.all(

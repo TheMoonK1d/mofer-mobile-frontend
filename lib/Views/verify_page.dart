@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/Views/payment_page.dart';
 
-class VerifyEmailPage extends StatefulWidget {
-  final String fName, lName, email, phone, city, kebele, street;
 
-  const VerifyEmailPage(
+class VerifyEmailPage extends StatefulWidget {
+  late String fName, lName, email, phone, city, kebele, street;
+
+   VerifyEmailPage(
       {super.key,
       required this.fName,
       required this.lName,
@@ -15,7 +16,8 @@ class VerifyEmailPage extends StatefulWidget {
       required this.phone,
       required this.city,
       required this.kebele,
-      required this.street});
+      required this.street,
+      });
 
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
@@ -57,8 +59,15 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       );
       if (response.statusCode == 200) {
         debugPrint('successful');
+        debugPrint(response.body);
+        final result = jsonDecode(response.body);
+
+        String uid = result['customer_uid'];
+        debugPrint(uid.toString());
+        //This is where
         if (context.mounted){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> const PaymentPage()));
+          debugPrint("Value while passing it $widget.uid");
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentPage(uid: uid,)));
         }
 
       } else {

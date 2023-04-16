@@ -17,10 +17,10 @@ class SignUp {
       this.city,
       this.kebele,
       this.street,);
+
+
   sendData(String email, fName)async{
     debugPrint("Ready to send email and first name");
-    //final url = Uri.parse('http://192.168.1.6:5000/c/forget_password');
-    //final data = {'customer_email': ${email.toString()}, 'customer_fname'};
 
     final Map<String, dynamic> data = {
       'customer_email': email,

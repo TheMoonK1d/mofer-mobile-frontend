@@ -23,6 +23,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.settings))
+        ],
       ),
 
       floatingActionButton: FloatingActionButton(

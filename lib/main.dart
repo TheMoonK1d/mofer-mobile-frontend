@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Utils/error_util.dart';
-import 'Views/home_page.dart';
+import 'package:mofer/check_status.dart';
 import 'Views/login.dart';
+import 'Views/main_page.dart';
+import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,10 +20,12 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     Color brandcolor = const Color(0xff2a9d8f);
+    String? uid;
+    int exp, dsl;
 
     return MaterialApp(
         title: 'Mofer',
@@ -81,7 +86,7 @@ class MyApp extends StatelessWidget {
                   ],
                 );
               } else if (response.hasData) {
-                return const HomePage();
+                return const MainPage();
               } else {
                 return LoginPage();
               }

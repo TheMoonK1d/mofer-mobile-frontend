@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mofer/models/bank_login.dart';
+import 'package:mofer/models/opt_model.dart';
 import 'package:otp_text_field/otp_field.dart';
 
 // Send token, amount, receiver account
@@ -8,45 +10,93 @@ import 'package:otp_text_field/otp_field.dart';
 
 //when received render otp page
 class OTPPage extends StatefulWidget {
-  const OTPPage({super.key});
+  late String phone, order_id, token, uid, id;
+  OTPPage(
+      {super.key,
+      required this.phone,
+      required this.order_id,
+      required this.token,
+      required this.uid,
+      required this.id});
 
   @override
   State<OTPPage> createState() => _OTPPageState();
 }
 
 class _OTPPageState extends State<OTPPage> {
+  @override
+
   OtpFieldController otpController = OtpFieldController();
+
+  OTPModel otp = OTPModel();
 
   @override
   Widget build(BuildContext context) {
+
+    var _id = widget.id;
+    var _uid = widget.uid;
+    void printID() {
+      debugPrint("Phone: $phone Order id: $order_id Token: $token UID: $_uid, ID: $_id");
+    }
+    printID();
+
     return Scaffold(
-        appBar: AppBar(),
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Enter the number we just sent you over SMS",
-              style: GoogleFonts.montserrat(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                fontStyle: FontStyle.normal,
-                //color: const Color(0xff2a9d8f),
-                //0xFF0d1b2a
+        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+      SafeArea(child: Container()),
+      Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    textAlign: TextAlign.start,
+                    "📬",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                ],
               ),
-            ),
+              Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      textAlign: TextAlign.start,
+                      "Enter SMS sent to $phone",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )),
+      Padding(
+        padding: const EdgeInsets.all(50),
+        child: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
           ),
-          OTPTextField(
+          child: OTPTextField(
               controller: otpController,
               length: 5,
               width: MediaQuery.of(context).size.width,
               textFieldAlignment: MainAxisAlignment.spaceEvenly,
               fieldWidth: 40,
-              outlineBorderRadius: 20,
               style: const TextStyle(fontSize: 17),
-              onChanged: (pin) {
-
-              },
+              onChanged: (pin) {},
               onCompleted: (pin) {
+                debugPrint("Verfy otp///////////////////////////////////////////////////////////////////////////////////////////////////");
+                debugPrint("$order_id, $token, $pin.toString(), $_uid, $_id");
+                otp.otpVerification(order_id, token, pin.toString(), _uid, _id);
                 //send order id and opt value
                 //wait for respose
                 //if otp is incorrect show msg
@@ -54,31 +104,42 @@ class _OTPPageState extends State<OTPPage> {
                 //get object
 
                 /*
-                  Extract object 
-                  get time
-                  get amount
-                  get transaction id
-                */
+                      Extract object
+                      get time
+                      get amount
+                      get transaction id
+                    */
                 //get firebase token
                 //send firebase token, transaction id, pkg id, time
                 //show dialog
 
                 //return to ???????????????
-
               }),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              "you can resend sms in 1 min",
-              style: GoogleFonts.montserrat(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                fontStyle: FontStyle.normal,
-                //color: const Color(0xff2a9d8f),
-                //0xFF0d1b2a
-              ),
-            ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(
+          "you can resend sms in 1 min",
+          style: GoogleFonts.montserrat(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            fontStyle: FontStyle.normal,
+            //color: const Color(0xff2a9d8f),
+            //0xFF0d1b2a
           ),
-        ]));
+        ),
+      ),
+      Padding(
+          padding: const EdgeInsets.all(20),
+          child: ElevatedButton(
+            onPressed: () {
+              otp.resendOTP(token);
+            },
+            child: const Text("Resend"),
+          )),
+    ]));
   }
+
+
 }

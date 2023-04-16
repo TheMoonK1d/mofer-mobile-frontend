@@ -5,6 +5,7 @@ import 'package:mofer/Controller/AuthController/login_controller.dart';
 import 'package:mofer/Views/forgot_password.dart';
 import 'package:flutter/services.dart';
 import 'package:mofer/Views/payment_page.dart';
+import 'package:mofer/Views/verify_page.dart';
 import 'package:mofer/models/login_model.dart';
 import 'SignUp_view/signup_name.dart';
 
@@ -39,14 +40,6 @@ class LoginPage extends StatelessWidget {
         child: SafeArea(
           child: SafeArea(
             child: Scaffold(
-              appBar: AppBar(
-                title: Text("Test Mode"),
-
-                actions: [
-                  IconButton(onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> const PaymentPage()))
-                      , icon: Icon(Icons.navigate_next))
-                ],
-              ),
               body: Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
