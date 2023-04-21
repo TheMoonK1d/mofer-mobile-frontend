@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mofer/check_status.dart';
+import 'package:mofer/Views/check_status.dart';
+import 'package:mofer/free_trial.dart';
 import 'Views/login.dart';
-import 'Views/main_page.dart';
-import 'package:http/http.dart' as http;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,14 +40,14 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, response) {
-              if (response.connectionState == ConnectionState.waiting) {
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 6,
                   ),
                 );
-              } else if (response.hasError) {
+              } else if (snapshot.hasError) {
                 return AlertDialog(
                   title: Text(
                     "Something went wrong",
@@ -85,11 +81,16 @@ class MyApp extends StatelessWidget {
                     ),
                   ],
                 );
-              } else if (response.hasData) {
-                return const MainPage();
+              } else if (snapshot.hasData) {
+                //return const CheckStatus();
+                //For testing
+                return FreeTrial();
               } else {
-                return LoginPage();
+                //return LoginPage();
+                //For testing
+                return FreeTrial();
               }
-            }));
+            })
+    );
   }
 }

@@ -45,8 +45,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   Future getPackage() async {
     debugPrint("Fetching data");
-    final response =
-        await http.get(Uri.parse('http://192.168.1.6:5000/p/allPackages'));
+    final response = await http.get(Uri.parse('http://192.168.1.6:5000/p/allPackages'));
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     setState(() {
@@ -284,6 +283,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                                   )),
 
                                             ),
+
                                           ],
 
                                       ),
@@ -309,7 +309,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                   Text(
                                     "${lst![index]["package_title"]}",
                                     style: GoogleFonts.montserrat(
-                                      fontSize: 50,
+                                      fontSize: 40,
                                       fontWeight: FontWeight.w900,
                                       fontStyle: FontStyle.normal,
                                     ),

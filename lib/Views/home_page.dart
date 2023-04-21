@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mofer/Views/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,18 +25,47 @@ class _HomePageState extends State<HomePage> {
         ),
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.settings))
+          IconButton(onPressed: () {
+
+        }, icon: const Icon(Icons.notifications_active_rounded)),
+          IconButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const SettingPage()));
+          }, icon: const Icon(Icons.settings))
+
         ],
       ),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: SizedBox(
+              height: 200,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: Placeholder(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: SizedBox(
+                height: 200,
+                child: Card()),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: SizedBox(
+                height: 200,
+                child: Placeholder()),
+          ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          FirebaseAuth.instance.signOut();
-        },
-        child: const Icon(Icons.logout_rounded),
+        ],
       ),
     );
-
   }
 }
-

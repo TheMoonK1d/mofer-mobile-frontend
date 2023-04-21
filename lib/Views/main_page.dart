@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:mofer/Views/check_status.dart';
 
 import 'data_page.dart';
 import 'home_page.dart';
 import 'market_page.dart';
-
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -17,7 +18,13 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int index = 0;
-  final page = [const HomePage(), const DataPage(), const MarketPage()];
+  int _selectedIndex = 0;
+  final page = [const CheckStatus(), const DataPage(), const MarketPage()];
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomePage(),
+    DataPage(),
+    MarketPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,70 +39,61 @@ class _MainPageState extends State<MainPage> {
         statusBarColor: navColor,
         systemNavigationBarDividerColor: navColor,
         systemNavigationBarIconBrightness:
-        Theme.of(context).brightness == Brightness.light
-            ? Brightness.dark
-            : Brightness.light,
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
         statusBarIconBrightness:
-        Theme.of(context).brightness == Brightness.light
-            ? Brightness.dark
-            : Brightness.light,
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
       ),
-    child: Scaffold(
-      body: page[index],
-
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-            labelTextStyle: MaterialStateProperty.all(
-          GoogleFonts.montserrat(
-            fontSize: 10,
-            fontWeight: FontWeight.w300,
-            fontStyle: FontStyle.normal,
+      child: Scaffold(
+        body: _widgetOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: navColor,
           ),
-        )),
-        child: NavigationBar(
-          onDestinationSelected: (index) {
-            setState(() {
-              this.index = index;
-            });
-          },
-          height: 60,
-          elevation: 0,
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-          selectedIndex: index,
-          destinations: const [
-            NavigationDestination(
-                icon: Icon(
-                  Icons.home_outlined,
-                ),
-                label: "Home",
-                selectedIcon: Icon(
-                  Icons.home_rounded,
-                  size: 25,
-                )),
-            NavigationDestination(
-                icon: Icon(
-                  Icons.data_usage_outlined,
-                ),
-                label: "Date",
-                selectedIcon: Icon(
-                  Icons.data_usage_rounded,
-                  size: 25,
-                  //color: Colors.teal,
-                )),
-            NavigationDestination(
-                icon: Icon(
-                  Icons.shopping_basket_outlined,
-                  //color: Colors.white,
-                ),
-                label: "Market",
-                selectedIcon: Icon(
-                  Icons.shopping_basket_rounded,
-                  size: 25,
-                  //color: Colors.teal,
-                ))
-          ],
+          child: SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+              child: GNav(
+                rippleColor: navColor,
+                hoverColor: navColor,
+                gap: 8,
+                activeColor: Theme.of(context).colorScheme.primary,
+                iconSize: 24,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                duration: const Duration(milliseconds: 400),
+                tabBackgroundColor:
+                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                tabs: const [
+                  GButton(
+                    icon: Icons.home_rounded,
+                    text: 'Home',
+                  ),
+                  GButton(
+                    icon: Icons.data_exploration_rounded,
+                    text: 'Data',
+                  ),
+                  GButton(
+                    icon: Icons.shopping_cart_rounded,
+                    text: 'Market',
+                  ),
+                ],
+                selectedIndex: _selectedIndex,
+                onTabChange: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+              ),
+            ),
+          ),
         ),
-      ),),
+      ),
     );
   }
 }

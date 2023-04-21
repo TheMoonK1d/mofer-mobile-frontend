@@ -22,6 +22,8 @@ class InfoCheckPage extends StatelessWidget {
 
 
     SignUp signup = SignUp(email, password, context, fName, lName, phone, street, kebele,city);
+
+
     return Scaffold(
         body: Container(
       decoration: const BoxDecoration(

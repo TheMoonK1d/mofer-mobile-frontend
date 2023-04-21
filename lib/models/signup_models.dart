@@ -8,26 +8,25 @@ class SignUp {
   final BuildContext context;
   final String fName, lName, phone, city, kebele, street;
   SignUp(
-      String email,
-      password,
-      this.context,
-      this.fName,
-      this.lName,
-      this.phone,
-      this.city,
-      this.kebele,
-      this.street,);
+    String email,
+    password,
+    this.context,
+    this.fName,
+    this.lName,
+    this.phone,
+    this.city,
+    this.kebele,
+    this.street,
+  );
 
-
-  sendData(String email, fName)async{
+  sendData(String email, fName) async {
     debugPrint("Ready to send email and first name");
 
     final Map<String, dynamic> data = {
       'customer_email': email,
       'customer_fname': fName,
-
     };
-    final uri = Uri.http('192.168.1.6:5000','/c/confirm_email', data);
+    final uri = Uri.http('192.168.1.6:5000', '/c/confirm_email', data);
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       debugPrint("Sent");
@@ -37,23 +36,36 @@ class SignUp {
     }
   }
 
-  Future signUp (context, String email, password, kebele, city, phone, street, fName, lName) async {
+  Future signUp(context, String email, password, kebele, city, phone, street,
+      fName, lName) async {
     loadingDialog(context);
-    try{
+    try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-    } on FirebaseAuthException catch (e){
+    } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
     }
 
     //Send email
     sendData(email, fName);
 
-
     if (context.mounted) {
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>  VerifyEmailPage(fName: fName, lName: lName, email: email, phone: phone,city: city,kebele: kebele,street: street,)));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VerifyEmailPage(
+            fName: fName,
+            lName: lName,
+            email: email,
+            phone: phone,
+            city: city,
+            kebele: kebele,
+            street: street,
+          ),
+        ),
+      );
     }
   }
 }

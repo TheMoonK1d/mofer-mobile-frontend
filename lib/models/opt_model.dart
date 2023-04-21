@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mofer/Views/home_page.dart';
 
 var order_time;
 
-class OTPModel{
 
+class OTPModel {
+  BuildContext context;
+  OTPModel(this.context);
   otpVerification(order_id, token, pin, uid, id) async {
     debugPrint("OTP.....................");
     debugPrint(uid);
@@ -24,7 +27,6 @@ class OTPModel{
     );
 
     if (response.statusCode == 200) {
-
       debugPrint('successful');
       debugPrint(response.body);
       final result = jsonDecode(response.body);
@@ -34,16 +36,17 @@ class OTPModel{
       DateTime date = DateTime.parse(dateString);
       String formattedDate = DateFormat('yyyy-MM-dd').format(date);
       addSub(order_id, uid, formattedDate, id);
+      debugPrint("Navigating to home page");
+      if (context.mounted) {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+      }
     } else {
       debugPrint(response.body);
       debugPrint('Error ${response.statusCode}: ${response.reasonPhrase}');
     }
   }
 
-
-  addSub(String order_id, uid,  formattedDate, id) async {
-    //http://192.168.1.6:7000/order/order
-
+  addSub(String order_id, uid, formattedDate, id) async {
     debugPrint("Adding sub.....................");
     debugPrint("UID: $uid, Order id: $order_id, ID: $id, Date: $formattedDate");
     final Map<String, String> order = {
@@ -76,7 +79,6 @@ class OTPModel{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',
       },
-      //body: jsonEncode(order),
     );
 
     if (response.statusCode == 200) {

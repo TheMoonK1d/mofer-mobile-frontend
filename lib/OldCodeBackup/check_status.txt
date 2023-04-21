@@ -1,0 +1,85 @@
+import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:mofer/Views/expired_page.dart';
+import 'package:mofer/Views/main_page.dart';
+import 'package:mofer/Views/user_disabled.dart';
+import 'package:http/http.dart' as http;
+
+class CheckStatus extends StatefulWidget {
+  const CheckStatus({Key? key}) : super(key: key);
+
+  @override
+  State<CheckStatus> createState() => _CheckStatusState();
+}
+// 2 is waiting state
+int exp=2, dsl=2;
+String? uid;
+
+Future getUID() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    uid = user.uid;
+  }
+}
+
+
+
+
+fakeDelay(){
+  Future.delayed(Duration(milliseconds: 30), () {
+    return null;
+  });
+}
+class _CheckStatusState extends State<CheckStatus> {
+  sendUID()async{
+    debugPrint("Sending UID");
+    final data = {'customer_uid': uid};
+    final uri = Uri.http('192.168.1.6:5000','/ss/check', data);
+    final response = await http.get(uri);
+    var _data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      debugPrint("Value");
+      setState(() {
+        exp = _data['data']['is_expired'];
+        dsl = _data['data']['is_disabled'];
+      });
+      debugPrint(_data.toString());
+      debugPrint("Expire: $exp Disable: $dsl");
+    } else {
+      debugPrint("$uid does not exist");
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    getUID();
+    sendUID();
+    fakeDelay();
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    void refresh() {
+      setState(() {});
+    }
+    return FutureBuilder(builder: (context, snapshot) {
+
+      if (exp == 1) {
+        return const ExpiredAccount();
+      } else if (dsl == 1) {
+        return const UserDisabledAccount();
+      } else {
+        if (exp == 1){
+          return ExpiredAccount();
+        }else if(dsl == 1){
+          return UserDisabledAccount();
+        }else
+          return MainPage();
+      }
+    });
+  }
+}
+
+

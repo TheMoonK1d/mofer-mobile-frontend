@@ -10,8 +10,8 @@ import 'package:otp_text_field/otp_field.dart';
 
 //when received render otp page
 class OTPPage extends StatefulWidget {
-  late String phone, order_id, token, uid, id;
-  OTPPage(
+  final String phone, order_id, token, uid, id;
+  const OTPPage(
       {super.key,
       required this.phone,
       required this.order_id,
@@ -28,11 +28,11 @@ class _OTPPageState extends State<OTPPage> {
 
   OtpFieldController otpController = OtpFieldController();
 
-  OTPModel otp = OTPModel();
+
 
   @override
   Widget build(BuildContext context) {
-
+    OTPModel otp = OTPModel(context);
     var _id = widget.id;
     var _uid = widget.uid;
     void printID() {

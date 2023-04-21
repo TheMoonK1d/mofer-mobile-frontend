@@ -30,20 +30,13 @@ class _DataPageState extends State<DataPage> {
             scrollDirection: Axis.horizontal,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                 child:  Container(
 
                   decoration: BoxDecoration(
-                      color: Color(0xffddc4be),
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: Offset(0, 2), // changes position of shadow
-                      ),
-                    ],
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(20),
+
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -53,7 +46,16 @@ class _DataPageState extends State<DataPage> {
                         "Plant Name",
                         style: GoogleFonts.montserrat(
                           fontSize: 25,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w300,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                      Text(
+                        textAlign: TextAlign.start,
+                        "Plant type",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w200,
                           fontStyle: FontStyle.normal,
                         ),
                       ),
@@ -63,9 +65,12 @@ class _DataPageState extends State<DataPage> {
 
                           Container(
                             height: 100,
-                            decoration: BoxDecoration(
-                                color: Color(0xffe5ccc5),
-                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12))
+                            decoration:  BoxDecoration(
+                                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                                borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                    topLeft: Radius.circular(100))
                             ),
                           ),
                           Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 20), child: SizedBox(
@@ -79,47 +84,24 @@ class _DataPageState extends State<DataPage> {
 
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                 child:  Container(
 
                     decoration: BoxDecoration(
-                      color: Color(0xffb6c9d5),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          offset: Offset(0, 2), // changes position of shadow
-                        ),
-                      ],
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(20),
+
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
-                          textAlign: TextAlign.start,
-                          "Plant Name",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
+
+
                         Stack(
                           alignment: Alignment.bottomCenter,
                           children: [
 
-                            Container(
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  color: Color(0xffc2d4df),
-                                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12))
-                              ),
-                            ),
-                            Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 20), child: SizedBox(
-                                height: 210,
-                                child: Image.asset('assets/pngtree.png')),)
+
                           ],
                         ),
                       ],
@@ -127,6 +109,7 @@ class _DataPageState extends State<DataPage> {
                 ),
 
               ),
+
 
             ],
           )),
