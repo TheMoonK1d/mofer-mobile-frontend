@@ -1,30 +1,22 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:mofer/Controller/AuthController/signup_controller.dart';
-import 'package:mofer/Views/Bank_view/bank_otp.dart';
 import 'package:mofer/models/bank_login.dart';
-
-import '../Controller/AuthController/login_controller.dart';
-import '../Controller/payment_controller.dart';
-import 'Bank_view/bank_login_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final String uid;
-  const PaymentPage( {super.key, required this.uid});
+  const PaymentPage({super.key, required this.uid});
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
 }
+
 class _PaymentPageState extends State<PaymentPage> {
   Map? data;
   List? lst;
   int index = 0;
   late String new_amount;
-  bool _isLoading = false;
-
 
   @override
   void initState() {
@@ -45,7 +37,8 @@ class _PaymentPageState extends State<PaymentPage> {
 
   Future getPackage() async {
     debugPrint("Fetching data");
-    final response = await http.get(Uri.parse('http://192.168.1.6:5000/p/allPackages'));
+    final response =
+        await http.get(Uri.parse('http://192.168.1.2:5000/p/allPackages'));
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     setState(() {
@@ -59,7 +52,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController pinController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -120,172 +112,155 @@ class _PaymentPageState extends State<PaymentPage> {
                           context: context,
                           builder: (BuildContext context) {
                             return Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: SizedBox(
                                   height: 500,
                                   child: Column(
                                     children: [
                                       Column(
-                                          children: [
-                                            IconButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                icon: Icon(
-                                                  Icons.minimize_rounded,
-                                                  size: 40,
-                                                )),
-                                            Padding(
-                                              padding: const EdgeInsets.all(20),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    textAlign: TextAlign.start,
-                                                    "You will pay\n$new_amount ETB",
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                    ),
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              icon: const Icon(
+                                                Icons.minimize_rounded,
+                                                size: 40,
+                                              )),
+                                          Padding(
+                                            padding: const EdgeInsets.all(20),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  textAlign: TextAlign.start,
+                                                  "You will pay\n$new_amount ETB",
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontStyle: FontStyle.normal,
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
+                                          ),
 
-                                            //Phone
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 20),
-                                                child: TextField(
-                                                  keyboardType:
-                                                      TextInputType.name,
-                                                  controller:
-                                                      usernameController,
-
-                                                  decoration: InputDecoration(
-                                                    contentPadding:
-                                                        const EdgeInsets
-                                                                .symmetric(
-                                                            vertical: 10.0,
-                                                            horizontal: 10.0),
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                    filled: true,
-                                                    fillColor: Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary
-                                                        .withOpacity(0.2),
-                                                    hintText: "Phone",
-                                                    hintStyle:
-                                                        GoogleFonts.montserrat(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                    ),
-                                                  ),
-                                                )),
-
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            //pin
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 20),
-                                                child: TextField(
-                                                  keyboardType:
-                                                      TextInputType.phone,
-                                                  obscureText: true,
-                                                  controller: pinController,
-                                                  decoration: InputDecoration(
-                                                    contentPadding:
-                                                        const EdgeInsets
-                                                                .symmetric(
-                                                            vertical: 10.0,
-                                                            horizontal: 10.0),
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                        borderSide:
-                                                            BorderSide.none),
-                                                    filled: true,
-                                                    fillColor: Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary
-                                                        .withOpacity(0.2),
-                                                    hintText: "Pin",
-                                                    hintStyle:
-                                                        GoogleFonts.montserrat(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                    ),
-                                                  ),
-                                                )),
-
-                                            // SizedBox(
-                                            //   child: _isLoading ? CircularProgressIndicator(): Text("data")
-                                            //
-                                            //
-                                            // ),
-
-                                            Padding(
-                                              padding: const EdgeInsets.all(20),
-                                              child: ElevatedButton(
-                                                  onPressed: () {
-                                                    //Pass the values dynamically DO NOT FORGET!!!!!
-                                                    Bank bank = Bank(context);
-
-                                                    debugPrint("$new_amount, $id, $_uid");
-                                                    bank.bankLoginDataSender(new_amount, id, _uid);
-                                                  },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        const Color(0xff2a9d8f),
-                                                    elevation: 20,
-                                                    minimumSize:
-                                                        const Size(400, 50),
-                                                    shape:
-                                                        RoundedRectangleBorder(
+                                          //Phone
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              child: TextField(
+                                                keyboardType:
+                                                    TextInputType.name,
+                                                controller: usernameController,
+                                                decoration: InputDecoration(
+                                                  contentPadding:
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 10.0,
+                                                          horizontal: 10.0),
+                                                  border: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10.0),
-                                                    ),
+                                                      borderSide:
+                                                          BorderSide.none),
+                                                  filled: true,
+                                                  fillColor: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary
+                                                      .withOpacity(0.2),
+                                                  hintText: "Phone",
+                                                  hintStyle:
+                                                      GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontStyle: FontStyle.normal,
                                                   ),
-                                                  child: Text(
-                                                    'Log in',
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      fontSize: 15,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      // color: Colors.white,
-                                                    ),
-                                                  )),
+                                                ),
+                                              )),
 
-                                            ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
 
-                                          ],
+                                          //pin
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              child: TextField(
+                                                keyboardType:
+                                                    TextInputType.phone,
+                                                obscureText: true,
+                                                controller: pinController,
+                                                decoration: InputDecoration(
+                                                  contentPadding:
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 10.0,
+                                                          horizontal: 10.0),
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      borderSide:
+                                                          BorderSide.none),
+                                                  filled: true,
+                                                  fillColor: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary
+                                                      .withOpacity(0.2),
+                                                  hintText: "Pin",
+                                                  hintStyle:
+                                                      GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                ),
+                                              )),
 
+                                          // SizedBox(
+                                          //   child: _isLoading ? CircularProgressIndicator(): Text("data")
+                                          //
+                                          //
+                                          // ),
+
+                                          Padding(
+                                            padding: const EdgeInsets.all(20),
+                                            child: ElevatedButton(
+                                                onPressed: () {
+                                                  //Pass the values dynamically DO NOT FORGET!!!!!
+                                                  Bank bank = Bank(context);
+
+                                                  debugPrint(
+                                                      "$new_amount, $id, $_uid");
+                                                  bank.bankLoginDataSender(
+                                                      new_amount, id, _uid);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  elevation: 20,
+                                                  minimumSize:
+                                                      const Size(400, 50),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  'Log in',
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w800,
+                                                    fontStyle: FontStyle.normal,
+                                                    // color: Colors.white,
+                                                  ),
+                                                )),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   )),

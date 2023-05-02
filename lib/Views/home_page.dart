@@ -24,14 +24,20 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         automaticallyImplyLeading: false,
+        // leading:
+        //     IconButton(onPressed: () {}, icon: const Icon(Icons.menu_rounded)),
         actions: [
-          IconButton(onPressed: () {
-
-        }, icon: const Icon(Icons.notifications_active_rounded)),
-          IconButton(onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> const SettingPage()));
-          }, icon: const Icon(Icons.settings))
-
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications_active_rounded)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingPage()));
+              },
+              icon: const Icon(Icons.settings))
         ],
       ),
       body: ListView(
@@ -42,7 +48,7 @@ class _HomePageState extends State<HomePage> {
               height: 200,
               child: Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 200,
                     height: 200,
                     child: Placeholder(),
@@ -51,19 +57,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: SizedBox(
-                height: 200,
-                child: Card()),
+          const Padding(
+            padding: EdgeInsets.all(20),
+            child: SizedBox(height: 200, child: Card()),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: SizedBox(
-                height: 200,
-                child: Placeholder()),
+          const Padding(
+            padding: EdgeInsets.all(20),
+            child: SizedBox(height: 200, child: Placeholder()),
           ),
-
         ],
       ),
     );

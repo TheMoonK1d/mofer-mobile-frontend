@@ -3,9 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mofer/Views/home_page.dart';
+import 'package:mofer/Views/main_page.dart';
 
 var order_time;
-
 
 class OTPModel {
   BuildContext context;
@@ -18,7 +18,7 @@ class OTPModel {
       'order_id': order_id,
     };
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.6:7000/order/verify'),
+      Uri.parse('http://192.168.1.2:7000/order/verify'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',
@@ -38,7 +38,8 @@ class OTPModel {
       addSub(order_id, uid, formattedDate, id);
       debugPrint("Navigating to home page");
       if (context.mounted) {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const MainPage()));
       }
     } else {
       debugPrint(response.body);
@@ -56,7 +57,7 @@ class OTPModel {
       'paid_date': formattedDate,
     };
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.6:5000/ss/addSub'),
+      Uri.parse('http://192.168.1.2:5000/ss/addSub'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -74,7 +75,7 @@ class OTPModel {
   resendOTP(token) async {
     debugPrint("Resending OTP");
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.6:7000/order/resend_OTP'),
+      Uri.parse('http://192.168.1.2:7000/order/resend_OTP'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',

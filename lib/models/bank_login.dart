@@ -15,7 +15,7 @@ class Bank {
       'username': 'eyob',
       'password': '12345678',
     };
-    final uri = Uri.http('192.168.1.6:7000', '/useraccount/login', data);
+    final uri = Uri.http('192.168.1.2:7000', '/useraccount/login', data);
     var response = await http.get(uri);
     if (response.statusCode == 200) {
       debugPrint(response.body);
@@ -37,7 +37,7 @@ class Bank {
       'receiver': 10000002,
     };
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.6:7000/order/order'),
+      Uri.parse('http://192.168.1.2:7000/order/order'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',

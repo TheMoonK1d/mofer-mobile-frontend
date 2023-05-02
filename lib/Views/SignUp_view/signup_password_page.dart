@@ -5,26 +5,25 @@ import '../info_check.dart';
 
 class SignUpPasswordPage extends StatefulWidget {
   final String fName, lName, email, phone, city, street, kebele, password;
-  const SignUpPasswordPage({
-    super.key,
-    required this.fName,
-    required this.lName,
-    required this.email,
-    required this.phone,
-    required this.city,
-    required this.kebele,
-    required this.street,
-    required this.password
-  });
+  const SignUpPasswordPage(
+      {super.key,
+      required this.fName,
+      required this.lName,
+      required this.email,
+      required this.phone,
+      required this.city,
+      required this.kebele,
+      required this.street,
+      required this.password});
 
   @override
   State<SignUpPasswordPage> createState() => _SignUpPasswordPageState();
 }
 
 class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
-final TextEditingController _password = TextEditingController();
-final TextEditingController _cPassword = TextEditingController();
-final formKey = GlobalKey<FormState>();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _cPassword = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,27 +78,29 @@ final formKey = GlobalKey<FormState>();
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: true,
-                            controller: _password,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value)=> signUpPasswordValidator(value),
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none
-                              ),
-                              filled: true,
-                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              hintText: "Password",
-                              hintStyle: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                              ),
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          controller: _password,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) => signUpPasswordValidator(value),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none),
+                            filled: true,
+                            fillColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                            hintText: "Password",
+                            hintStyle: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
                             ),
-
+                          ),
                         )),
                     const SizedBox(
                       height: 20,
@@ -109,27 +110,29 @@ final formKey = GlobalKey<FormState>();
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: true,
-                            controller: _cPassword,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value)=> signUpcPasswordValidator(value),
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none
-                              ),
-                              filled: true,
-                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              hintText: "Confirm Password",
-                              hintStyle: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                              ),
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          controller: _cPassword,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) => signUpcPasswordValidator(value),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none),
+                            filled: true,
+                            fillColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                            hintText: "Confirm Password",
+                            hintStyle: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
                             ),
-
+                          ),
                         )),
                   ],
                 ),
@@ -138,24 +141,24 @@ final formKey = GlobalKey<FormState>();
                   padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
                   child: ElevatedButton(
                       onPressed: () {
-                        if(formKey.currentState!.validate()){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InfoCheckPage(
-                                password: _password.text,
-                                fName: widget.fName.toString(),
-                                lName: widget.lName.toString(),
-                                street: widget.street.toString(),
-                                kebele: widget.kebele.toString(),
-                                city: widget.city.toString(),
-                                phone: widget.phone.toString(),
-                                email: widget.email.toString(),
-                              )),
-                        );}
+                        if (formKey.currentState!.validate()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InfoCheckPage(
+                                      password: _password.text,
+                                      fName: widget.fName.toString(),
+                                      lName: widget.lName.toString(),
+                                      street: widget.street.toString(),
+                                      kebele: widget.kebele.toString(),
+                                      city: widget.city.toString(),
+                                      phone: widget.phone.toString(),
+                                      email: widget.email.toString(),
+                                    )),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff2a9d8f),
                         elevation: 20,
                         minimumSize: const Size(400, 50),
                         shape: RoundedRectangleBorder(
@@ -166,7 +169,6 @@ final formKey = GlobalKey<FormState>();
                         'Next',
                         style: GoogleFonts.montserrat(
                           fontSize: 15,
-                          color: Colors.white,
                           fontWeight: FontWeight.w800,
                           fontStyle: FontStyle.normal,
                           // color: Colors.white,

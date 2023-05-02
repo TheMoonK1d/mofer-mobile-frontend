@@ -91,7 +91,6 @@ class _ExpiredAccountState extends State<ExpiredAccount> {
                               builder: (context) => PaymentPage(uid: uid)));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff2a9d8f),
                       elevation: 20,
                       minimumSize: const Size(400, 50),
                       shape: RoundedRectangleBorder(
@@ -102,7 +101,6 @@ class _ExpiredAccountState extends State<ExpiredAccount> {
                       'Pay',
                       style: GoogleFonts.montserrat(
                         fontSize: 15,
-                        color: Colors.white,
                         fontWeight: FontWeight.w800,
                         fontStyle: FontStyle.normal,
                         // color: Colors.white,

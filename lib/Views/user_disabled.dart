@@ -1,9 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mofer/Views/settings_page.dart';
 
-class UserDisabledAccount extends StatelessWidget {
+import 'login.dart';
+
+class UserDisabledAccount extends StatefulWidget {
   const UserDisabledAccount({Key? key}) : super(key: key);
 
+  @override
+  State<UserDisabledAccount> createState() => _UserDisabledAccountState();
+}
+
+class _UserDisabledAccountState extends State<UserDisabledAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +42,47 @@ class UserDisabledAccount extends StatelessWidget {
                             ),
                           ),
                         ),),
+                    )),
+              ),
+              Expanded(child: Container()),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Card(
+                    elevation: 0,
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SizedBox(
+                          height: 80,
+                          child: Row(
+                            children: [
+                              Text(
+                                'Activated',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  fontStyle: FontStyle.normal,
+
+                                ),
+                              ),
+                              Expanded(child: Container()),
+                              Switch(
+                                onChanged: (t) {
+                                  //Function
+                                  editUserStatus.updateUserStatus(uid);
+                                  setState(() {
+                                    status = t;
+                                  });
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.pushReplacement(
+                                      context, MaterialPageRoute(builder: (context) => LoginPage()));
+                                },
+                                value: status!,
+                              ),
+                            ],
+                          )),
                     )),
               ),
             ],

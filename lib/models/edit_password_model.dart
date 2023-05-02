@@ -1,19 +1,24 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-class EditNameModel {
-  updateName(fName, lName, uid, context) async {
-    debugPrint("Updating name");
-    debugPrint("$fName $lName $uid");
+import '../Views/login.dart';
+
+class EditPasswordModel {
+  updatePassword(password, uid, context) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      uid = user.uid;
+    }
+    debugPrint("$password  $uid");
     final Map<String, String> order = {
-      "customer_fname": fName,
-      "customer_lname": lName,
+      "newpassword": password,
       "customer_uid": uid
     };
     final http.Response response = await http.put(
-      Uri.parse('http://192.168.1.2:5000/c/update_user_name'),
+      Uri.parse('http://192.168.1.2:5000/c/update_password'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -27,7 +32,9 @@ class EditNameModel {
       final result = jsonDecode(response.body);
       debugPrint(result[0].toString());
       if (context.mounted) {
-        Navigator.pop(context);
+        FirebaseAuth.instance.signOut();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
     } else {
       debugPrint(response.body);

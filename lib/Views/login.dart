@@ -4,10 +4,10 @@ import 'package:mofer/Controller/AuthController/auth_validation_controller.dart'
 import 'package:mofer/Controller/AuthController/login_controller.dart';
 import 'package:mofer/Views/forgot_password.dart';
 import 'package:flutter/services.dart';
-import 'package:mofer/Views/payment_page.dart';
-import 'package:mofer/Views/verify_page.dart';
 import 'package:mofer/models/login_model.dart';
 import 'SignUp_view/signup_name.dart';
+
+//backgroundColor: const Color(0xff2a9d8f),
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -53,13 +53,14 @@ class LoginPage extends StatelessWidget {
                     children: [
                       Expanded(
                           child: Center(
-                        child: SizedBox(
-                          height: 300,
-                          width: 200,
-                          child: Image.asset("assets/final.png",
-                          color: Colors.black.withOpacity(0.2),),
-                        )
-                      )),
+                              child: SizedBox(
+                        height: 300,
+                        width: 200,
+                        child: Image.asset(
+                          "assets/final.png",
+                          color: Colors.black.withOpacity(0.2),
+                        ),
+                      ))),
                       Column(
                         children: [
                           Padding(
@@ -81,29 +82,32 @@ class LoginPage extends StatelessWidget {
 
                           //Email
                           Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextFormField(
-
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: emailController,
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  validator: (email)=> emailValidator(email),
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                    border: OutlineInputBorder(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: emailController,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (email) => emailValidator(email),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15.0, horizontal: 10.0),
+                                  border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide.none
-                                    ),
-                                    filled: true,
-                                    fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                                    hintText: "Email",
-                                    hintStyle: GoogleFonts.montserrat(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      fontStyle: FontStyle.normal,
-                                    ),
+                                      borderSide: BorderSide.none),
+                                  filled: true,
+                                  fillColor: Theme.of(context)
+                                      .colorScheme
+                                      .secondary
+                                      .withOpacity(0.2),
+                                  hintText: "Email",
+                                  hintStyle: GoogleFonts.montserrat(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    fontStyle: FontStyle.normal,
                                   ),
-
+                                ),
                               )),
 
                           const SizedBox(
@@ -112,29 +116,33 @@ class LoginPage extends StatelessWidget {
 
                           //password
                           Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TextFormField(
-                                  keyboardType: TextInputType.visiblePassword,
-                                  obscureText: true,
-                                  controller: passwordController,
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  validator: (value)=> passwordValidator(value),
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        borderSide: BorderSide.none
-                                    ),
-                                    filled: true,
-                                    fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                                    hintText: "Password",
-                                    hintStyle: GoogleFonts.montserrat(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      fontStyle: FontStyle.normal,
-                                    ),
+                                keyboardType: TextInputType.visiblePassword,
+                                obscureText: true,
+                                controller: passwordController,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) => passwordValidator(value),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15.0, horizontal: 10.0),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide.none),
+                                  filled: true,
+                                  fillColor: Theme.of(context)
+                                      .colorScheme
+                                      .secondary
+                                      .withOpacity(0.2),
+                                  hintText: "Password",
+                                  hintStyle: GoogleFonts.montserrat(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    fontStyle: FontStyle.normal,
                                   ),
-
+                                ),
                               )),
 
                           Padding(
@@ -144,7 +152,11 @@ class LoginPage extends StatelessWidget {
                               children: [
                                 TextButton(
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPassword()));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ForgotPassword()));
                                     },
                                     child: Text(
                                       "Forgot password?",
@@ -164,13 +176,13 @@ class LoginPage extends StatelessWidget {
                             child: ElevatedButton(
                                 onPressed: () {
                                   //signIn(context, emailController.text , passwordController.text);
-                                  if(formKey.currentState!.validate()){
-                                    login.signIn(context, emailController.text, passwordController.text);
+                                  if (formKey.currentState!.validate()) {
+                                    login.signIn(context, emailController.text,
+                                        passwordController.text);
                                   }
                                 },
-
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xff2a9d8f),
+                                  //backgroundColor: const Color(0xff2a9d8f),
                                   elevation: 20,
                                   minimumSize: const Size(400, 50),
                                   shape: RoundedRectangleBorder(
@@ -181,7 +193,6 @@ class LoginPage extends StatelessWidget {
                                   'Log in',
                                   style: GoogleFonts.montserrat(
                                     fontSize: 15,
-                                    color: Colors.white,
                                     fontWeight: FontWeight.w800,
                                     fontStyle: FontStyle.normal,
                                     // color: Colors.white,
@@ -194,7 +205,11 @@ class LoginPage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const SignUpNamePage(fName: 'null', lName: 'null',)),
+                                      builder: (context) =>
+                                          const SignUpNamePage(
+                                            fName: 'null',
+                                            lName: 'null',
+                                          )),
                                 );
                               },
                               child: Text(
@@ -221,5 +236,3 @@ class LoginPage extends StatelessWidget {
         ));
   }
 }
-
-

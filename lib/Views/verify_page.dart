@@ -1,43 +1,44 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/Views/payment_page.dart';
+import 'package:mofer/models/login_model.dart';
 
+import 'login.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   late String fName, lName, email, phone, city, kebele, street;
 
-   VerifyEmailPage(
-      {super.key,
-      required this.fName,
-      required this.lName,
-      required this.email,
-      required this.phone,
-      required this.city,
-      required this.kebele,
-      required this.street,
-      });
+  VerifyEmailPage({
+    super.key,
+    required this.fName,
+    required this.lName,
+    required this.email,
+    required this.phone,
+    required this.city,
+    required this.kebele,
+    required this.street,
+  });
 
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
 }
 
-const String url = 'http://192.168.1.6:5000/c/signup';
+const String url = 'http://192.168.1.2:5000/c/signup';
 bool _buttonEnabled = true;
 
-
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
-
-
   @override
   Widget build(BuildContext context) {
     void _onButtonPressed() {
       setState(() {
         _buttonEnabled = false;
       });
-      // do something when the button is pressed
+      //........................
     }
+
     Future<void> sendDataAllInfo() async {
       debugPrint("Ready to send data");
       final Map<String, dynamic> data = {
@@ -64,16 +65,18 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
         String uid = result['customer_uid'];
         debugPrint(uid.toString());
-        //This is where
-        if (context.mounted){
-          debugPrint("Value while passing it $widget.uid");
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentPage(uid: uid,)));
-        }
 
+        if (context.mounted) {
+          debugPrint("Value while passing it $widget.uid");
+          FirebaseAuth.instance.signOut();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => LoginPage()));
+        }
       } else {
         debugPrint('Error ${response.statusCode}: ${response.reasonPhrase}');
       }
     }
+
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -113,7 +116,6 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     _buttonEnabled ? _onButtonPressed : null;
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff2a9d8f),
                     elevation: 20,
                     minimumSize: const Size(400, 50),
                     shape: RoundedRectangleBorder(
@@ -124,7 +126,6 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     'Check Email 📩',
                     style: GoogleFonts.montserrat(
                       fontSize: 15,
-                      color: Colors.white,
                       fontWeight: FontWeight.w800,
                       fontStyle: FontStyle.normal,
                       // color: Colors.white,
@@ -138,7 +139,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   // Future sendData() async {
   //   debugPrint("Fetching data");
   //   final response =
-  //   await http.post(Uri.parse('http://192.168.1.6:5000/p/allPackages'));
+  //   await http.post(Uri.parse('http://192.168.1.2:5000/p/allPackages'));
   //   debugPrint(response.statusCode.toString());
   //   //data = jsonDecode(response.body);
   //

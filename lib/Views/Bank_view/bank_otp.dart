@@ -24,8 +24,6 @@ class OTPPage extends StatefulWidget {
 }
 
 class _OTPPageState extends State<OTPPage> {
-  @override
-
   OtpFieldController otpController = OtpFieldController();
 
 

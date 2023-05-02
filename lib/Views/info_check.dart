@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/models/signup_models.dart';
-import 'package:http/http.dart' as http;
 
 class InfoCheckPage extends StatelessWidget {
   final String fName, lName, email, phone, city, kebele, street, password;
@@ -19,10 +18,8 @@ class InfoCheckPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-    SignUp signup = SignUp(email, password, context, fName, lName, phone, street, kebele,city);
-
+    SignUp signup = SignUp(
+        email, password, context, fName, lName, phone, street, kebele, city);
 
     return Scaffold(
         body: Container(
@@ -38,6 +35,7 @@ class InfoCheckPage extends StatelessWidget {
           SafeArea(child: Container()),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                   padding: const EdgeInsets.all(20),
@@ -174,10 +172,10 @@ class InfoCheckPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
             child: ElevatedButton(
                 onPressed: () {
-                 signup.signUp(context, email, password, kebele,city,phone,street,fName,lName);
+                  signup.signUp(context, email, password, kebele, city, phone,
+                      street, fName, lName);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff2a9d8f),
                   elevation: 20,
                   minimumSize: const Size(400, 50),
                   shape: RoundedRectangleBorder(
@@ -188,7 +186,6 @@ class InfoCheckPage extends StatelessWidget {
                   'Yes, Finish',
                   style: GoogleFonts.montserrat(
                     fontSize: 15,
-                    color: Colors.white,
                     fontWeight: FontWeight.w800,
                     fontStyle: FontStyle.normal,
                     // color: Colors.white,
@@ -203,4 +200,3 @@ class InfoCheckPage extends StatelessWidget {
     ));
   }
 }
-

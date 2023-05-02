@@ -3,9 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/Views/SignUp_view/signup_contact_page.dart';
 import '../../Controller/AuthController/signup_controller.dart';
 
-
 class SignUpNamePage extends StatefulWidget {
-
   final String fName, lName;
 
   const SignUpNamePage({super.key, required this.fName, required this.lName});
@@ -76,26 +74,29 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
-                            keyboardType: TextInputType.name,
-                            controller: _fName,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value)=> nameValidator(value, "First name"),
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none
-                              ),
-                              filled: true,
-                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              hintText: "First Name",
-                              hintStyle: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                              ),
+                          keyboardType: TextInputType.name,
+                          controller: _fName,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) =>
+                              nameValidator(value, "First name"),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none),
+                            filled: true,
+                            fillColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                            hintText: "First Name",
+                            hintStyle: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
                             ),
-
+                          ),
                         )),
 
                     const SizedBox(
@@ -106,26 +107,29 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
-                            keyboardType: TextInputType.name,
-                            controller: _lName,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value)=> nameValidator(value, "Last name"),
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none
-                              ),
-                              filled: true,
-                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              hintText: "Last Name",
-                              hintStyle: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                              ),
+                          keyboardType: TextInputType.name,
+                          controller: _lName,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) =>
+                              nameValidator(value, "Last name"),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none),
+                            filled: true,
+                            fillColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                            hintText: "Last Name",
+                            hintStyle: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
                             ),
-
+                          ),
                         )),
                   ],
                 ),
@@ -134,20 +138,20 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
                   padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
                   child: ElevatedButton(
                       onPressed: () {
-                       if(formKey.currentState!.validate()){
-                         Navigator.push(
-                           context,
-                           MaterialPageRoute(
-                               builder: (context) => SignUpContactPage(
-                                 fName: _fName.text,
-                                 lName: _lName.text,
-                                 email: 'null',
-                                 phone: 'null',)),
-                         );
-                       }
+                        if (formKey.currentState!.validate()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUpContactPage(
+                                      fName: _fName.text,
+                                      lName: _lName.text,
+                                      email: 'null',
+                                      phone: 'null',
+                                    )),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff2a9d8f),
                         elevation: 20,
                         minimumSize: const Size(400, 50),
                         shape: RoundedRectangleBorder(
@@ -158,7 +162,6 @@ class _SignUpNamePageState extends State<SignUpNamePage> {
                         'Next',
                         style: GoogleFonts.montserrat(
                           fontSize: 15,
-                          color: Colors.white,
                           fontWeight: FontWeight.w800,
                           fontStyle: FontStyle.normal,
                           // color: Colors.white,

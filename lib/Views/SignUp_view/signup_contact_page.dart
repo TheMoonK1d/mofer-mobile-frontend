@@ -70,27 +70,28 @@ class SignUpContactPage extends StatelessWidget {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: _email,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (email) => emailValidator(email),
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none
-                              ),
-                              filled: true,
-                              fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                              hintText: "Email",
-                              hintStyle: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                fontStyle: FontStyle.normal,
-                              ),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _email,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (email) => emailValidator(email),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none),
+                            filled: true,
+                            fillColor: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                            hintText: "Email",
+                            hintStyle: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
                             ),
-
+                          ),
                         )),
                     const SizedBox(
                       height: 20,
@@ -102,7 +103,8 @@ class SignUpContactPage extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            width: 126,
+                            width: 130,
+                            height: 55,
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 color: Theme.of(context)
@@ -147,29 +149,31 @@ class SignUpContactPage extends StatelessWidget {
                           ),
                           Flexible(
                             child: TextFormField(
-                                keyboardType: TextInputType.phone,
-                                controller: _phone,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: (value) => phoneValidator(value),
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide.none
-                                  ),
-                                  filled: true,
-                                  fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                                  hintText: "Phone Number",
-                                  hintStyle: GoogleFonts.montserrat(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    fontStyle: FontStyle.normal,
-                                  ),
+                              keyboardType: TextInputType.phone,
+                              controller: _phone,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (value) => phoneValidator(value),
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 15.0, horizontal: 10.0),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withOpacity(0.2),
+                                hintText: "Phone Number",
+                                hintStyle: GoogleFonts.montserrat(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  fontStyle: FontStyle.normal,
                                 ),
                               ),
                             ),
-
+                          ),
                         ],
                       ),
                     ),
@@ -197,7 +201,6 @@ class SignUpContactPage extends StatelessWidget {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff2a9d8f),
                         elevation: 20,
                         minimumSize: const Size(400, 50),
                         shape: RoundedRectangleBorder(
@@ -208,7 +211,6 @@ class SignUpContactPage extends StatelessWidget {
                         'Next',
                         style: GoogleFonts.montserrat(
                           fontSize: 15,
-                          color: Colors.white,
                           fontWeight: FontWeight.w800,
                           fontStyle: FontStyle.normal,
                           // color: Colors.white,
