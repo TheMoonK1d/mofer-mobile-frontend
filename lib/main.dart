@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mofer/Views/check_status.dart';
-import 'package:mofer/Views/free_trial.dart';
 import 'Views/login.dart';
 
 void main() async {
@@ -21,8 +20,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color brandcolor = const Color(0xff2a9d8f);
-    String? uid;
-    int exp, dsl;
     return DynamicColorBuilder(
         builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
       ColorScheme lightColorScheme;
