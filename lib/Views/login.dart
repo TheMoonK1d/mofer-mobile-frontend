@@ -40,19 +40,8 @@ class LoginPage extends StatelessWidget {
         ),
         child: WillPopScope(
             onWillPop: () async {
-              DateTime now = DateTime.now();
-              if (_currentBackPressTime == null ||
-                  now.difference(_currentBackPressTime!) >
-                      const Duration(seconds: 2)) {
-                _currentBackPressTime = now;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Press back button again to exit'),
-                  ),
-                );
-                return false;
-              }
-              return true;
+              SystemNavigator.pop();
+              return false;
             },
             child: SafeArea(
               child: SafeArea(
@@ -262,3 +251,7 @@ class LoginPage extends StatelessWidget {
             )));
   }
 }
+
+// Future exit() {
+//   return SystemNavigator.pop();
+// }
