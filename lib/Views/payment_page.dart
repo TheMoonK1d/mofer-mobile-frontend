@@ -20,10 +20,8 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
-    super.initState();
     getPackage();
+    super.initState();
   }
 
   String removeTheSpace(String amount) {

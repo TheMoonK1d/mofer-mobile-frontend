@@ -12,13 +12,17 @@ class Login {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
       debugPrint("Navigating to CheckStatus Page...");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => CheckStatus()));
+      if (context.mounted) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => CheckStatus()));
+      }
     } on FirebaseAuthException catch (e) {
       error = e.message;
       debugPrint("E.msg $error");
       debugPrint(e.toString());
-      // Utils.showSnackBar(error);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("⚠ $error"),
+      ));
       Navigator.pop(context);
     }
   }

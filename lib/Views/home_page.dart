@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.notifications_active_rounded)),
+              icon: const Icon(Icons.notifications_active_outlined)),
           IconButton(
               onPressed: () {
                 Navigator.push(
@@ -37,35 +37,11 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                         builder: (context) => const SettingPage()));
               },
-              icon: const Icon(Icons.settings))
+              icon: const Icon(Icons.settings_outlined))
         ],
       ),
       body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: SizedBox(
-              height: 200,
-              child: Row(
-                children: [
-                  const SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: Placeholder(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: SizedBox(height: 200, child: Card()),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: SizedBox(height: 200, child: Placeholder()),
-          ),
-        ],
+        children: [],
       ),
     );
   }

@@ -86,15 +86,18 @@ class _MainPageState extends State<MainPage> {
                       Theme.of(context).colorScheme.secondary.withOpacity(0.5),
                   tabs: const [
                     GButton(
-                      icon: Icons.home_rounded,
+                      icon: Icons.home_outlined,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                       text: 'Home',
                     ),
                     GButton(
-                      icon: Icons.data_exploration_rounded,
+                      icon: Icons.data_exploration_outlined,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                       text: 'Data',
                     ),
                     GButton(
-                      icon: Icons.shopping_cart_rounded,
+                      icon: Icons.shopping_cart_outlined,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                       text: 'Market',
                     ),
                   ],

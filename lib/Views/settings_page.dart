@@ -11,6 +11,8 @@ import 'package:mofer/Views/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:mofer/models/edit_user_status_model.dart';
 
+import '../Utils/dialog.dart';
+
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
 
@@ -280,6 +282,7 @@ class _SettingPageState extends State<SettingPage> {
       floatingActionButton: FloatingActionButton.extended(
         elevation: 10,
         onPressed: () {
+          loadingDialog(context);
           setState(() {
             FirebaseAuth.instance.signOut();
             Navigator.pushReplacement(

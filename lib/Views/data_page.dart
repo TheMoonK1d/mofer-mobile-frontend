@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mofer/Views/settings_page.dart';
 
 class DataPage extends StatefulWidget {
   const DataPage({super.key});
@@ -22,6 +23,19 @@ class _DataPageState extends State<DataPage> {
             ),
           ),
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.notifications_active_outlined)),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingPage()));
+                },
+                icon: const Icon(Icons.settings_outlined))
+          ],
         ),
         body: ListView(
           children: [

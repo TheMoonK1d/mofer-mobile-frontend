@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -109,17 +110,43 @@ class _CheckStatusState extends State<CheckStatus> {
                               )),
                         ),
                       )),
-                      Padding(
-                        padding: const EdgeInsets.all(50),
-                        child: Text(
-                          textAlign: TextAlign.start,
-                          "Connecting...",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
+                      Center(
+                        child: Padding(
+                            padding: const EdgeInsets.all(50),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  textAlign: TextAlign.start,
+                                  "Connecting",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 13,
+                                  child: DefaultTextStyle(
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                    child: AnimatedTextKit(
+                                      repeatForever: true,
+                                      animatedTexts: [
+                                        TyperAnimatedText(''),
+                                        TyperAnimatedText('.'),
+                                        TyperAnimatedText('..'),
+                                        TyperAnimatedText('...'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )),
                       ),
                     ],
                   ),
