@@ -116,30 +116,3 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
-
-Object _onBackPressed(BuildContext context) {
-  return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Are you sure?'),
-            content: Text('Do you want to exit an App'),
-            actions: <Widget>[
-              ElevatedButton(
-                child: Text('No'),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-              ),
-              ElevatedButton(
-                child: Text('Yes'),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-              )
-            ],
-          );
-        },
-      ) ??
-      false;
-}
