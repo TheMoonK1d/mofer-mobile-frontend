@@ -41,8 +41,6 @@ class _ProductDetailState extends State<ProductDetail> {
       kebele = result['data']['kebele'];
       street = result['data']['street'];
       quantity = result['data']['s_quanity'];
-
-      debugPrint('IMAGE LINK!!!!!!! ${img}');
     } else {
       debugPrint("something went wrong");
       debugPrint(response.body);
@@ -63,7 +61,7 @@ class _ProductDetailState extends State<ProductDetail> {
         future: getDetailProduct(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           } else {
@@ -78,7 +76,6 @@ class _ProductDetailState extends State<ProductDetail> {
                           children: [
                             Text(
                               textAlign: TextAlign.start,
-                              //'${widget.s_id}',
                               pName != null
                                   ? "$pName".toString()
                                   : "Loading...",
@@ -107,7 +104,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                            Icon(Icons.verified_outlined)
+                            const Icon(Icons.verified_outlined)
                           ],
                         ),
                       ),
@@ -115,7 +112,8 @@ class _ProductDetailState extends State<ProductDetail> {
                         height: 250,
                         width: 400,
                         child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(15)),
                             child: Image.network(
                               img.toString(),
                               fit: BoxFit.cover,
@@ -124,11 +122,11 @@ class _ProductDetailState extends State<ProductDetail> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           height: 60,
                           width: 400,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
+                            borderRadius: const BorderRadius.all(
                               Radius.circular(15),
                             ),
                             color: Theme.of(context)
@@ -161,10 +159,81 @@ class _ProductDetailState extends State<ProductDetail> {
                                               'Please respect users privacy 🔏'),
                                         ));
                                       },
-                                      icon: Icon(Icons.privacy_tip_outlined)))
+                                      icon: const Icon(
+                                          Icons.privacy_tip_outlined)))
                             ],
                           ),
                         ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Container(
+                            padding: const EdgeInsets.all(10),
+                            height: 200,
+                            width: 400,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(15),
+                              ),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  textAlign: TextAlign.start,
+                                  "Location 🗺",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      textAlign: TextAlign.start,
+                                      city != null
+                                          ? "$city/".toString()
+                                          : "Loading...",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                    Text(
+                                      textAlign: TextAlign.start,
+                                      kebele != null
+                                          ? " $kebele/".toString()
+                                          : "Loading...",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                    Text(
+                                      textAlign: TextAlign.start,
+                                      street != null
+                                          ? " $street".toString()
+                                          : "Loading...",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
                       ),
                     ],
                   )),
@@ -181,7 +250,7 @@ class _ProductDetailState extends State<ProductDetail> {
               content: Text('Refreshed 🔃'),
             ));
           },
-          child: Icon(Icons.refresh_outlined)),
+          child: const Icon(Icons.refresh_outlined)),
     );
   }
 }

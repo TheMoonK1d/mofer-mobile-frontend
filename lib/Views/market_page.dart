@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:mofer/Views/product_detail_view.dart';
 import 'package:mofer/Views/search_view.dart';
 import 'package:mofer/Views/settings_page.dart';
@@ -72,7 +69,7 @@ class _MarketPageState extends State<MarketPage> {
           future: getProducts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Wait");
+              return const Text("Wait");
             }
             return Column(
               children: [
@@ -87,7 +84,7 @@ class _MarketPageState extends State<MarketPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => Search())));
+                                  builder: ((context) => const Search())));
                         },
                         child: Container(
                           height: 50,
@@ -101,8 +98,8 @@ class _MarketPageState extends State<MarketPage> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Row(children: [
-                              Icon(Icons.search_outlined),
-                              SizedBox(
+                              const Icon(Icons.search_outlined),
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text(
@@ -118,7 +115,7 @@ class _MarketPageState extends State<MarketPage> {
                           ),
                         ),
                       )),
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                       Container(
@@ -137,10 +134,10 @@ class _MarketPageState extends State<MarketPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => MyProduct(),
+                                      builder: (context) => const MyProduct(),
                                     ));
                               },
-                              icon: Icon(Icons.shopping_bag_outlined)),
+                              icon: const Icon(Icons.shopping_bag_outlined)),
                         ),
                       )
                     ],
@@ -158,7 +155,7 @@ class _MarketPageState extends State<MarketPage> {
                           // Render the todos
                           child: MasonryGridView.builder(
                             gridDelegate:
-                                SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
                             itemCount: lst == null ? 0 : lst!.length,
                             itemBuilder: (context, index) => Padding(

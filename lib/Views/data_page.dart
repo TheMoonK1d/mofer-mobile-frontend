@@ -86,7 +86,7 @@ class _DataPageState extends State<DataPage> {
                                       topLeft: Radius.circular(100))),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                               child: SizedBox(
                                   height: 210,
                                   child: Image.asset('assets/pngtree.png')),

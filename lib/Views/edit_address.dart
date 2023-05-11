@@ -5,8 +5,14 @@ import '../Controller/AuthController/signup_controller.dart';
 import '../models/edit_address_model.dart';
 
 class EditAddress extends StatelessWidget {
-  int address_id;
-  EditAddress({super.key, required this.address_id});
+  int address_id, kebele;
+  String city, street;
+  EditAddress(
+      {super.key,
+      required this.address_id,
+      required this.city,
+      required this.kebele,
+      required this.street});
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +77,12 @@ class EditAddress extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_outlined),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary
                               .withOpacity(0.2),
-                          hintText: "New city",
+                          hintText: city,
                           hintStyle: GoogleFonts.montserrat(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
@@ -104,12 +110,12 @@ class EditAddress extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_outlined),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary
                               .withOpacity(0.2),
-                          hintText: "New street",
+                          hintText: street,
                           hintStyle: GoogleFonts.montserrat(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
@@ -137,12 +143,12 @@ class EditAddress extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_outlined),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary
                               .withOpacity(0.2),
-                          hintText: "New kebele",
+                          hintText: kebele.toString(),
                           hintStyle: GoogleFonts.montserrat(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,

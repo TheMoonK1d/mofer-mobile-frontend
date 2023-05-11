@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:mofer/Views/product_detail_view.dart';
@@ -50,7 +48,7 @@ class _MyProductState extends State<MyProduct> {
         //future: getDetailProduct(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           } else {
@@ -86,7 +84,7 @@ class _MyProductState extends State<MyProduct> {
                         },
                         child: GridView.builder(
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2),
                           itemCount: lst == null ? 0 : lst!.length,
                           itemBuilder: (context, index) => Padding(
@@ -104,8 +102,8 @@ class _MyProductState extends State<MyProduct> {
                               child: SizedBox(
                                 height: 200,
                                 child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(15)),
                                   child: Image.network(
                                     "${lst![index]["s_image"]}",
                                     fit: BoxFit.cover,
@@ -121,7 +119,7 @@ class _MyProductState extends State<MyProduct> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {}, child: Icon(Icons.add_outlined)),
+          onPressed: () {}, child: const Icon(Icons.add_outlined)),
     );
   }
 }

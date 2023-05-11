@@ -6,9 +6,8 @@ import '../Controller/AuthController/auth_validation_controller.dart';
 import '../models/edit_email_model.dart';
 
 class EditEmail extends StatefulWidget {
-  String uid;
-  //const EditEmail({Key? key}) : super(key: key);
-  EditEmail({super.key, required this.uid});
+  String uid, email;
+  EditEmail({super.key, required this.uid, required this.email});
 
   @override
   State<EditEmail> createState() => _EditEmailState();
@@ -77,12 +76,12 @@ class _EditEmailState extends State<EditEmail> {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_outlined),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary
                               .withOpacity(0.2),
-                          hintText: "Your new email",
+                          hintText: widget.email,
                           hintStyle: GoogleFonts.montserrat(
                             fontSize: 15,
                             fontWeight: FontWeight.w400,

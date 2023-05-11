@@ -35,7 +35,7 @@ class VerifyEmailChange extends StatelessWidget {
               children: [
                 Text(
                   textAlign: TextAlign.start,
-                  "email sent to ${email}",
+                  "email sent to $email",
                   style: GoogleFonts.montserrat(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -89,12 +89,11 @@ sendEmail(email, context) async {
   final response = await http.get(uri);
   debugPrint(response.body);
   if (response.statusCode == 200) {
-    debugPrint(
-        "Sent email to ${email} the request data is as followed : $data");
+    debugPrint("Sent email to $email the request data is as followed : $data");
     FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LoginPage()));
   } else {
-    debugPrint("${email} does not exist");
+    debugPrint("$email does not exist");
   }
 }

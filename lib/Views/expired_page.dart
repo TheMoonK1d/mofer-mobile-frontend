@@ -23,14 +23,9 @@ class _ExpiredAccountState extends State<ExpiredAccount> {
     }
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    Color bk = ElevationOverlay.applySurfaceTint(
-        Theme.of(context).colorScheme.surface,
-        Theme.of(context).colorScheme.surfaceTint,
-        0);
-
-
     return Scaffold(
       body: Padding(
           padding: const EdgeInsets.all(10),
@@ -121,7 +116,7 @@ class _ExpiredAccountState extends State<ExpiredAccount> {
                           ),
                           content: Text(
                             "You will still see this page when you login with $email again until you pay the subscription fee",
-                            style: TextStyle(fontWeight: FontWeight.w700),
+                            style: const TextStyle(fontWeight: FontWeight.w700),
                           ),
                           actions: [
                             TextButton(
@@ -129,7 +124,8 @@ class _ExpiredAccountState extends State<ExpiredAccount> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => PaymentPage(uid: uid)));
+                                        builder: (context) =>
+                                            PaymentPage(uid: uid)));
                               },
                               child: const Text(
                                 "Pay now",
@@ -140,7 +136,6 @@ class _ExpiredAccountState extends State<ExpiredAccount> {
                               onPressed: () {
                                 SignOut signOut = SignOut(context);
                                 signOut.signOut();
-
                               },
                               child: const Text(
                                 "Sign out",

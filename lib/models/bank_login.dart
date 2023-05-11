@@ -31,7 +31,7 @@ class Bank {
 
   getOrder(amount, id, uid) async {
     debugPrint("Getting order");
-    debugPrint("$amount, $id, ${uid}");
+    debugPrint("$amount, $id, $uid");
     final Map<String, int> order = {
       'amount': int.parse(amount),
       'receiver': 10000002,
@@ -51,7 +51,7 @@ class Bank {
       result = jsonDecode(response.body);
       phone = result['phonenumber'];
       order_id = result['order_id'];
-      debugPrint("Phone: $phone, Order ID: $order_id, UID: ${uid} ID: $id");
+      debugPrint("Phone: $phone, Order ID: $order_id, UID: $uid ID: $id");
       if (context.mounted) {
         Navigator.push(
             context,

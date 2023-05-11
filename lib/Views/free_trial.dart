@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:confetti/confetti.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -170,7 +167,7 @@ class _FreeTrialState extends State<FreeTrial> {
                               "...",
                               style: TextStyle(fontWeight: FontWeight.w900),
                             ),
-                            content: Text(
+                            content: const Text(
                               "....",
                               style: TextStyle(fontWeight: FontWeight.w700),
                             ),

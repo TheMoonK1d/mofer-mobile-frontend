@@ -26,16 +26,16 @@ class OTPPage extends StatefulWidget {
 class _OTPPageState extends State<OTPPage> {
   OtpFieldController otpController = OtpFieldController();
 
-
-
   @override
   Widget build(BuildContext context) {
     OTPModel otp = OTPModel(context);
     var _id = widget.id;
     var _uid = widget.uid;
     void printID() {
-      debugPrint("Phone: $phone Order id: $order_id Token: $token UID: $_uid, ID: $_id");
+      debugPrint(
+          "Phone: $phone Order id: $order_id Token: $token UID: $_uid, ID: $_id");
     }
+
     printID();
 
     return Scaffold(
@@ -78,9 +78,9 @@ class _OTPPageState extends State<OTPPage> {
       Padding(
         padding: const EdgeInsets.all(50),
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
             color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
           ),
           child: OTPTextField(
@@ -92,7 +92,8 @@ class _OTPPageState extends State<OTPPage> {
               style: const TextStyle(fontSize: 17),
               onChanged: (pin) {},
               onCompleted: (pin) {
-                debugPrint("Verfy otp///////////////////////////////////////////////////////////////////////////////////////////////////");
+                debugPrint(
+                    "Verfy otp///////////////////////////////////////////////////////////////////////////////////////////////////");
                 debugPrint("$order_id, $token, $pin.toString(), $_uid, $_id");
                 otp.otpVerification(order_id, token, pin.toString(), _uid, _id);
                 //send order id and opt value
@@ -138,6 +139,4 @@ class _OTPPageState extends State<OTPPage> {
           )),
     ]));
   }
-
-
 }

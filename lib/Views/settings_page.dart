@@ -10,7 +10,6 @@ import 'package:mofer/Views/edit_phone.dart';
 import 'package:mofer/Views/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:mofer/models/edit_user_status_model.dart';
-
 import '../Utils/dialog.dart';
 
 class SettingPage extends StatefulWidget {
@@ -20,7 +19,7 @@ class SettingPage extends StatefulWidget {
   State<SettingPage> createState() => _SettingPageState();
 }
 
-bool? _checkBoxValue = false, status = false;
+bool? status = false;
 int? address_id, kebele;
 String? uid, fName, lName, phone, city, street, email, fullName;
 EditUserStatusModel editUserStatus = EditUserStatusModel();
@@ -48,7 +47,7 @@ class _SettingPageState extends State<SettingPage> {
         debugPrint(status.toString());
         address_id = data0['data']['address_id'];
         city = data0['data']['city'];
-        kebele = int.parse(data0['data']['kebele']);
+        kebele = data0['data']['kebele'];
         street = data0['data']['street'];
       });
       debugPrint("$fName $lName $phone $email");
@@ -132,7 +131,7 @@ class _SettingPageState extends State<SettingPage> {
                 )),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: ListTile(
               leading: const Icon(Icons.email_outlined),
               title: Text(
@@ -158,12 +157,13 @@ class _SettingPageState extends State<SettingPage> {
                     MaterialPageRoute(
                         builder: (context) => EditEmail(
                               uid: uid!,
+                              email: email!,
                             )));
               },
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: ListTile(
               leading: const Icon(Icons.account_circle_outlined),
               title: Text(
@@ -195,7 +195,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: ListTile(
               leading: const Icon(Icons.password_outlined),
               title: Text(
@@ -215,13 +215,15 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EditPassword()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditPassword()));
               },
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: ListTile(
               leading: const Icon(Icons.numbers_outlined),
               title: Text(
@@ -242,8 +244,12 @@ class _SettingPageState extends State<SettingPage> {
                 ),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EditPhone()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditPhone(
+                              phone: phone!,
+                            )));
               },
             ),
           ),
@@ -273,6 +279,9 @@ class _SettingPageState extends State<SettingPage> {
                     MaterialPageRoute(
                         builder: (context) => EditAddress(
                               address_id: address_id!,
+                              city: city!,
+                              kebele: kebele!,
+                              street: street!,
                             )));
               },
             ),

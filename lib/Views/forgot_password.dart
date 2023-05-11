@@ -25,7 +25,6 @@ class ForgotPassword extends StatelessWidget {
   // String _email = email.text.trim();
   @override
   Widget build(BuildContext context) {
-    TextEditingController email = TextEditingController();
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(),

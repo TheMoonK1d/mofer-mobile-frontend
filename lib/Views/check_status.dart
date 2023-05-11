@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +10,7 @@ import 'package:mofer/Views/user_disabled.dart';
 import 'package:lottie/lottie.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckStatus extends StatefulWidget {
   const CheckStatus({Key? key}) : super(key: key);
@@ -19,20 +19,23 @@ class CheckStatus extends StatefulWidget {
   State<CheckStatus> createState() => _CheckStatusState();
 }
 
-late int exp, dsl, _new;
+int? exp, dsl, _new;
 String? uid;
+var token;
 
 class _CheckStatusState extends State<CheckStatus> {
   Future checkUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      uid = user.uid;
-    }
     debugPrint("Sending UID");
-    final data = {'customer_uid': uid};
-    debugPrint(uid);
-    final uri = Uri.http('192.168.1.2:5000', '/ss/check', data);
-    final response = await http.get(uri);
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString("Token");
+    final uri = Uri.http('192.168.1.2:5000', '/ss/check');
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': prefs.getString("Token").toString(),
+      },
+    );
     var data0 = jsonDecode(response.body);
     if (response.statusCode == 200) {
       debugPrint("Value");
@@ -49,9 +52,9 @@ class _CheckStatusState extends State<CheckStatus> {
 
   @override
   void initState() {
+    super.initState();
     debugPrint("Checking user status.....");
     checkUser();
-    super.initState();
   }
 
   @override

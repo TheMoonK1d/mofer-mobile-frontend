@@ -14,7 +14,6 @@ class LoginPage extends StatelessWidget {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  DateTime? _currentBackPressTime;
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

@@ -144,6 +144,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                           ),
 
                                           //Phone
+                                          //change to username
                                           Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
@@ -232,7 +233,6 @@ class _PaymentPageState extends State<PaymentPage> {
                                                 onPressed: () {
                                                   //Pass the values dynamically DO NOT FORGET!!!!!
                                                   Bank bank = Bank(context);
-
                                                   debugPrint(
                                                       "$new_amount, $id, $_uid");
                                                   bank.bankLoginDataSender(

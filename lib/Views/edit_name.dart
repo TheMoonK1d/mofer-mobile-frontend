@@ -76,7 +76,7 @@ class EditName extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_outlined),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary
@@ -109,7 +109,7 @@ class EditName extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_outlined),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary

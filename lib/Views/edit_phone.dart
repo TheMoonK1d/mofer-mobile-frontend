@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/models/edit_phone_model.dart';
-
-import '../Controller/AuthController/signup_controller.dart';
 import '../Controller/edit_phone_controller.dart';
 
 class EditPhone extends StatelessWidget {
-  const EditPhone({Key? key}) : super(key: key);
+  String phone;
+  EditPhone({super.key, required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -97,12 +96,12 @@ class EditPhone extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: BorderSide.none),
                               filled: true,
-                              prefixIcon: Icon(Icons.edit_outlined),
+                              prefixIcon: const Icon(Icons.edit_outlined),
                               fillColor: Theme.of(context)
                                   .colorScheme
                                   .secondary
                                   .withOpacity(0.2),
-                              hintText: "New phone number",
+                              hintText: phone,
                               hintStyle: GoogleFonts.montserrat(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,

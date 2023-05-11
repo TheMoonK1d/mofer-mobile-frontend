@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/models/bank_login.dart';
-
 import '../Controller/edit_password_controller.dart';
-import '../Controller/AuthController/signup_controller.dart';
 import '../models/edit_password_model.dart';
 
 class EditPassword extends StatelessWidget {
@@ -11,7 +9,6 @@ class EditPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController oldPassword = TextEditingController();
     final TextEditingController _password = TextEditingController();
     final TextEditingController _cPassword = TextEditingController();
     final formKey = GlobalKey<FormState>();
@@ -72,7 +69,7 @@ class EditPassword extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_outlined),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary
@@ -105,7 +102,7 @@ class EditPassword extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_outlined),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary

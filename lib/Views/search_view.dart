@@ -43,7 +43,7 @@ class _SearchState extends State<Search> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: ((context) => Search())));
+                                    builder: ((context) => const Search())));
                           },
                           child: Container(
                             height: 50,
@@ -58,8 +58,8 @@ class _SearchState extends State<Search> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(children: [
-                                Icon(Icons.search_outlined),
-                                SizedBox(
+                                const Icon(Icons.search_outlined),
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 // Text(
@@ -94,7 +94,7 @@ class _SearchState extends State<Search> {
                             ),
                           ),
                         )),
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         Container(
@@ -110,7 +110,7 @@ class _SearchState extends State<Search> {
                           child: Center(
                             child: IconButton(
                                 onPressed: () {},
-                                icon: Icon(Icons.tune_outlined)),
+                                icon: const Icon(Icons.tune_outlined)),
                           ),
                         )
                       ],
@@ -127,7 +127,7 @@ class _SearchState extends State<Search> {
       floatingActionButton: FloatingActionButton(
         elevation: 10,
         onPressed: () {},
-        child: Icon(Icons.clear_all_outlined),
+        child: const Icon(Icons.clear_all_outlined),
       ),
     );
   }
