@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:mofer/Views/check_status.dart';
 import 'data_page.dart';
@@ -17,7 +18,7 @@ class _MainPageState extends State<MainPage> {
   int index = 0;
   int _selectedIndex = 0;
   DateTime? _currentBackPressTime;
-  final page = [const CheckStatus(), const DataPage(), const MarketPage()];
+
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     DataPage(),
@@ -74,6 +75,13 @@ class _MainPageState extends State<MainPage> {
                 child: GNav(
                   rippleColor: navColor,
                   hoverColor: navColor,
+                  haptic: true,
+                  textStyle: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).colorScheme.primary,
+                    fontStyle: FontStyle.normal,
+                  ),
                   gap: 8,
                   activeColor: Theme.of(context).colorScheme.primary,
                   iconSize: 24,
@@ -86,17 +94,17 @@ class _MainPageState extends State<MainPage> {
                       Theme.of(context).colorScheme.secondary.withOpacity(0.5),
                   tabs: const [
                     GButton(
-                      icon: Icons.home_outlined,
+                      icon: Icons.home_rounded,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       text: 'Home',
                     ),
                     GButton(
-                      icon: Icons.data_exploration_outlined,
+                      icon: Icons.data_exploration_rounded,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       text: 'Data',
                     ),
                     GButton(
-                      icon: Icons.shopping_cart_outlined,
+                      icon: Icons.shopping_cart_rounded,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       text: 'Market',
                     ),

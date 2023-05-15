@@ -27,8 +27,10 @@ class _CheckStatusState extends State<CheckStatus> {
   Future checkUser() async {
     debugPrint("Sending UID");
     final prefs = await SharedPreferences.getInstance();
-    token = prefs.getString("Token");
+    //token = prefs.getString("Token");
+    debugPrint("Got token: $token");
     final uri = Uri.http('192.168.1.2:5000', '/ss/check');
+    
     final response = await http.get(
       uri,
       headers: {
@@ -125,6 +127,7 @@ class _CheckStatusState extends State<CheckStatus> {
                                   "Connecting",
                                   style: GoogleFonts.montserrat(
                                     fontSize: 15,
+                                    color: Colors.grey,
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FontStyle.normal,
                                   ),
@@ -134,6 +137,7 @@ class _CheckStatusState extends State<CheckStatus> {
                                   child: DefaultTextStyle(
                                     style: GoogleFonts.montserrat(
                                       fontSize: 15,
+                                      color: Colors.grey,
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FontStyle.normal,
                                     ),

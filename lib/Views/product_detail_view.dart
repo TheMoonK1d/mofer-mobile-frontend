@@ -104,7 +104,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 fontStyle: FontStyle.normal,
                               ),
                             ),
-                            const Icon(Icons.verified_outlined)
+                            const Icon(Icons.verified_rounded)
                           ],
                         ),
                       ),
@@ -160,7 +160,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                         ));
                                       },
                                       icon: const Icon(
-                                          Icons.privacy_tip_outlined)))
+                                          Icons.privacy_tip_rounded)))
                             ],
                           ),
                         ),
@@ -250,7 +250,7 @@ class _ProductDetailState extends State<ProductDetail> {
               content: Text('Refreshed 🔃'),
             ));
           },
-          child: const Icon(Icons.refresh_outlined)),
+          child: const Icon(Icons.refresh_rounded)),
     );
   }
 }

@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:mofer/Utils/dialog.dart';
 import 'package:mofer/models/bank_login.dart';
+import 'package:slider_button/slider_button.dart';
 
 class PaymentPage extends StatefulWidget {
   final String uid;
@@ -17,6 +19,7 @@ class _PaymentPageState extends State<PaymentPage> {
   List? lst;
   int index = 0;
   late String new_amount;
+  String paytxt = "You will pay";
 
   @override
   void initState() {
@@ -68,7 +71,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   children: [
                     Text(
                       textAlign: TextAlign.start,
-                      "Payment",
+                      paytxt,
                       style: GoogleFonts.montserrat(
                         fontSize: 25,
                         fontWeight: FontWeight.w900,
@@ -229,34 +232,60 @@ class _PaymentPageState extends State<PaymentPage> {
 
                                           Padding(
                                             padding: const EdgeInsets.all(20),
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  //Pass the values dynamically DO NOT FORGET!!!!!
+                                            child:
+                                            Center(
+                                              child: SliderButton(
+                                                backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                                                action: () {
+                                                  loadingDialog(context);
+                                                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                                  //   content: Text('Processing payment please wait'),
+                                                  // ));
                                                   Bank bank = Bank(context);
-                                                  debugPrint(
-                                                      "$new_amount, $id, $_uid");
-                                                  bank.bankLoginDataSender(
-                                                      new_amount, id, _uid);
+                                                        debugPrint(
+                                                            "$new_amount, $id, $_uid");
+                                                        bank.bankLoginDataSender(
+                                                            new_amount, id, _uid);
                                                 },
-                                                style: ElevatedButton.styleFrom(
-                                                  elevation: 20,
-                                                  minimumSize:
-                                                      const Size(400, 50),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                  ),
+                                                label: const Text(
+                                                  'Slide to pay',
+                                                  style: TextStyle(
+                                                      color: Color(0xff4a4a4a),
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 17),
                                                 ),
-                                                child: Text(
-                                                  'Log in',
-                                                  style: GoogleFonts.montserrat(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w800,
-                                                    fontStyle: FontStyle.normal,
-                                                    // color: Colors.white,
-                                                  ),
-                                                )),
+                                                icon: Icon(Icons.payment_rounded),
+                                                 buttonColor: Theme.of(context).colorScheme.primary,
+                                              ),
+                                            ),
+                                            // ElevatedButton(
+                                            //     onPressed: () {
+                                            //       //Pass the values dynamically DO NOT FORGET!!!!!
+                                            //       Bank bank = Bank(context);
+                                            //       debugPrint(
+                                            //           "$new_amount, $id, $_uid");
+                                            //       bank.bankLoginDataSender(
+                                            //           new_amount, id, _uid);
+                                            //     },
+                                            //     style: ElevatedButton.styleFrom(
+                                            //       elevation: 20,
+                                            //       minimumSize:
+                                            //           const Size(400, 50),
+                                            //       shape: RoundedRectangleBorder(
+                                            //         borderRadius:
+                                            //             BorderRadius.circular(
+                                            //                 10.0),
+                                            //       ),
+                                            //     ),
+                                            //     child: Text(
+                                            //       'Log in',
+                                            //       style: GoogleFonts.montserrat(
+                                            //         fontSize: 15,
+                                            //         fontWeight: FontWeight.w800,
+                                            //         fontStyle: FontStyle.normal,
+                                            //         // color: Colors.white,
+                                            //       ),
+                                            //     )),
                                           ),
                                         ],
                                       ),

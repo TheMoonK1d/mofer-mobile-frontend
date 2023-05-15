@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/Views/edit_address.dart';
 import 'package:mofer/Views/edit_email.dart';
@@ -10,7 +11,9 @@ import 'package:mofer/Views/edit_phone.dart';
 import 'package:mofer/Views/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:mofer/models/edit_user_status_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Utils/dialog.dart';
+import 'package:slider_button/slider_button.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -30,10 +33,22 @@ class _SettingPageState extends State<SettingPage> {
     if (user != null) {
       uid = user.uid;
     }
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString("Token");
     debugPrint("Getting user info");
     final data = {'uid': uid};
     final uri = Uri.http('192.168.1.2:5000', '/c/get_user', data);
-    final response = await http.get(uri);
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': prefs.getString("Token").toString(),
+      },
+    );
+    // headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': prefs.getString("Token").toString(),
+    //   },
     var data0 = jsonDecode(response.body);
     if (response.statusCode == 200) {
       setState(() {
@@ -66,251 +81,351 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: ListView(
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Row(
+    Color navColor = ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surface,
+        Theme.of(context).colorScheme.surfaceTint,
+        0);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+          systemNavigationBarContrastEnforced: true,
+          systemNavigationBarColor: navColor,
+          statusBarColor: navColor,
+          systemNavigationBarDividerColor: navColor,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
+        ),
+        child: Scaffold(
+          appBar: AppBar(),
+          body: ListView(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
                     children: [
-                      Text(
-                        textAlign: TextAlign.start,
-                        "Settings",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w900,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              )),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Card(
-                elevation: 0,
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SizedBox(
-                      height: 80,
-                      child: Row(
+                      Row(
                         children: [
                           Text(
-                            'Activated',
+                            textAlign: TextAlign.start,
+                            "Settings",
                             style: GoogleFonts.montserrat(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 25,
+                              fontWeight: FontWeight.w900,
                               fontStyle: FontStyle.normal,
                             ),
                           ),
-                          Expanded(child: Container()),
-                          Switch(
-                            onChanged: (t) {
-                              //Function
-                              editUserStatus.updateUserStatus(uid);
-                              setState(() {
-                                status = t;
-                              });
-                              FirebaseAuth.instance.signOut();
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            },
-                            value: status!,
-                          ),
                         ],
-                      )),
-                )),
+                      ),
+                    ],
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Card(
+                    elevation: 0,
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SizedBox(
+                          height: 80,
+                          child: Row(
+                            children: [
+                              Text(
+                                'Activated',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
+                              Expanded(child: Container()),
+                              Switch(
+                                onChanged: (t) {
+                                  //Function
+                                  editUserStatus.updateUserStatus(uid);
+                                  setState(() {
+                                    status = t;
+                                  });
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage()));
+                                },
+                                value: status!,
+                              ),
+                            ],
+                          )),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ListTile(
+                  leading: const Icon(Icons.email_rounded),
+                  title: Text(
+                    email != null ? email.toString() : "Loading...",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Change Email',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    debugPrint(uid);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditEmail(
+                                  uid: uid!,
+                                  email: email!,
+                                )));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ListTile(
+                  leading: const Icon(Icons.account_circle_rounded),
+                  title: Text(
+                    fullName != null ? "$fullName".toString() : "Loading...",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Change name',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditName(
+                                  lName: lName!,
+                                  fName: fName!,
+                                  uid: uid!,
+                                )));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ListTile(
+                  leading: const Icon(Icons.password_rounded),
+                  title: Text(
+                    'Password',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Change password',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EditPassword()));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ListTile(
+                  leading: const Icon(Icons.numbers_rounded),
+                  title: Text(
+                    phone != null ? phone.toString() : "09******",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  //trailing: const Icon(Icons.edit),
+                  subtitle: Text(
+                    'Change phone number',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditPhone(
+                                  phone: phone!,
+                                )));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ListTile(
+                  leading: const Icon(Icons.location_on_rounded),
+                  title: Text(
+                    'Location',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Change you address',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditAddress(
+                                  address_id: address_id!,
+                                  city: city!,
+                                  kebele: kebele!,
+                                  street: street!,
+                                )));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ListTile(
+                  leading: const Icon(Icons.group_rounded),
+                  title: Text(
+                    'About Us',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Lets us meet',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditAddress(
+                                  address_id: address_id!,
+                                  city: city!,
+                                  kebele: kebele!,
+                                  street: street!,
+                                )));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ListTile(
+                  leading: const Icon(Icons.question_answer_rounded),
+                  title: Text(
+                    'FAQ',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'If you have any thing to ask',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditAddress(
+                                  address_id: address_id!,
+                                  city: city!,
+                                  kebele: kebele!,
+                                  street: street!,
+                                )));
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                child: Center(
+                  child: Text(
+                    "Made by the mofer team, with ❤",
+                    style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w100,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: ListTile(
-              leading: const Icon(Icons.email_outlined),
-              title: Text(
-                email != null ? email.toString() : "Loading...",
-                style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
+          floatingActionButton: FloatingActionButton.extended(
+            elevation: 10,
+            onPressed: () {
+              loadingDialog(context);
+              setState(() {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              });
+            },
+            label: Row(
+              children: [
+                Text(
+                  'Logout',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    fontStyle: FontStyle.normal,
+                  ),
                 ),
-              ),
-              subtitle: Text(
-                'Change Email',
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              onTap: () {
-                debugPrint(uid);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditEmail(
-                              uid: uid!,
-                              email: email!,
-                            )));
-              },
+              ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: ListTile(
-              leading: const Icon(Icons.account_circle_outlined),
-              title: Text(
-                fullName != null ? "$fullName".toString() : "Loading...",
-                style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              subtitle: Text(
-                'Change name',
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditName(
-                              lName: lName!,
-                              fName: fName!,
-                              uid: uid!,
-                            )));
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: ListTile(
-              leading: const Icon(Icons.password_outlined),
-              title: Text(
-                'Password',
-                style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              subtitle: Text(
-                'Change password',
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const EditPassword()));
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: ListTile(
-              leading: const Icon(Icons.numbers_outlined),
-              title: Text(
-                phone != null ? phone.toString() : "09******",
-                style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              //trailing: const Icon(Icons.edit),
-              subtitle: Text(
-                'Change phone number',
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditPhone(
-                              phone: phone!,
-                            )));
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: ListTile(
-              leading: const Icon(Icons.location_on_outlined),
-              title: Text(
-                'Location',
-                style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              subtitle: Text(
-                'Change you address',
-                style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditAddress(
-                              address_id: address_id!,
-                              city: city!,
-                              kebele: kebele!,
-                              street: street!,
-                            )));
-              },
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 10,
-        onPressed: () {
-          loadingDialog(context);
-          setState(() {
-            FirebaseAuth.instance.signOut();
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => LoginPage()));
-          });
-        },
-        label: Row(
-          children: [
-            Text(
-              'Logout',
-              style: GoogleFonts.montserrat(
-                fontSize: 15,
-                fontWeight: FontWeight.w800,
-                fontStyle: FontStyle.normal,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+        ));
   }
 }

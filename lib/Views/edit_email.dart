@@ -76,7 +76,7 @@ class _EditEmailState extends State<EditEmail> {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none),
                           filled: true,
-                          prefixIcon: const Icon(Icons.edit_outlined),
+                          prefixIcon: const Icon(Icons.edit_rounded),
                           fillColor: Theme.of(context)
                               .colorScheme
                               .secondary

@@ -18,10 +18,16 @@ class Login {
       getToken();
       debugPrint("Navigating to CheckStatus Page...");
 
+
       if (context.mounted) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const CheckStatus()));
+        Navigator.pop(context);
+        Future.delayed(Duration(milliseconds: 9), () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const CheckStatus()));
+        });
+
       }
+
     } on FirebaseAuthException catch (e) {
       error = e.message;
       debugPrint("E.msg $error");
@@ -30,9 +36,7 @@ class Login {
         content: Text("⚠ $error"),
       ));
     }
-    if (context.mounted) {
-      Navigator.pop(context);
-    }
+    //Navigator.pop(context);
   }
 }
 

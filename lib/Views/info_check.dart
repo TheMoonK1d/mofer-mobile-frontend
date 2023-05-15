@@ -87,7 +87,7 @@ class InfoCheckPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.email_outlined),
+                            const Icon(Icons.email_rounded),
                             const SizedBox(
                               width: 10,
                             ),
@@ -105,7 +105,7 @@ class InfoCheckPage extends StatelessWidget {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Icon(Icons.phone_outlined),
+                            const Icon(Icons.phone_rounded),
                             const SizedBox(
                               width: 10,
                             ),
@@ -121,7 +121,7 @@ class InfoCheckPage extends StatelessWidget {
                             const SizedBox(
                               width: 20,
                             ),
-                            const Icon(Icons.map_outlined),
+                            const Icon(Icons.map_rounded),
                             const SizedBox(
                               width: 10,
                             ),

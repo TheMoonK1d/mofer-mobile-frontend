@@ -54,7 +54,7 @@ class _MarketPageState extends State<MarketPage> {
           actions: [
             IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.notifications_active_outlined)),
+                icon: const Icon(Icons.notifications_active_rounded)),
             IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -62,7 +62,7 @@ class _MarketPageState extends State<MarketPage> {
                       MaterialPageRoute(
                           builder: (context) => const SettingPage()));
                 },
-                icon: const Icon(Icons.settings_outlined))
+                icon: const Icon(Icons.settings_rounded))
           ],
         ),
         body: FutureBuilder(
@@ -98,7 +98,7 @@ class _MarketPageState extends State<MarketPage> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Row(children: [
-                              const Icon(Icons.search_outlined),
+                              const Icon(Icons.search_rounded),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -137,7 +137,7 @@ class _MarketPageState extends State<MarketPage> {
                                       builder: (context) => const MyProduct(),
                                     ));
                               },
-                              icon: const Icon(Icons.shopping_bag_outlined)),
+                              icon: const Icon(Icons.shopping_bag_rounded)),
                         ),
                       )
                     ],

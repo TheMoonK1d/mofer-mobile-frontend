@@ -45,7 +45,7 @@ class _MyProductState extends State<MyProduct> {
     return Scaffold(
       appBar: AppBar(),
       body: FutureBuilder(
-        //future: getDetailProduct(),
+        future: getMyProducts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
@@ -119,7 +119,7 @@ class _MyProductState extends State<MyProduct> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {}, child: const Icon(Icons.add_outlined)),
+          onPressed: () {}, child: const Icon(Icons.add_rounded)),
     );
   }
 }

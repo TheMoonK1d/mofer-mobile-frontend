@@ -30,7 +30,6 @@ class _FreeTrialState extends State<FreeTrial> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
