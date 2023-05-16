@@ -39,7 +39,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Future getPackage() async {
     debugPrint("Fetching data");
     final response =
-        await http.get(Uri.parse('http://192.168.1.2:5000/p/allPackages'));
+        await http.get(Uri.parse('http://192.168.1.2:5000/api/android/allPackages'));
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     setState(() {
@@ -230,32 +230,37 @@ class _PaymentPageState extends State<PaymentPage> {
                                           //
                                           // ),
 
+
                                           Padding(
-                                            padding: const EdgeInsets.all(20),
+                                            padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
                                             child:
                                             Center(
                                               child: SliderButton(
+                                                width: 300,
+                                                height: 60,
+
                                                 backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                                                 action: () {
                                                   loadingDialog(context);
-                                                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                  //   content: Text('Processing payment please wait'),
-                                                  // ));
+
                                                   Bank bank = Bank(context);
                                                         debugPrint(
                                                             "$new_amount, $id, $_uid");
                                                         bank.bankLoginDataSender(
                                                             new_amount, id, _uid);
                                                 },
-                                                label: const Text(
-                                                  'Slide to pay',
+                                                label: Text(
+
+                                                  'Slide to ➡ to pay 💰',
                                                   style: TextStyle(
-                                                      color: Color(0xff4a4a4a),
+                                                    
+                                                      color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 17),
                                                 ),
                                                 icon: Icon(Icons.payment_rounded),
-                                                 buttonColor: Theme.of(context).colorScheme.primary,
+                                                radius: 12,
+                                                 buttonColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
                                               ),
                                             ),
                                             // ElevatedButton(
@@ -298,7 +303,8 @@ class _PaymentPageState extends State<PaymentPage> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Card(
-                          elevation: 5,
+                          //surfaceTintColor: bk,
+                          elevation: 20,
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height - 350,
                             width: 400,

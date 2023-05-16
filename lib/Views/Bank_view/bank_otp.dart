@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mofer/models/bank_login.dart';
@@ -25,18 +27,30 @@ class OTPPage extends StatefulWidget {
 
 class _OTPPageState extends State<OTPPage> {
   OtpFieldController otpController = OtpFieldController();
-
+  int _counter = 60;
+  late Timer _timer;
+@override
+  void initState() {
+    super.initState();
+    _timer = new Timer.periodic(new Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+        } else {
+          _timer.cancel();
+        }
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     OTPModel otp = OTPModel(context);
     var _id = widget.id;
     var _uid = widget.uid;
-    void printID() {
-      debugPrint(
-          "Phone: $phone Order id: $order_id Token: $token UID: $_uid, ID: $_id");
-    }
 
-    printID();
+
+
+
 
     return Scaffold(
         body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -119,7 +133,7 @@ class _OTPPageState extends State<OTPPage> {
       Padding(
         padding: const EdgeInsets.all(20),
         child: Text(
-          "you can resend sms in 1 min",
+          "you can resend sms in ${_counter} sec",
           style: GoogleFonts.montserrat(
             fontSize: 15,
             fontWeight: FontWeight.w500,

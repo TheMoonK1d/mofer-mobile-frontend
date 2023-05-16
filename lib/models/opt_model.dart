@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:mofer/Views/main_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 var order_time;
 
@@ -56,11 +57,22 @@ class OTPModel {
       'package_id': id,
       'paid_date': formattedDate,
     };
+    final prefs = await SharedPreferences.getInstance();
+    var t = prefs.getString("Token").toString();
+    print(t);
     final http.Response response = await http.post(
       Uri.parse('http://192.168.1.2:5000/ss/addSub'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': prefs.getString("Token").toString(),
+        },
+    // final response = await http.get(
+    //   uri,
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': prefs.getString("Token").toString(),
+    //   },
+    // );
       body: jsonEncode(order),
     );
 

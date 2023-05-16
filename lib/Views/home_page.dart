@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mofer/Views/settings_page.dart';
+import 'package:vibration/vibration.dart';
+import 'Home_easter_eggs/water.dart';
+import 'package:countup/countup.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,9 +23,10 @@ String _greeting() {
   return "Good afternoon";
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<HomePage> {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     Color bk = ElevationOverlay.applySurfaceTint(
         Theme.of(context).colorScheme.surface,
         Theme.of(context).colorScheme.surfaceTint,
@@ -115,40 +119,64 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.water,
-                          size: 30,
-                          color: Colors.blueAccent,
-                        ),
-                        Text(
-                          "Water",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
+                  GestureDetector(
+                    onLongPress: (){
+                      Vibration.vibrate();
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Water(),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      height: 120,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.water,
+                            size: 30,
+                            color: Colors.blueAccent,
                           ),
-                        ),
-                        Text(
-                          "50%",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
+                          Text(
+                            "Water",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                            ),
                           ),
-                        ),
-                      ],
+                          Row(
+                            children: [
+                              Countup(
+                                begin: 0,
+                                end: 50,
+                                duration: Duration(seconds: 3),
+                                separator: ',',
+
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
+                              Text(
+                                "%",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
+                            ],
+                          )
+
+
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -176,14 +204,31 @@ class _HomePageState extends State<HomePage> {
                             fontStyle: FontStyle.normal,
                           ),
                         ),
-                        Text(
-                          "20℃",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
+
+                        Row(
+                          children: [
+                            Countup(
+                              begin: 0,
+                              end: 20,
+                              duration: Duration(seconds: 3),
+
+
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                            Text(
+                              "℃",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -212,14 +257,30 @@ class _HomePageState extends State<HomePage> {
                             fontStyle: FontStyle.normal,
                           ),
                         ),
-                        Text(
-                          "13%",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
+                        Row(
+                          children: [
+                            Countup(
+                              begin: 0,
+                              end: 13,
+                              duration: Duration(seconds: 3),
+                              separator: ',',
+
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                            Text(
+                              "%",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -395,4 +456,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ));
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
+
 }

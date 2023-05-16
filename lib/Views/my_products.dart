@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:mofer/Views/product_detail_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProduct extends StatefulWidget {
   const MyProduct({super.key});
@@ -32,8 +33,14 @@ class _MyProductState extends State<MyProduct> {
     }
     debugPrint("Fetching Your Product List ...");
     final _data = {'customer_uid': uid};
-    final uri = Uri.http('192.168.1.2:5000', '/s/specificUserProduct', _data);
-    var response = await http.get(uri);
+    final prefs = await SharedPreferences.getInstance();
+
+    final uri = Uri.http('192.168.1.2:5000', '/api/android/specificUserProduct', _data);
+    var response = await http.get(uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': prefs.getString("Token").toString(),
+      },);
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     lst = data!["data"];

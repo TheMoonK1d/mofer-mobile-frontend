@@ -22,6 +22,7 @@ class Login {
       if (context.mounted) {
         Navigator.pop(context);
         Future.delayed(Duration(milliseconds: 9), () {
+
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const CheckStatus()));
         });
@@ -32,6 +33,7 @@ class Login {
       error = e.message;
       debugPrint("E.msg $error");
       debugPrint(e.toString());
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("⚠ $error"),
       ));
@@ -48,7 +50,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': uid};
   final http.Response response = await http.post(
-    Uri.parse('http://192.168.1.2:5000/c/login'),
+    Uri.parse('http://192.168.1.2:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

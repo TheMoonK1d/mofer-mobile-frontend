@@ -84,7 +84,7 @@ class VerifyEmailChange extends StatelessWidget {
 sendEmail(email, context) async {
   debugPrint("Sending email");
   final data = {'email': email};
-  final uri = Uri.http('192.168.1.2:5000', '/c/confirm_new_email', data);
+  final uri = Uri.http('192.168.1.2:5000', '/api/android/confirm_new_email', data);
 
   final response = await http.get(uri);
   debugPrint(response.body);

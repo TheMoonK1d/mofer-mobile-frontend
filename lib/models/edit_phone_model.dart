@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditPhoneModel {
   updatePhone(phone, uid, context) async {
@@ -15,10 +16,13 @@ class EditPhoneModel {
       "customer_phone_no": phone,
       "customer_uid": uid
     };
+    final prefs = await SharedPreferences.getInstance();
+
     final http.Response response = await http.put(
-      Uri.parse('http://192.168.1.2:5000/c/update_phone_no'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+      Uri.parse('http://192.168.1.2:5000/api/android/update_phone_no'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': prefs.getString("Token").toString(),
       },
       body: jsonEncode(order),
     );

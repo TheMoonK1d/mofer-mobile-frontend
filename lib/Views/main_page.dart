@@ -14,7 +14,12 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with AutomaticKeepAliveClientMixin<MainPage>{
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
   int index = 0;
   int _selectedIndex = 0;
   DateTime? _currentBackPressTime;
@@ -27,6 +32,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     Color navColor = ElevationOverlay.applySurfaceTint(
         Theme.of(context).colorScheme.surface,
         Theme.of(context).colorScheme.surfaceTint,
@@ -123,4 +129,6 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+
+
 }

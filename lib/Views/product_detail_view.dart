@@ -24,7 +24,7 @@ class _ProductDetailState extends State<ProductDetail> {
   String? fName, lName, pName, img, phone, city, street;
   getDetailProduct() async {
     final data = {'s_id': widget.s_id};
-    final uri = Uri.http('192.168.1.2:5000', '/s/specificProduct', data);
+    final uri = Uri.http('192.168.1.2:5000', '/api/android/specificProduct', data);
     var response = await http.get(uri);
     if (response.statusCode == 200) {
       debugPrint(response.body);

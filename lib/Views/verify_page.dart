@@ -23,7 +23,7 @@ class VerifyEmailPage extends StatefulWidget {
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
 }
 
-const String url = 'http://192.168.1.2:5000/c/signup';
+const String url = 'http://192.168.1.2:5000/api/android/signup';
 bool _buttonEnabled = true;
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
