@@ -7,8 +7,6 @@ class ForgotPassword extends StatelessWidget {
   ForgotPassword({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
 
-
-
   final emailController = TextEditingController();
   // String _email = email.text.trim();
   @override
@@ -16,23 +14,23 @@ class ForgotPassword extends StatelessWidget {
     sendData() async {
       debugPrint("Function called");
       final data = {'customer_email': emailController.text.toString()};
-      final uri = Uri.http('192.168.1.2:5000', '/api/android/forget_password', data);
-
+      final uri =
+          Uri.http(' 192.168.11.112:5000', '/api/android/forget_password', data);
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         debugPrint(
             "Sent email to ${emailController.text} the request data is as followed : $data");
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Check your email'),
-
         ));
-        if(context.mounted){
+        if (context.mounted) {
           Navigator.pop(context);
         }
       } else {
         debugPrint("${emailController.text} does not exist");
       }
     }
+
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(),

@@ -9,7 +9,7 @@ class Token {
     final pref = await SharedPreferences.getInstance();
     await pref.setString('Token', t.toString());
     debugPrint("Data saved locally");
-
-
   }
+
+
 }

@@ -23,7 +23,8 @@ String _greeting() {
   return "Good afternoon";
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin<HomePage> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -113,16 +114,77 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                 ),
               ),
             ),
+
             Expanded(child: Container()),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Text(
+                      "New tips",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                  ],
+                )),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Card(
+                color: bk,
+                elevation: 1,
+                surfaceTintColor: bk,
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  height: 100,
+                  width: 400,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(Icons.vibration_rounded),
+                      Text(
+                        "Did you know\nyou can shake 📳 your phone to refresh",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Text(
+                      "Your Controls",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                  ],
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onLongPress: (){
+                    onLongPress: () {
                       Vibration.vibrate();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Water(),));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Water(),
+                          ));
                     },
                     child: Container(
                       padding: EdgeInsets.all(10),
@@ -130,7 +192,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                       width: 120,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.1),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +221,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                                 end: 50,
                                 duration: Duration(seconds: 3),
                                 separator: ',',
-
                                 style: GoogleFonts.montserrat(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,
@@ -173,8 +237,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                               ),
                             ],
                           )
-
-
                         ],
                       ),
                     ),
@@ -185,7 +247,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                     width: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.1),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,15 +269,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                             fontStyle: FontStyle.normal,
                           ),
                         ),
-
                         Row(
                           children: [
                             Countup(
                               begin: 0,
                               end: 20,
                               duration: Duration(seconds: 3),
-
-
                               style: GoogleFonts.montserrat(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
@@ -238,7 +300,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                     width: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.1),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,7 +329,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                               end: 13,
                               duration: Duration(seconds: 3),
                               separator: ',',
-
                               style: GoogleFonts.montserrat(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
@@ -298,7 +362,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                     width: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.1),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,8 +401,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                     width: 245,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.1),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,11 +434,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),
-
 
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -460,6 +527,4 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin<
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-
-
 }

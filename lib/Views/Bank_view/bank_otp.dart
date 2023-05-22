@@ -1,10 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mofer/Views/main_page.dart';
 import 'package:mofer/models/bank_login.dart';
 import 'package:mofer/models/opt_model.dart';
 import 'package:otp_text_field/otp_field.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+
 
 // Send token, amount, receiver account
 
@@ -13,7 +17,7 @@ import 'package:otp_text_field/otp_field.dart';
 //when received render otp page
 class OTPPage extends StatefulWidget {
   final String phone, order_id, token, uid, id;
-  const OTPPage(
+  OTPPage(
       {super.key,
       required this.phone,
       required this.order_id,
@@ -25,10 +29,12 @@ class OTPPage extends StatefulWidget {
   State<OTPPage> createState() => _OTPPageState();
 }
 
+
 class _OTPPageState extends State<OTPPage> {
   OtpFieldController otpController = OtpFieldController();
   int _counter = 60;
   late Timer _timer;
+  DateTime? _currentBackPressTime;
 @override
   void initState() {
     super.initState();
@@ -52,7 +58,46 @@ class _OTPPageState extends State<OTPPage> {
 
 
 
-    return Scaffold(
+    Color navColor = ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surface,
+        Theme.of(context).colorScheme.surfaceTint,
+        0);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+        systemNavigationBarContrastEnforced: true,
+        systemNavigationBarColor: navColor,
+        statusBarColor: navColor,
+        systemNavigationBarDividerColor: navColor,
+        systemNavigationBarIconBrightness:
+        Theme.of(context).brightness == Brightness.light
+        ? Brightness.dark
+        : Brightness.light,
+    statusBarIconBrightness:
+    Theme.of(context).brightness == Brightness.light
+    ? Brightness.dark
+        : Brightness.light,
+    ),
+    child: WillPopScope(
+    onWillPop: () async {
+    DateTime now = DateTime.now();
+    if (_currentBackPressTime == null ||
+    now.difference(_currentBackPressTime!) >
+    const Duration(seconds: 2)) {
+    _currentBackPressTime = now;
+    ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+    content: Text('Please try not exit the app at this stage'),
+    ),
+    );
+    return false;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('It is not a good idea to close the app at this stage'),
+        ),);
+    return false;
+    },
+    child: Scaffold(
         body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       SafeArea(child: Container()),
       Padding(
@@ -90,45 +135,43 @@ class _OTPPageState extends State<OTPPage> {
             ],
           )),
       Padding(
-        padding: const EdgeInsets.all(50),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+        padding: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+        child:  OtpTextField(
+            numberOfFields: 4,
+            autoFocus: true,
+            fieldWidth: 60,
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            borderColor: navColor,
+            borderWidth: 5,
+            decoration: InputDecoration(border: InputBorder.none),
+
+            focusedBorderColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+            enabledBorderColor: Theme.of(context).colorScheme.primary.withOpacity(0.01),
+
+            //set to true to show as box or false to show as dash
+            showFieldAsBox: true,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+
+            //runs when a code is typed in
+            onCodeChanged: (String code) {
+              //handle validation or checks here
+            },
+            //runs when every textfield is filled
+            onSubmit: (String pin){
+              showDialog(
+                  context: context,
+                  builder: (context){
+                    return AlertDialog(
+                      title: Text("Verification Code"),
+                      content: Text('Code entered is $pin'),
+                    );
+                  }
+              );
+              otp.otpVerification(order_id, token, pin.toString(), _uid, _id);
+            }, // end onSubmit
           ),
-          child: OTPTextField(
-              controller: otpController,
-              length: 5,
-              width: MediaQuery.of(context).size.width,
-              textFieldAlignment: MainAxisAlignment.spaceEvenly,
-              fieldWidth: 40,
-              style: const TextStyle(fontSize: 17),
-              onChanged: (pin) {},
-              onCompleted: (pin) {
-                debugPrint(
-                    "Verfy otp///////////////////////////////////////////////////////////////////////////////////////////////////");
-                debugPrint("$order_id, $token, $pin.toString(), $_uid, $_id");
-                otp.otpVerification(order_id, token, pin.toString(), _uid, _id);
-                //send order id and opt value
-                //wait for respose
-                //if otp is incorrect show msg
-                //else
-                //get object
 
-                /*
-                      Extract object
-                      get time
-                      get amount
-                      get transaction id
-                    */
-                //get firebase token
-                //send firebase token, transaction id, pkg id, time
-                //show dialog
-
-                //return to ???????????????
-              }),
-        ),
       ),
       Padding(
         padding: const EdgeInsets.all(20),
@@ -151,6 +194,7 @@ class _OTPPageState extends State<OTPPage> {
             },
             child: const Text("Resend"),
           )),
-    ]));
+
+    ])),));
   }
 }

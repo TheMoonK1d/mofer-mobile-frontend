@@ -10,6 +10,7 @@ import 'package:mofer/Views/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Controller/signout_controller.dart';
+import 'login.dart';
 
 class FreeTrial extends StatefulWidget {
   const FreeTrial({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _FreeTrialState extends State<FreeTrial> {
     final prefs = await SharedPreferences.getInstance();
 
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.2:5000/api/android/start'),
+      Uri.parse('http:// 192.168.11.112:5000/api/android/start'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),
@@ -53,6 +54,13 @@ class _FreeTrialState extends State<FreeTrial> {
     );
     if (response.statusCode == 200) {
       debugPrint("Sending $uid to API : $data");
+    } else if (response.statusCode == 401) {
+      if (context.mounted) {
+        //loadingDialog(context);
+        FirebaseAuth.instance.signOut();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      }
     } else {
       debugPrint("$uid does not exist");
     }

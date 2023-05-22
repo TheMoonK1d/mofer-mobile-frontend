@@ -2,20 +2,24 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mofer/Views/Bank_view/bank_otp.dart';
+import 'package:mofer/Views/payment_page.dart';
+
+import '../Views/login.dart';
 
 var result, token, phone, order_id, uid;
 
 class Bank {
   final BuildContext context;
-  Bank(this.context);
+  String username, password;
+  Bank(this.context, this.username, this.password);
   bankLoginDataSender(String amount, id, uid) async {
     debugPrint("Ready to send");
-    debugPrint("Received: $amount, $id, $uid");
+    debugPrint("Received: $amount, $id, $uid, $username, $password");
     final Map<String, dynamic> data = {
-      'username': 'eyob',
-      'password': '12345678',
+      'username': username,
+      'password': password,
     };
-    final uri = Uri.http('192.168.1.2:7000', '/useraccount/login', data);
+    final uri = Uri.http(' 192.168.11.112:7000', '/useraccount/login', data);
     var response = await http.get(uri);
     if (response.statusCode == 200) {
       debugPrint(response.body);
@@ -26,6 +30,11 @@ class Bank {
     } else {
       debugPrint("something went wrong");
       debugPrint(response.body);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Logged Out!'),
+      ));
+
+
     }
   }
 
@@ -37,7 +46,7 @@ class Bank {
       'receiver': 10000002,
     };
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.2:7000/order/order'),
+      Uri.parse('http:// 192.168.11.112:7000/order/order'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',
@@ -63,7 +72,20 @@ class Bank {
                     uid: uid.toString(),
                     id: id.toString())));
       }
-    } else {
+    } else if(response.statusCode == 400){
+      debugPrint("Low balance");
+      if(context.mounted){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => PaymentPage(uid: uid)));
+      }
+    }
+    else if(response.statusCode == 403){
+      debugPrint("Token expired");
+      if(context.mounted){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => PaymentPage(uid: uid)));
+      }
+    }else {
       debugPrint(response.body);
       debugPrint('Error ${response.statusCode}: ${response.reasonPhrase}');
     }

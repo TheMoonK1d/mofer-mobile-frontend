@@ -167,8 +167,10 @@ class EditAddress extends StatelessWidget {
                 child: ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Some information will be updated after restart'),
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                              'Some information will be updated after restart'),
                         ));
                         EditAddressModel editAddressModel = EditAddressModel();
                         // TODO: Fix null passing

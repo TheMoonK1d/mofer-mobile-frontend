@@ -53,6 +53,8 @@ dependencies:
   shared_preferences: ^2.1.0
   slider_button: ^2.0.0
   countup: ^0.1.4
+  shake: ^2.2.0
+  flutter_otp_text_field: ^1.1.1
   dependencies:
   
 

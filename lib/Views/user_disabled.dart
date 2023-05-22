@@ -71,7 +71,7 @@ class _UserDisabledAccountState extends State<UserDisabledAccount> {
                               Switch(
                                 onChanged: (t) {
                                   //Function
-                                  editUserStatus.updateUserStatus(uid);
+                                  editUserStatus.updateUserStatus(uid, context);
                                   setState(() {
                                     status = t;
                                   });

@@ -30,8 +30,8 @@ class _MarketPageState extends State<MarketPage> {
 
   Future getProducts() async {
     debugPrint("Fetching products");
-    final response =
-        await http.get(Uri.parse('http://192.168.1.2:5000/api/android/allProducts'));
+    final response = await http
+        .get(Uri.parse('http:// 192.168.11.112:5000/api/android/allProducts'));
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     lst = data!["data"];

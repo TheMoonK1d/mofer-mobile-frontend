@@ -26,8 +26,9 @@ class SignUp {
       'customer_email': email,
       'customer_fname': fName,
     };
-    //final uri = Uri.http('192.168.1.2:5000', '/c/confirm_email', data);
-    final uri = Uri.http('192.168.1.2:5000', '/api/android/confirm_email', data);
+    //final uri = Uri.http(' 192.168.11.112:5000', '/c/confirm_email', data);
+    final uri =
+        Uri.http(' 192.168.11.112:5000', '/api/android/confirm_email', data);
 
     final response = await http.get(uri);
     if (response.statusCode == 200) {

@@ -34,10 +34,10 @@ class _SettingPageState extends State<SettingPage> {
       uid = user.uid;
     }
     final prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("Token");
+    //var token = prefs.getString("Token");
     debugPrint("Getting user info");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.1.2:5000', '/api/android/get_user', data);
+    final uri = Uri.http(' 192.168.11.112:5000', '/api/android/get_user', data);
     final response = await http.get(
       uri,
       headers: {
@@ -68,6 +68,13 @@ class _SettingPageState extends State<SettingPage> {
       debugPrint("$fName $lName $phone $email");
       // debugPrint("EXP: $exp");
       // debugPrint("DSL: $dsl");
+    } else if (response.statusCode == 401) {
+      if (context.mounted) {
+        loadingDialog(context);
+        FirebaseAuth.instance.signOut();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      }
     } else {
       debugPrint("$uid does not exist");
     }
@@ -149,7 +156,7 @@ class _SettingPageState extends State<SettingPage> {
                               Switch(
                                 onChanged: (t) {
                                   //Function
-                                  editUserStatus.updateUserStatus(uid);
+                                  editUserStatus.updateUserStatus(uid, context);
                                   setState(() {
                                     status = t;
                                   });
@@ -400,13 +407,15 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
               ),
-
             ],
           ),
           floatingActionButton: FloatingActionButton.extended(
             elevation: 10,
             onPressed: () {
-              loadingDialog(context);
+              //loadingDialog(context);
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('Logged Out!'),
+              ));
               setState(() {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,

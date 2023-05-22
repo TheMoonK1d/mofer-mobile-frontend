@@ -35,12 +35,15 @@ class _MyProductState extends State<MyProduct> {
     final _data = {'customer_uid': uid};
     final prefs = await SharedPreferences.getInstance();
 
-    final uri = Uri.http('192.168.1.2:5000', '/api/android/specificUserProduct', _data);
-    var response = await http.get(uri,
+    final uri =
+        Uri.http(' 192.168.11.112:5000', '/api/android/specificUserProduct', _data);
+    var response = await http.get(
+      uri,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),
-      },);
+      },
+    );
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     lst = data!["data"];

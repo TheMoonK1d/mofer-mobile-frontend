@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:mofer/Views/check_status.dart';
+import 'package:vibration/vibration.dart';
 import 'data_page.dart';
 import 'home_page.dart';
 import 'market_page.dart';
+import 'package:shake/shake.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -14,8 +16,8 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with AutomaticKeepAliveClientMixin<MainPage>{
-
+class _MainPageState extends State<MainPage>
+    with AutomaticKeepAliveClientMixin<MainPage> {
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -32,6 +34,22 @@ class _MainPageState extends State<MainPage> with AutomaticKeepAliveClientMixin<
 
   @override
   Widget build(BuildContext context) {
+    //ShakeDetector detector = ShakeDetector(threshold: 3);
+    ShakeDetector detector = ShakeDetector.autoStart(
+        minimumShakeCount: 1,
+        shakeSlopTimeMS: 500,
+        shakeCountResetTime: 3000,
+        shakeThresholdGravity: 5,
+        onPhoneShake: () {
+          Vibration.vibrate();
+          debugPrint("Data has been refreshed!");
+        });
+    // @override
+    // void dispose() {
+    //   detector.stopListening();
+    //   super.dispose();
+    // }
+
     super.build(context);
     Color navColor = ElevationOverlay.applySurfaceTint(
         Theme.of(context).colorScheme.surface,
@@ -129,6 +147,4 @@ class _MainPageState extends State<MainPage> with AutomaticKeepAliveClientMixin<
       ),
     );
   }
-
-
 }

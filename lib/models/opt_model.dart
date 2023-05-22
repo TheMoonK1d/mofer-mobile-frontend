@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:mofer/Views/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Utils/dialog.dart';
+
 var order_time;
 
 class OTPModel {
@@ -19,7 +21,7 @@ class OTPModel {
       'order_id': order_id,
     };
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.2:7000/order/verify'),
+      Uri.parse('http:// 192.168.11.112:7000/order/verify'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',
@@ -38,9 +40,11 @@ class OTPModel {
       String formattedDate = DateFormat('yyyy-MM-dd').format(date);
       addSub(order_id, uid, formattedDate, id);
       debugPrint("Navigating to home page");
+
       if (context.mounted) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const MainPage()));
+        otpDialog(context);
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => const MainPage()));
       }
     } else {
       debugPrint(response.body);
@@ -52,27 +56,27 @@ class OTPModel {
     debugPrint("Adding sub.....................");
     debugPrint("UID: $uid, Order id: $order_id, ID: $id, Date: $formattedDate");
     final Map<String, String> order = {
-      'customer_uid': uid,
+      //'customer_uid': uid,
       'transaction_id': order_id,
       'package_id': id,
       'paid_date': formattedDate,
     };
     final prefs = await SharedPreferences.getInstance();
-    var t = prefs.getString("Token").toString();
-    print(t);
+
+
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.2:5000/ss/addSub'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': prefs.getString("Token").toString(),
-        },
-    // final response = await http.get(
-    //   uri,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': prefs.getString("Token").toString(),
-    //   },
-    // );
+      Uri.parse('http:// 192.168.11.112:5000/api/android/addSub'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': prefs.getString("Token").toString(),
+      },
+      // final response = await http.get(
+      //   uri,
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': prefs.getString("Token").toString(),
+      //   },
+      // );
       body: jsonEncode(order),
     );
 
@@ -87,7 +91,7 @@ class OTPModel {
   resendOTP(token) async {
     debugPrint("Resending OTP");
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.2:7000/order/resend_OTP'),
+      Uri.parse('http:// 192.168.11.112:7000/order/resend_OTP'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',
