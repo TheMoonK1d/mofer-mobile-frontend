@@ -20,7 +20,7 @@ class EditPasswordModel {
     final prefs = await SharedPreferences.getInstance();
 
     final http.Response response = await http.put(
-      Uri.parse('http:// 192.168.11.112:5000/api/android/update_password'),
+      Uri.parse('http://192.168.1.78:5000/api/android/update_password'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),
@@ -39,7 +39,7 @@ class EditPasswordModel {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
-    }else if (response.statusCode == 401) {
+    } else if (response.statusCode == 401) {
       if (context.mounted) {
         //loadingDialog(context);
         FirebaseAuth.instance.signOut();

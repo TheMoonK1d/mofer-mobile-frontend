@@ -23,7 +23,7 @@ class EditPhoneModel {
     final prefs = await SharedPreferences.getInstance();
 
     final http.Response response = await http.put(
-      Uri.parse('http:// 192.168.11.112:5000/api/android/update_phone_no'),
+      Uri.parse('http://192.168.1.78:5000/api/android/update_phone_no'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),
@@ -42,7 +42,7 @@ class EditPhoneModel {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => SettingPage()));
       }
-    }else if (response.statusCode == 401) {
+    } else if (response.statusCode == 401) {
       if (context.mounted) {
         //loadingDialog(context);
         FirebaseAuth.instance.signOut();

@@ -19,8 +19,8 @@ class Login {
         barrierDismissible: false,
         //barrierColor: navColor.withOpacity(0.8),
         builder: (context) => const Center(
-          child: CircularProgressIndicator(strokeWidth: 6),
-        ));
+              child: CircularProgressIndicator(strokeWidth: 6),
+            ));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
@@ -55,7 +55,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': _uid};
   final http.Response response = await http.post(
-    Uri.parse('http:// 192.168.11.112:5000/api/android/login'),
+    Uri.parse('http://192.168.1.78:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

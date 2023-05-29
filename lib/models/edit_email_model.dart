@@ -18,7 +18,7 @@ class EditEmailModel {
     final Map<String, String> order = {"email": email, "uid": uid};
     final prefs = await SharedPreferences.getInstance();
     final http.Response response = await http.put(
-      Uri.parse('http:// 192.168.11.112:5000/api/android/update_email'),
+      Uri.parse('http://192.168.1.78:5000/api/android/update_email'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),
@@ -40,13 +40,12 @@ class EditEmailModel {
                       email: email,
                     ))));
       }
-    }else if (response.statusCode == 401) {
+    } else if (response.statusCode == 401) {
       if (context.mounted) {
         //loadingDialog(context);
         FirebaseAuth.instance.signOut();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
-
       }
     } else {
       debugPrint(response.body);

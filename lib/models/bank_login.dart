@@ -19,7 +19,7 @@ class Bank {
       'username': username,
       'password': password,
     };
-    final uri = Uri.http(' 192.168.11.112:7000', '/useraccount/login', data);
+    final uri = Uri.http('192.168.1.78:7000', '/useraccount/login', data);
     var response = await http.get(uri);
     if (response.statusCode == 200) {
       debugPrint(response.body);
@@ -33,8 +33,6 @@ class Bank {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Logged Out!'),
       ));
-
-
     }
   }
 
@@ -46,7 +44,7 @@ class Bank {
       'receiver': 10000002,
     };
     final http.Response response = await http.post(
-      Uri.parse('http:// 192.168.11.112:7000/order/order'),
+      Uri.parse('http://192.168.1.78:7000/order/order'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',
@@ -72,20 +70,19 @@ class Bank {
                     uid: uid.toString(),
                     id: id.toString())));
       }
-    } else if(response.statusCode == 400){
+    } else if (response.statusCode == 400) {
       debugPrint("Low balance");
-      if(context.mounted){
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => PaymentPage(uid: uid)));
+      if (context.mounted) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => PaymentPage(uid: uid)));
       }
-    }
-    else if(response.statusCode == 403){
+    } else if (response.statusCode == 403) {
       debugPrint("Token expired");
-      if(context.mounted){
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => PaymentPage(uid: uid)));
+      if (context.mounted) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => PaymentPage(uid: uid)));
       }
-    }else {
+    } else {
       debugPrint(response.body);
       debugPrint('Error ${response.statusCode}: ${response.reasonPhrase}');
     }

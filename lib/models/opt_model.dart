@@ -21,7 +21,7 @@ class OTPModel {
       'order_id': order_id,
     };
     final http.Response response = await http.post(
-      Uri.parse('http:// 192.168.11.112:7000/order/verify'),
+      Uri.parse('http://192.168.1.78:7000/order/verify'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',
@@ -63,9 +63,8 @@ class OTPModel {
     };
     final prefs = await SharedPreferences.getInstance();
 
-
     final http.Response response = await http.post(
-      Uri.parse('http:// 192.168.11.112:5000/api/android/addSub'),
+      Uri.parse('http://192.168.1.78:5000/api/android/addSub'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),
@@ -91,7 +90,7 @@ class OTPModel {
   resendOTP(token) async {
     debugPrint("Resending OTP");
     final http.Response response = await http.post(
-      Uri.parse('http:// 192.168.11.112:7000/order/resend_OTP'),
+      Uri.parse('http://192.168.1.78:7000/order/resend_OTP'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',

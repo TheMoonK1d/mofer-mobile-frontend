@@ -31,7 +31,7 @@ class _CheckStatusState extends State<CheckStatus> {
 
     debugPrint("Sending UID $uid");
     final data = {'uid': uid};
-    final uri = Uri.http(' 192.168.11.112:5000', '/api/android/check', data);
+    final uri = Uri.http('192.168.1.78:5000', '/api/android/check', data);
     final response = await http.get(uri);
     var data0 = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -76,124 +76,122 @@ class _CheckStatusState extends State<CheckStatus> {
                 : Brightness.light,
       ),
       child: Scaffold(
-          body: Center(
-            child: FutureBuilder(
-              future: checkUser(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: Center(
-                          child: AvatarGlow(
-                            glowColor: Theme.of(context).colorScheme.primary,
-                            endRadius: 150,
-                            duration: const Duration(milliseconds: 3000),
-                            repeat: true,
-                            showTwoGlows: true,
-                            curve: Curves.easeOutQuad,
-                            child: Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    borderRadius: BorderRadius.circular(99)),
-                                child: SizedBox(
-                                  height: 150,
-                                  width: 100,
-                                  child: Image.asset(
-                                    "assets/final.png",
-                                    color: navColor.withOpacity(0.5),
+        body: Center(
+          child: FutureBuilder(
+            future: checkUser(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: Center(
+                        child: AvatarGlow(
+                          glowColor: Theme.of(context).colorScheme.primary,
+                          endRadius: 150,
+                          duration: const Duration(milliseconds: 3000),
+                          repeat: true,
+                          showTwoGlows: true,
+                          curve: Curves.easeOutQuad,
+                          child: Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(99)),
+                              child: SizedBox(
+                                height: 150,
+                                width: 100,
+                                child: Image.asset(
+                                  "assets/final.png",
+                                  color: navColor.withOpacity(0.5),
+                                ),
+                              )),
+                        ),
+                      )),
+                      Center(
+                        child: Padding(
+                            padding: const EdgeInsets.all(50),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  textAlign: TextAlign.start,
+                                  "Connecting",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 15,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontStyle: FontStyle.normal,
                                   ),
-                                )),
-                          ),
-                        )),
-                        Center(
-                          child: Padding(
-                              padding: const EdgeInsets.all(50),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    textAlign: TextAlign.start,
-                                    "Connecting",
+                                ),
+                                SizedBox(
+                                  width: 13,
+                                  child: DefaultTextStyle(
                                     style: GoogleFonts.montserrat(
                                       fontSize: 15,
                                       color: Colors.grey,
                                       fontWeight: FontWeight.w500,
                                       fontStyle: FontStyle.normal,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 13,
-                                    child: DefaultTextStyle(
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 15,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                        fontStyle: FontStyle.normal,
-                                      ),
-                                      child: AnimatedTextKit(
-                                        repeatForever: true,
-                                        animatedTexts: [
-                                          TyperAnimatedText(''),
-                                          TyperAnimatedText('.'),
-                                          TyperAnimatedText('..'),
-                                          TyperAnimatedText('...'),
-                                        ],
-                                      ),
+                                    child: AnimatedTextKit(
+                                      repeatForever: true,
+                                      animatedTexts: [
+                                        TyperAnimatedText(''),
+                                        TyperAnimatedText('.'),
+                                        TyperAnimatedText('..'),
+                                        TyperAnimatedText('...'),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Lottie.asset('animations/lost_connection.json',
-                          reverse: true, height: 200),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 50),
-                        child: Text(
-                          'Opps 😕 ${snapshot.error}',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                      )
+                                ),
+                              ],
+                            )),
+                      ),
                     ],
-                  );
-                } else {
-                  if (_new == 1) {
-                    debugPrint("User has a free trail");
-                    return const FreeTrial();
-                  } else if (exp == 1) {
-                    debugPrint("User account has expired");
-                    return const ExpiredAccount();
-                  } else if (dsl == 1) {
-                    debugPrint("User has disabled the account");
-                    return const UserDisabledAccount();
-                  }
-                  debugPrint("All seems to be good going to main account");
-                  return const MainPage();
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Lottie.asset('animations/lost_connection.json',
+                        reverse: true, height: 200),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 50),
+                      child: Text(
+                        'Opps 😕 ${snapshot.error}',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                    )
+                  ],
+                );
+              } else {
+                if (_new == 1) {
+                  debugPrint("User has a free trail");
+                  return const FreeTrial();
+                } else if (exp == 1) {
+                  debugPrint("User account has expired");
+                  return const ExpiredAccount();
+                } else if (dsl == 1) {
+                  debugPrint("User has disabled the account");
+                  return const UserDisabledAccount();
                 }
-              },
-            ),
+                debugPrint("All seems to be good going to main account");
+                return const MainPage();
+              }
+            },
           ),
         ),
-
+      ),
     );
   }
 }
