@@ -138,17 +138,17 @@ class _SearchState extends State<Search> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 50),
-                      child: Lottie.asset('animations/nothing_here_full.json',
-                          reverse: true, height: 200),
-                    ),
-                    Text(
-                      textAlign: TextAlign.start,
-                      "Hmm 😕 Nothing here",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                        fontStyle: FontStyle.normal,
+                      padding: const EdgeInsets.all(30),
+                      child: Center(
+                        child: Text(
+                          textAlign: TextAlign.start,
+                          "Searching?\nWe are all searching,\nSearching for something that can\nfill the void,but sadly it is not here\natleast not for now\nGood luck",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w900,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
                       ),
                     ),
                   ])),

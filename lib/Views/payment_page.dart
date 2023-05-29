@@ -42,7 +42,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Future getPackage() async {
     debugPrint("Fetching data");
     final response = await http
-        .get(Uri.parse('http://192.168.1.78:5000/api/android/allPackages'));
+        .get(Uri.parse('http://192.168.244.112:5000/api/android/allPackages'));
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     setState(() {

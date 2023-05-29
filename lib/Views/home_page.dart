@@ -16,11 +16,11 @@ class HomePage extends StatefulWidget {
 String _greeting() {
   final hour = TimeOfDay.now().hour;
   if (hour <= 12) {
-    return "👋🏾 Good morning";
+    return "👋🏾 Hey,\nGood morning";
   } else if (hour <= 17) {
-    return "Good evening";
+    return "👋🏾 Hey,\nGood evening";
   }
-  return "Good afternoon";
+  return "😴 Hey,\nGood afternoon";
 }
 
 class _HomePageState extends State<HomePage>

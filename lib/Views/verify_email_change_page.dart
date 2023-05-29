@@ -85,7 +85,7 @@ sendEmail(email, context) async {
   debugPrint("Sending email");
   final data = {'email': email};
   final uri =
-      Uri.http('192.168.1.78:5000', '/api/android/confirm_new_email', data);
+      Uri.http('192.168.244.112:5000', '/api/android/confirm_new_email', data);
 
   final response = await http.get(uri);
   debugPrint(response.body);

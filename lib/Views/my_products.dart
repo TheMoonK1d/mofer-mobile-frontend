@@ -36,7 +36,7 @@ class _MyProductState extends State<MyProduct> {
     final prefs = await SharedPreferences.getInstance();
 
     final uri = Uri.http(
-        '192.168.1.78:5000', '/api/android/specificUserProduct', _data);
+        '192.168.244.112:5000', '/api/android/specificUserProduct', _data);
     var response = await http.get(
       uri,
       headers: {

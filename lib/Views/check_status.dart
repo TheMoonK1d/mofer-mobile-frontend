@@ -31,7 +31,7 @@ class _CheckStatusState extends State<CheckStatus> {
 
     debugPrint("Sending UID $uid");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.1.78:5000', '/api/android/check', data);
+    final uri = Uri.http('192.168.244.112:5000', '/api/android/check', data);
     final response = await http.get(uri);
     var data0 = jsonDecode(response.body);
     if (response.statusCode == 200) {
