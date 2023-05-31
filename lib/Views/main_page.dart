@@ -7,7 +7,6 @@ import 'package:vibration/vibration.dart';
 import 'data_page.dart';
 import 'home_page.dart';
 import 'market_page.dart';
-import 'package:shake/shake.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -35,15 +34,7 @@ class _MainPageState extends State<MainPage>
   @override
   Widget build(BuildContext context) {
     //ShakeDetector detector = ShakeDetector(threshold: 3);
-    ShakeDetector detector = ShakeDetector.autoStart(
-        minimumShakeCount: 1,
-        shakeSlopTimeMS: 500,
-        shakeCountResetTime: 3000,
-        shakeThresholdGravity: 5,
-        onPhoneShake: () {
-          Vibration.vibrate();
-          debugPrint("Data has been refreshed!");
-        });
+
     // @override
     // void dispose() {
     //   detector.stopListening();

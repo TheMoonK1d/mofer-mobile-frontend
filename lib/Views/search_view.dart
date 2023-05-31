@@ -138,17 +138,34 @@ class _SearchState extends State<Search> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(30),
-                      child: Center(
-                        child: Text(
-                          textAlign: TextAlign.start,
-                          "Searching?\nWe are all searching,\nSearching for something that can\nfill the void,but sadly it is not here\natleast not for now\nGood luck",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
+                      padding: const EdgeInsets.only(top: 50, bottom: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            textAlign: TextAlign.start,
+                            "Trying to search?",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 25,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            textAlign: TextAlign.start,
+                            "In the depths of our souls, we all yearn for something to fill the void. Alas, it remains elusive, teasing us from afar.\nMay fortune favor your pursuit, for here, my darling, it is but a coming soon feature.",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ])),

@@ -13,14 +13,14 @@ String? _uid;
 class Login {
   Future signIn(BuildContext context, String email, String password) async {
     debugPrint("Logging in.......");
-    //loadingDialog(context);
-    // showDialog(
-    //     context: context,
-    //     barrierDismissible: false,
-    //     //barrierColor: navColor.withOpacity(0.8),
-    //     builder: (context) => const Center(
-    //           child: CircularProgressIndicator(strokeWidth: 6),
-    //         ));
+    loadingDialog(context);
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        //barrierColor: navColor.withOpacity(0.8),
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(strokeWidth: 6),
+            ));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
@@ -43,7 +43,7 @@ class Login {
         content: Text("⚠ $error"),
       ));
     }
-    //Navigator.pop(context);
+    Navigator.pop(context);
   }
 }
 
@@ -55,7 +55,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': _uid};
   final http.Response response = await http.post(
-    Uri.parse('http://192.168.244.112:5000/api/android/login'),
+    Uri.parse('http://192.168.244.209:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -69,6 +69,7 @@ getToken() async {
     token = _token['Authorization'];
     Token saveToken = Token();
     saveToken.localSave(token);
+    debugPrint(token);
   } else {
     debugPrint("$_uid does not exist");
   }

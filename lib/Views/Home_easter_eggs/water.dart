@@ -1,11 +1,6 @@
-
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-
-
 
 class Water extends StatefulWidget {
   @override
@@ -89,7 +84,6 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
         }
       });
 
-
     Timer(Duration(seconds: 2), () {
       firstController.forward();
     });
@@ -103,7 +97,6 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
     });
 
     fourthController.forward();
-
   }
 
   @override
@@ -123,48 +116,49 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
         Theme.of(context).colorScheme.surfaceTint,
         0);
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light.copyWith(
+      value: SystemUiOverlayStyle.light.copyWith(
         systemNavigationBarContrastEnforced: true,
-        systemNavigationBarColor: navColor,
+        systemNavigationBarColor: Color(0xfff407fe9),
         statusBarColor: navColor,
-        systemNavigationBarDividerColor: navColor,
+        systemNavigationBarDividerColor: Color(0xfff407fe9),
         systemNavigationBarIconBrightness:
-        Theme.of(context).brightness == Brightness.light
-        ? Brightness.dark
-        : Brightness.light,
-    statusBarIconBrightness:
-    Theme.of(context).brightness == Brightness.light
-    ? Brightness.dark
-        : Brightness.light,
-    ),
-    child: Scaffold(
-      appBar: AppBar(),
-      //backgroundColor: Color(0xff2B2C56),
-      body: Stack(
-        children: [
-          Center(
-            child: Text('50 %',
-                style: TextStyle(
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
+        statusBarIconBrightness:
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
+      ),
+      child: Scaffold(
+        appBar: AppBar(),
+        //backgroundColor: Color(0xff2B2C56),
+        body: Stack(
+          children: [
+            Center(
+              child: Text('50 %',
+                  style: TextStyle(
                     fontWeight: FontWeight.w600,
                     wordSpacing: 3,
                     //color: Colors.white.withOpacity(.7)
-                ),
-                textScaleFactor: 7),
-          ),
-          CustomPaint(
-            painter: MyPainter(
-              firstAnimation.value,
-              secondAnimation.value,
-              thirdAnimation.value,
-              fourthAnimation.value,
+                  ),
+                  textScaleFactor: 7),
             ),
-            child: SizedBox(
-              height: size.height,
-              width: size.width,
+            CustomPaint(
+              painter: MyPainter(
+                firstAnimation.value,
+                secondAnimation.value,
+                thirdAnimation.value,
+                fourthAnimation.value,
+              ),
+              child: SizedBox(
+                height: size.height,
+                width: size.width,
+              ),
             ),
-          ),
-        ],
-      ),),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -176,16 +170,16 @@ class MyPainter extends CustomPainter {
   final double fourthValue;
 
   MyPainter(
-      this.firstValue,
-      this.secondValue,
-      this.thirdValue,
-      this.fourthValue,
-      );
+    this.firstValue,
+    this.secondValue,
+    this.thirdValue,
+    this.fourthValue,
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.blueAccent.withOpacity(.8)
+      ..color = Colors.blueAccent.withOpacity(0.9)
       ..style = PaintingStyle.fill;
 
     var path = Path()

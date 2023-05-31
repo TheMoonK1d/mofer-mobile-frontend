@@ -35,7 +35,7 @@ class _CheckStatusState extends State<CheckStatus> {
   sendUID()async{
     debugPrint("Sending UID");
     final data = {'customer_uid': uid};
-    final uri = Uri.http('192.168.244.112:5000','/ss/check', data);
+    final uri = Uri.http('192.168.244.209:5000','/ss/check', data);
     final response = await http.get(uri);
     var _data = jsonDecode(response.body);
     if (response.statusCode == 200) {

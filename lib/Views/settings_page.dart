@@ -15,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Utils/dialog.dart';
 import 'package:slider_button/slider_button.dart';
 
+import 'about_us.dart';
+
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
 
@@ -37,7 +39,7 @@ class _SettingPageState extends State<SettingPage> {
     //var token = prefs.getString("Token");
     debugPrint("Getting user info");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.244.112:5000', '/api/android/get_user', data);
+    final uri = Uri.http('192.168.244.209:5000', '/api/android/get_user', data);
     final response = await http.get(
       uri,
       headers: {
@@ -130,6 +132,88 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ],
                   )),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Card(
+                    elevation: 0,
+                    color: Colors.redAccent.withOpacity(0.09),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: SizedBox(
+                          height: 130,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Under maintenance',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
+                              Text(
+                                'Expect possible slowdowns we will fix this soon. Thank you for your patience.',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w200,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
+                              Expanded(child: Container()),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text(
+                                            "Apologies for the inconvenience.",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w900),
+                                          ),
+                                          content: const Text(
+                                            "Our platform is still on alpha and we are working hard to enhance your experience. Thank you for your understanding.",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text(
+                                                "Okay",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w900,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Why am i seeing this?',
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w900,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          )),
+                    )),
+              ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Card(
@@ -349,15 +433,8 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditAddress(
-                                  address_id: address_id!,
-                                  city: city!,
-                                  kebele: kebele!,
-                                  street: street!,
-                                )));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AboutUs()));
                   },
                 ),
               ),
@@ -382,15 +459,32 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditAddress(
-                                  address_id: address_id!,
-                                  city: city!,
-                                  kebele: kebele!,
-                                  street: street!,
-                                )));
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text(
+                          "FAQ",
+                          style: TextStyle(fontWeight: FontWeight.w900),
+                        ),
+                        content: const Text(
+                          "Try to read more on our website mofer.meinab.com/faq",
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Okay",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                   },
                 ),
               ),

@@ -28,10 +28,9 @@ class _CheckStatusState extends State<CheckStatus> {
   Future checkUser() async {
     User currentUser = FirebaseAuth.instance.currentUser!;
     String uid = currentUser.uid;
-
     debugPrint("Sending UID $uid");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.244.112:5000', '/api/android/check', data);
+    final uri = Uri.http('192.168.244.209:5000', '/api/android/check', data);
     final response = await http.get(uri);
     var data0 = jsonDecode(response.body);
     if (response.statusCode == 200) {

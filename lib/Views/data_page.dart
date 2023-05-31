@@ -46,11 +46,11 @@ class _DataPageState extends State<DataPage> {
         body: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Container(
                   decoration: BoxDecoration(
                     color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                        Theme.of(context).colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
@@ -94,7 +94,7 @@ class _DataPageState extends State<DataPage> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                               child: SizedBox(
-                                  height: 210,
+                                  height: 200,
                                   child: Image.asset('assets/pngtree.png')),
                             )
                           ],
@@ -104,13 +104,13 @@ class _DataPageState extends State<DataPage> {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   height: 160,
                   decoration: BoxDecoration(
                     color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                        Theme.of(context).colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
@@ -177,14 +177,14 @@ class _DataPageState extends State<DataPage> {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   height: 160,
                   decoration: BoxDecoration(
                     color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                        Theme.of(context).colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
@@ -227,7 +227,13 @@ class _DataPageState extends State<DataPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      '📅 Timeline will be available on the next build'),
+                                ));
+                              },
                               child: Text(
                                 textAlign: TextAlign.start,
                                 "Show More",
@@ -245,14 +251,14 @@ class _DataPageState extends State<DataPage> {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   height: 160,
                   decoration: BoxDecoration(
                     color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                        Theme.of(context).colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
@@ -295,7 +301,13 @@ class _DataPageState extends State<DataPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      '📝 Notes will be available on the next build'),
+                                ));
+                              },
                               child: Text(
                                 textAlign: TextAlign.start,
                                 "Show More",
@@ -311,22 +323,6 @@ class _DataPageState extends State<DataPage> {
                       ],
                     ),
                   )),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: Lottie.asset('animations/nothing_here_full.json',
-                  reverse: true, height: 150),
-            ),
-            Center(
-              child: Text(
-                textAlign: TextAlign.start,
-                "looks like thats all",
-                style: GoogleFonts.montserrat(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
             ),
           ],
         ));
