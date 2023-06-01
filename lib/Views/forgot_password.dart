@@ -14,8 +14,8 @@ class ForgotPassword extends StatelessWidget {
     sendData() async {
       debugPrint("Function called");
       final data = {'customer_email': emailController.text.toString()};
-      final uri = Uri.http(
-          '192.168.244.209:5000', '/api/android/forget_password', data);
+      final uri =
+          Uri.http('192.168.1.4:5000', '/api/android/forget_password', data);
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         debugPrint(

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mofer/Views/check_status.dart';
 import 'package:mofer/Views/settings_page.dart';
 import 'package:shake/shake.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,9 +46,9 @@ class _HomePageState extends State<HomePage>
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.244.209.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.1.4.112.112:5000/api/android/update_phone_no');
     //api/arduino/get_trackPlant
-    final uri = Uri.http('192.168.244.209:5000', '/api/arduino/get_trackPlant');
+    final uri = Uri.http('192.168.1.4:5000', '/api/arduino/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -121,6 +122,14 @@ class _HomePageState extends State<HomePage>
           //     IconButton(onPressed: () {}, icon: const Icon(Icons.menu_rounded)),
           actions: [
             IconButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CheckStatus()));
+                },
+                icon: const Icon(Icons.refresh_rounded)),
+            IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.notifications_active_rounded)),
             IconButton(
@@ -193,55 +202,7 @@ class _HomePageState extends State<HomePage>
             ),
 
             Expanded(child: Container()),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Text(
-                      "Todays tips",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                  ],
-                )),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Card(
-                color: bk,
-                elevation: 1,
-                surfaceTintColor: bk,
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  height: 65,
-                  width: 400,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Icon(Icons.info_rounded),
-                      ),
-                      Countup(
-                        begin: 0,
-                        end: 0,
-                        duration: Duration(seconds: 3),
-                        separator: ',',
-                        suffix: " new tips for you",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w900,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -449,7 +410,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Icon(
                           Icons.sensors,
@@ -457,7 +418,7 @@ class _HomePageState extends State<HomePage>
                           //color: Colors.purple,
                         ),
                         Text(
-                          "Reads",
+                          "Today",
                           style: GoogleFonts.montserrat(
                             fontSize: 15,
                             fontWeight: FontWeight.w900,
@@ -465,7 +426,7 @@ class _HomePageState extends State<HomePage>
                           ),
                         ),
                         Text(
-                          read != null ? "$read".toString() : "",
+                          read != null ? "$read reads".toString() : "",
                           style: GoogleFonts.montserrat(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mofer/Views/settings_page.dart';
 
 import 'login.dart';
@@ -21,35 +22,25 @@ class _UserDisabledAccountState extends State<UserDisabledAccount> {
           child: Column(
             children: [
               SafeArea(child: Container()),
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child:  Card(
-                    elevation: 0,
-                    color: Colors.red,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: SizedBox(
-                        height: 80,
-                        child: Center(
-                          child: Text(
-                            "Looks like you have disabled your account ⚠",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20,
-                              fontFamily: "Montserrat",
-                            ),
-                          ),
-                        ),),
-                    )),
+              Lottie.asset('animations/error.json',
+                  reverse: true, height: 100, width: 100),
+              const Center(
+                child: Text(
+                  "Looks like you have disabled your account, You can activate it here",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 20,
+                    fontFamily: "Montserrat",
+                  ),
+                ),
               ),
               Expanded(child: Container()),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Card(
                     elevation: 0,
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.05),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Padding(
@@ -64,7 +55,6 @@ class _UserDisabledAccountState extends State<UserDisabledAccount> {
                                   fontSize: 20,
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
-
                                 ),
                               ),
                               Expanded(child: Container()),
@@ -77,7 +67,9 @@ class _UserDisabledAccountState extends State<UserDisabledAccount> {
                                   });
                                   FirebaseAuth.instance.signOut();
                                   Navigator.pushReplacement(
-                                      context, MaterialPageRoute(builder: (context) => LoginPage()));
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage()));
                                 },
                                 value: status!,
                               ),
@@ -86,8 +78,7 @@ class _UserDisabledAccountState extends State<UserDisabledAccount> {
                     )),
               ),
             ],
-          )
-      ),
+          )),
     );
   }
 }

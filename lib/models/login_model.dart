@@ -38,7 +38,7 @@ class Login {
       error = e.message;
       debugPrint("E.msg $error");
       debugPrint(e.toString());
-      //Navigator.pop(context);
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("⚠ $error"),
       ));
@@ -55,7 +55,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': _uid};
   final http.Response response = await http.post(
-    Uri.parse('http://192.168.244.209:5000/api/android/login'),
+    Uri.parse('http://192.168.1.4:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

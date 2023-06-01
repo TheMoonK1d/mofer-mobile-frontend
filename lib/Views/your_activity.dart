@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:confetti/confetti.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/physics.dart';
+
+import '../Utils/dialog.dart';
+import 'login.dart';
 
 class ActivityPage extends StatefulWidget {
   const ActivityPage({super.key});
@@ -18,13 +24,58 @@ class _ActivityPageState extends State<ActivityPage>
   late AnimationController controller;
   CurvedAnimation? curve;
   String report = "Generating report";
+  String result = "Waiting...";
+  String? uid;
+  var paragraph_1, paragraph_2;
   bool isPlaying = true;
 
   final con_controller = ConfettiController();
+  Future getAnalysis() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      uid = user.uid;
+    }
+    //final prefs = await SharedPreferences.getInstance();
+    //var token = prefs.getString("Token");
+    debugPrint("Getting user info");
+    final data = {'uid': uid};
+    //http://192.168.1.4:5000/api/arduino/generate_analaytics
+    final uri =
+        Uri.http('192.168.1.4:5000', '/api/arduino/generate_analaytics', data);
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        //'Authorization': prefs.getString("Token").toString(),
+      },
+    );
+
+    var analysis = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      setState(() {
+        result = 'Found the result 📋';
+        paragraph_1 = analysis['paragraph_1'];
+        paragraph_2 = analysis['paragraph_2'];
+        debugPrint("DDDDDDDDDDDd $paragraph_1 $paragraph_1 ");
+      });
+    } else if (response.statusCode == 401) {
+      if (context.mounted) {
+        loadingDialog(context);
+        FirebaseAuth.instance.signOut();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      }
+    } else {
+      result = 'Something went wrong';
+      paragraph_1 = '😔';
+      debugPrint("$uid does not exist");
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    getAnalysis();
     con_controller.stop();
     controller = AnimationController(
       duration: const Duration(seconds: 3),
@@ -164,17 +215,13 @@ class _ActivityPageState extends State<ActivityPage>
                         });
                       },
                       //pause: Duration(seconds: 0),
+
                       animatedTexts: [
-                        TypewriterAnimatedText(' '),
                         TypewriterAnimatedText('Please wait...'),
-                        TypewriterAnimatedText(' '),
-                        TypewriterAnimatedText(' '),
-                        TypewriterAnimatedText(' '),
-                        TypewriterAnimatedText(' '),
-                        TypewriterAnimatedText(' '),
                         TypewriterAnimatedText('Found the result 📋'),
                         TypewriterAnimatedText(
-                            'Based on our analysis, your plant is showing below average temperature, humidity, and soil moisture. Tomato plants prefer warm temperatures, high humidity, and consistent moisture levels in the soil. When these conditions are not met, the plant may struggle to grow and produce healthy fruits\n \nTo improve the current plant conditions we recommend the following tasks to do. \n\n👉🏾 Covering the tomato plants with a light fabric or row cover can also help protect them from cold temperatures.\n\n👉🏾 You can increase humidity levels by misting the tomato plants with water or by placing a tray of water near the plants.\n\n👉🏾 Water the tomato plants regularly and deeply to ensure that the soil stays moist.\n\n\nWe hope you find these information useful, you can let us know below if you want'),
+                          "${paragraph_1}",
+                        ),
                         // TypewriterAnimatedText(
                         //     'We hope we have helped with our report'),
                       ],

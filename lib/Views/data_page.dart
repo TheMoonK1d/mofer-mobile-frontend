@@ -1,8 +1,15 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mofer/Views/settings_page.dart';
 import 'package:mofer/Views/your_activity.dart';
+import 'package:http/http.dart' as http;
+
+import '../Utils/dialog.dart';
+import 'login.dart';
 
 class DataPage extends StatefulWidget {
   const DataPage({super.key});
@@ -56,25 +63,53 @@ class _DataPageState extends State<DataPage> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
-                          textAlign: TextAlign.start,
-                          "Plant Name",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w300,
-                            fontStyle: FontStyle.normal,
-                          ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              textAlign: TextAlign.start,
+                              "Pick your plant",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                            PopupMenuButton<String>(
+                              icon:
+                                  const Icon(Icons.keyboard_arrow_down_rounded),
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                PopupMenuItem<String>(
+                                    value: 'x',
+                                    child: Text(
+                                      'Test plant',
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FontStyle.normal,
+                                        // color: Colors.white,
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          ],
                         ),
                         Text(
                           textAlign: TextAlign.start,
-                          "Plant type",
+                          "Current plant",
                           style: GoogleFonts.montserrat(
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.w200,
                             fontStyle: FontStyle.normal,
                           ),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Stack(
                           alignment: Alignment.bottomCenter,
@@ -94,7 +129,7 @@ class _DataPageState extends State<DataPage> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                               child: SizedBox(
-                                  height: 200,
+                                  height: 150,
                                   child: Image.asset('assets/pngtree.png')),
                             )
                           ],
