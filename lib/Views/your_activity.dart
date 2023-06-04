@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/physics.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Utils/dialog.dart';
 import 'login.dart';
@@ -35,18 +36,18 @@ class _ActivityPageState extends State<ActivityPage>
     if (user != null) {
       uid = user.uid;
     }
-    //final prefs = await SharedPreferences.getInstance();
-    //var token = prefs.getString("Token");
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString("Token");
     debugPrint("Getting user info");
     final data = {'uid': uid};
-    //http://192.168.1.4:5000/api/arduino/generate_analaytics
-    final uri =
-        Uri.http('192.168.1.4:5000', '/api/arduino/generate_analaytics', data);
+    //http://192.168.244.112:5000/api/arduino/generate_analaytics
+    final uri = Uri.http(
+        '192.168.244.112:5000', '/api/arduino/generate_analaytics', data);
     final response = await http.get(
       uri,
       headers: {
         'Content-Type': 'application/json',
-        //'Authorization': prefs.getString("Token").toString(),
+        'Authorization': prefs.getString("Token").toString(),
       },
     );
 

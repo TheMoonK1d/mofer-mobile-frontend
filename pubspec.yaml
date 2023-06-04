@@ -57,6 +57,7 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   dependencies:
   flutter_about_page: ^0.0.1
+  #slide_button: ^0.2.9
   
 
 dev_dependencies:

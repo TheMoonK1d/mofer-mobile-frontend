@@ -38,9 +38,6 @@ class _DataPageState extends State<DataPage> {
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications_active_rounded)),
-            IconButton(
                 onPressed: () {
                   Navigator.push(
                       context,

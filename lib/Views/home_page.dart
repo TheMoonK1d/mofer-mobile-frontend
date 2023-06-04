@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mofer/Views/check_status.dart';
+import 'package:mofer/Views/read_detail.dart';
 import 'package:mofer/Views/settings_page.dart';
+import 'package:mofer/Views/transfer_plant%20.dart';
 import 'package:shake/shake.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
@@ -13,6 +15,7 @@ import '../Utils/dialog.dart';
 import 'Home_easter_eggs/water.dart';
 import 'package:countup/countup.dart';
 import 'package:http/http.dart' as http;
+import 'accept_transfer_doc.dart';
 import 'home_detail.dart';
 import 'login.dart';
 import 'package:intl/intl.dart';
@@ -46,9 +49,9 @@ class _HomePageState extends State<HomePage>
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.1.4.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.244.112.112.112:5000/api/android/update_phone_no');
     //api/arduino/get_trackPlant
-    final uri = Uri.http('192.168.1.4:5000', '/api/arduino/get_trackPlant');
+    final uri = Uri.http('192.168.244.112:5000', '/api/arduino/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -130,9 +133,6 @@ class _HomePageState extends State<HomePage>
                 },
                 icon: const Icon(Icons.refresh_rounded)),
             IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications_active_rounded)),
-            IconButton(
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage>
                               formattedDate != null
                                   ? "Last read was on\n$formattedDate"
                                       .toString()
-                                  : "Last 11's read was on\n🤔...",
+                                  : "Last 11's read was on\n...",
                               style: GoogleFonts.montserrat(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -232,6 +232,10 @@ class _HomePageState extends State<HomePage>
                               name: 'Water',
                               height: 50,
                               width: 50,
+                              data: water,
+                              des:
+                                  "Water level for plants refers to the amount of water in the soil or growing medium around the roots. It's important to maintain an appropriate water level to avoid overwatering or underwatering. Check soil moisture, look for visual cues like wilting leaves, ensure proper drainage, and water at the base of the plant near the roots. Research specific plant water requirements for best results.",
+                              sign: "%",
                             ),
                           ));
                     },
@@ -293,6 +297,10 @@ class _HomePageState extends State<HomePage>
                               name: 'Temperature',
                               height: 50,
                               width: 50,
+                              data: temp,
+                              des:
+                                  "Temperature is important for plants as it affects their growth and development. Each plant has a specific temperature range it prefers. Temperature influences germination, growth, and seasonal adaptations. Indoor plants have different temperature requirements. Providing suitable temperature conditions is crucial for plant health.",
+                              sign: "℃",
                             ),
                           ));
                     },
@@ -346,6 +354,10 @@ class _HomePageState extends State<HomePage>
                               name: 'Humidity',
                               height: 900,
                               width: 900,
+                              data: humidity,
+                              des:
+                                  "Humidity is important for plants as it affects their transpiration, disease risk, and overall health. Different plants have varying humidity preferences. High humidity can reduce water loss but may increase disease risk, while low humidity can lead to dehydration. Controlling humidity and ensuring proper air circulation is crucial for plant well-being.",
+                              sign: "%",
                             ),
                           ));
                     },
@@ -397,84 +409,187 @@ class _HomePageState extends State<HomePage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    height: 120,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.1),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Icon(
-                          Icons.sensors,
-                          size: 30,
-                          //color: Colors.purple,
-                        ),
-                        Text(
-                          "Today",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ReadDetail()));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      height: 120,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.1),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Icon(
+                            Icons.sensors,
+                            size: 30,
+                            //color: Colors.purple,
                           ),
-                        ),
-                        Text(
-                          read != null ? "$read reads".toString() : "",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
+                          Text(
+                            "Today",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                            ),
                           ),
-                        ),
-                      ],
+                          Text(
+                            read != null ? "$read reads".toString() : "",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    height: 120,
-                    width: 245,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.1),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Icon(
-                          Icons.park_rounded,
-                          size: 30,
-                          color: Color(0xfff5ab59a),
-                        ),
-                        Text(
-                          "Your plant",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(
+                            plant_name != null
+                                ? "$plant_name".toString()
+                                : "Loading...",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                              // color: Colors.white,
+                            ),
                           ),
-                        ),
-                        Text(
-                          plant_name != null
-                              ? "$plant_name".toString()
-                              : "Loading...",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
+                          content: Text(
+                            "What would you like to do?",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.normal,
+                              // color: Colors.white,
+                            ),
                           ),
+                          actions: [
+                            Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: ElevatedButton.icon(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.switch_right_rounded),
+                                        label: Text(
+                                          'Change plant',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w900,
+                                            fontStyle: FontStyle.normal,
+                                            // color: Colors.white,
+                                          ),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          //backgroundColor: const Color(0xff2a9d8f),
+                                          elevation: 0,
+                                          minimumSize: const Size(400, 50),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50.0),
+                                          ),
+                                        )),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: ElevatedButton.icon(
+                                        onPressed: () {
+                                          debugPrint("sdhfsdj");
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Accept(),
+                                              ));
+                                        },
+                                        icon: Icon(Icons.move_up),
+                                        label: Text(
+                                          'Transfer plant',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w900,
+                                            fontStyle: FontStyle.normal,
+                                            // color: Colors.white,
+                                          ),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          //backgroundColor: const Color(0xff2a9d8f),
+                                          elevation: 0,
+                                          minimumSize: const Size(400, 50),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50.0),
+                                          ),
+                                        )),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                      ],
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      height: 120,
+                      width: 245,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.1),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Icon(
+                            Icons.park_rounded,
+                            size: 30,
+                            color: Color(0xfff5ab59a),
+                          ),
+                          Text(
+                            "Your plant",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                          Text(
+                            plant_name != null
+                                ? "$plant_name".toString()
+                                : "Loading...",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -5,14 +5,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeDetail extends StatelessWidget {
-  String animation, name;
+  String animation, name, des, sign;
   double height, width;
-  HomeDetail(
-      {super.key,
-      required this.animation,
-      required this.name,
-      required this.height,
-      required this.width});
+  int data;
+  HomeDetail({
+    super.key,
+    required this.animation,
+    required this.name,
+    required this.height,
+    required this.width,
+    required this.des,
+    required this.data,
+    required this.sign,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,82 +44,66 @@ class HomeDetail extends StatelessWidget {
         appBar: AppBar(),
         body: Column(
           children: [
+            Expanded(child: Container()),
             Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          textAlign: TextAlign.start,
-                          "${name} level",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
+              padding: const EdgeInsets.all(0),
+              child: Container(
+                  height: 600,
+                  padding: const EdgeInsets.all(20),
+                  //width: 400,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            textAlign: TextAlign.start,
+                            "$data",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 100,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                            ),
                           ),
+                          Text(
+                            textAlign: TextAlign.start,
+                            sign,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        textAlign: TextAlign.start,
+                        name,
+                        style: GoogleFonts.montserrat(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w900,
+                          fontStyle: FontStyle.normal,
                         ),
-                      ],
-                    ),
-                    Text(
-                      textAlign: TextAlign.start,
-                      "Waiting ...",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.normal,
                       ),
-                    ),
-                  ],
-                )),
-            Expanded(
-                child: Container(
-              child: Lottie.asset(
-                'animations/${animation}',
-                reverse: true,
-                height: height,
-                width: width,
-              ),
-            )),
-            Padding(
-                padding: const EdgeInsets.all(50),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      textAlign: TextAlign.start,
-                      "Waiting for ${name.toLowerCase()} data ",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.normal,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 13,
-                      child: DefaultTextStyle(
+                      Text(
+                        textAlign: TextAlign.start,
+                        des,
                         style: GoogleFonts.montserrat(
                           fontSize: 15,
-                          color: Colors.grey,
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
                         ),
-                        child: AnimatedTextKit(
-                          repeatForever: true,
-                          animatedTexts: [
-                            TyperAnimatedText(''),
-                            TyperAnimatedText('.'),
-                            TyperAnimatedText('..'),
-                            TyperAnimatedText('...'),
-                          ],
-                        ),
                       ),
-                    ),
-                  ],
-                )),
+                    ],
+                  )),
+            ),
           ],
         ),
       ),

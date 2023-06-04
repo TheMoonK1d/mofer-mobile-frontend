@@ -39,7 +39,7 @@ class _SettingPageState extends State<SettingPage> {
     //var token = prefs.getString("Token");
     debugPrint("Getting user info");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.1.4:5000', '/api/android/get_user', data);
+    final uri = Uri.http('192.168.244.112:5000', '/api/android/get_user', data);
     final response = await http.get(
       uri,
       headers: {
@@ -136,7 +136,8 @@ class _SettingPageState extends State<SettingPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Card(
                     elevation: 0,
-                    color: Colors.redAccent.withOpacity(0.09),
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.05),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Padding(
@@ -173,28 +174,39 @@ class _SettingPageState extends State<SettingPage> {
                                       showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
-                                          title: const Text(
+                                          title: Text(
                                             "Apologies for the inconvenience.",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w900),
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w900,
+                                              fontStyle: FontStyle.normal,
+                                              // color: Colors.white,
+                                            ),
                                           ),
-                                          content: const Text(
+                                          content: Text(
                                             "Our platform is still on alpha and we are working hard to enhance your experience. Thank you for your understanding.",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w700),
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                              fontStyle: FontStyle.normal,
+                                              // color: Colors.white,
+                                            ),
                                           ),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },
-                                              child: const Text(
+                                              child: Text(
                                                 "Okay",
-                                                style: TextStyle(
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 20,
                                                   fontWeight: FontWeight.w900,
+                                                  fontStyle: FontStyle.normal,
+                                                  // color: Colors.white,
                                                 ),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       );
@@ -203,7 +215,7 @@ class _SettingPageState extends State<SettingPage> {
                                       'Why am i seeing this?',
                                       style: GoogleFonts.montserrat(
                                         fontSize: 15,
-                                        fontWeight: FontWeight.w900,
+                                        fontWeight: FontWeight.w500,
                                         fontStyle: FontStyle.normal,
                                       ),
                                     ),
