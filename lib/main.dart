@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color brandcolor = Color.fromARGB(255, 42, 157, 71);
+    Color brandcolor = Color.fromARGB(255, 35, 149, 109);
     return DynamicColorBuilder(
         builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
       ColorScheme lightColorScheme;

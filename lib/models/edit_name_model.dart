@@ -21,7 +21,7 @@ class EditNameModel {
     final prefs = await SharedPreferences.getInstance();
 
     final http.Response response = await http.put(
-      Uri.parse('http://192.168.244.112:5000/api/android/update_user_name'),
+      Uri.parse('http://192.168.1.3:5000/api/android/update_user_name'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),

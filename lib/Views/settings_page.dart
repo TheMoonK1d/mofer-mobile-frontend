@@ -39,7 +39,7 @@ class _SettingPageState extends State<SettingPage> {
     //var token = prefs.getString("Token");
     debugPrint("Getting user info");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.244.112:5000', '/api/android/get_user', data);
+    final uri = Uri.http('192.168.1.3:5000', '/api/android/get_user', data);
     final response = await http.get(
       uri,
       headers: {

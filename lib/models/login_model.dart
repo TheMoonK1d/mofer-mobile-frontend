@@ -14,21 +14,15 @@ class Login {
   Future signIn(BuildContext context, String email, String password) async {
     debugPrint("Logging in.......");
     loadingDialog(context);
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        //barrierColor: navColor.withOpacity(0.8),
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(strokeWidth: 6),
-            ));
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.trim(), password: password.trim());
       getToken();
       debugPrint("Navigating to CheckStatus Page...");
-
       if (context.mounted) {
         Navigator.pop(context);
+
         Future.delayed(Duration(milliseconds: 9), () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const CheckStatus()));
@@ -55,7 +49,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': _uid};
   final http.Response response = await http.post(
-    Uri.parse('http://192.168.244.112:5000/api/android/login'),
+    Uri.parse('http://192.168.1.3:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

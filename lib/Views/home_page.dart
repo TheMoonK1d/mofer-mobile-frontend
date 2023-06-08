@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mofer/Views/check_status.dart';
+import 'package:mofer/Views/plant_list.dart';
 import 'package:mofer/Views/read_detail.dart';
 import 'package:mofer/Views/settings_page.dart';
 import 'package:mofer/Views/transfer_plant%20.dart';
@@ -17,6 +18,7 @@ import 'package:countup/countup.dart';
 import 'package:http/http.dart' as http;
 import 'accept_transfer_doc.dart';
 import 'home_detail.dart';
+import 'image_test.dart';
 import 'login.dart';
 import 'package:intl/intl.dart';
 
@@ -38,6 +40,8 @@ String _greeting() {
 }
 
 var water, temp, humidity, read, entered_date, plant_name;
+int index = 0;
+
 String? formattedDate;
 
 class _HomePageState extends State<HomePage>
@@ -45,13 +49,17 @@ class _HomePageState extends State<HomePage>
   Future getStatusData() async {
     final prefs = await SharedPreferences.getInstance();
     //var token = prefs.getString("Token");
+    //final prefs = await SharedPreferences.getInstance();
+    index = int.parse(prefs.getString("Tracking")!);
+    debugPrint("LLLLLLLLLLLLL: ${prefs.getString("Tracking").toString()}");
+    //index == null ? 0 : int.parse(prefs.getString("Tracking")!);
     debugPrint("Getting Plant Status info");
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.244.112.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.1.3.112.112:5000/api/android/update_phone_no');
     //api/arduino/get_trackPlant
-    final uri = Uri.http('192.168.244.112:5000', '/api/arduino/get_trackPlant');
+    final uri = Uri.http('192.168.1.3:5000', '/api/arduino/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -60,17 +68,64 @@ class _HomePageState extends State<HomePage>
       },
     );
     debugPrint(response.body.toString());
-    var data = jsonDecode(response.body);
+    //var _data = jsonDecode(response.body);
+    //List<dynamic> _data = jsonEncode(data);
+
     if (response.statusCode == 200) {
       setState(() {
-        water = data['data']['soil_moisture'];
-        temp = data['data']['temprature'];
-        humidity = data['data']['humidity'];
-        read = data['data']['count'];
-        entered_date = data['data']['entered_date'];
-        DateTime dateTime = DateTime.parse(entered_date);
+        // if (tracking_id == null) {
+        //   int.parse(tracking_id!) = 0;
+        // }
+        // Map<String, dynamic> dataObject = data;
+        // List<dynamic> dataArray = dataObject['arrayKey'];
+
+        // water = dataArray[0]['soil_moisture'];
+
+        // temp = data['data']['temprature'];
+        // humidity = data['data']['humidity'];
+        // read = data['data']['count'];
+        // entered_date = data['data']['entered_date'];
+        // DateTime dateTime = DateTime.parse(entered_date);
+        // formattedDate = DateFormat.yMMMMd().format(dateTime);
+        // plant_name = data['data']['plant_name'];
+
+        Map<String, dynamic> data = json.decode(response.body);
+
+        // Access values from the "default" object
+        // Map<String, dynamic> defaultData = data['default'];
+        // int count = defaultData['count'];
+        // int soilMoisture = defaultData['soil_moisture'];
+        // int humidity = defaultData['humidity'];
+        // int temperature = defaultData['temprature'];
+        // String plantName = defaultData['plant_name'];
+        // String enteredDate = defaultData['entered_date'];
+
+        // Access values from the "data" array
+        List<dynamic> dataArray = data['data'];
+        debugPrint(dataArray.length.toString());
+        Map<String, dynamic> firstDataItem = dataArray[index];
+        int id = firstDataItem['id'];
+        int dataCount = firstDataItem['count'];
+        int dataSoilMoisture = int.parse(firstDataItem['soil_moisture']);
+        int dataHumidity = int.parse(firstDataItem['humidity']);
+        int dataTemperature = int.parse(firstDataItem['temprature']);
+        String dataPlantName = firstDataItem['plant_name'];
+        String dataEnteredDate = firstDataItem['entered_date'];
+
+        print('ID: $id');
+        print('Data Count: $dataCount');
+        read = dataCount;
+        water = dataSoilMoisture;
+        temp = dataHumidity;
+        humidity = dataHumidity;
+        plant_name = dataPlantName;
+        DateTime dateTime = DateTime.parse(dataEnteredDate);
         formattedDate = DateFormat.yMMMMd().format(dateTime);
-        plant_name = data['data']['plant_name'];
+        print('Data Soil Moisture: $dataSoilMoisture');
+        print('Data Humidity: $dataHumidity');
+        print('Data Temperature: $dataTemperature');
+        print('Data Plant Name: $dataPlantName');
+        print('Data Entered Date: $dataEnteredDate');
       });
       debugPrint("$water $temp $humidity $read");
     } else if (response.statusCode == 401) {
@@ -81,7 +136,7 @@ class _HomePageState extends State<HomePage>
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
     } else {
-      debugPrint("does not exist");
+      debugPrint("Something went wrong");
     }
   }
 
@@ -490,7 +545,15 @@ class _HomePageState extends State<HomePage>
                                   Padding(
                                     padding: const EdgeInsets.all(5),
                                     child: ElevatedButton.icon(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const PlantList(),
+                                              ));
+                                        },
                                         icon: Icon(Icons.switch_right_rounded),
                                         label: Text(
                                           'Change plant',
