@@ -12,8 +12,8 @@ class EditName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _fName = TextEditingController();
-    TextEditingController _lName = TextEditingController();
+    TextEditingController fNameController = TextEditingController();
+    TextEditingController lNameController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
         resizeToAvoidBottomInset: true,
@@ -65,7 +65,7 @@ class EditName extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
                         keyboardType: TextInputType.name,
-                        controller: _fName,
+                        controller: fNameController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) =>
                             nameValidator(value, "First name"),
@@ -99,7 +99,7 @@ class EditName extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
                         keyboardType: TextInputType.name,
-                        controller: _lName,
+                        controller: lNameController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) => nameValidator(value, "Last name"),
                         decoration: InputDecoration(
@@ -131,7 +131,8 @@ class EditName extends StatelessWidget {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         EditNameModel edit = EditNameModel();
-                        edit.updateName(_fName.text, _lName.text, uid, context);
+                        edit.updateName(fNameController.text,
+                            lNameController.text, uid, context);
                       }
                     },
                     style: ElevatedButton.styleFrom(

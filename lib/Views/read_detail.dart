@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class ReadDetail extends StatelessWidget {
@@ -15,7 +14,7 @@ class ReadDetail extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Center(
               child: Container(
-                height: 200,
+                height: 500,
                 width: 400,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -23,27 +22,15 @@ class ReadDetail extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                           color: Colors.black.withOpacity(0.2),
-                          offset: Offset(0, 30),
+                          offset: const Offset(0, 30),
                           blurRadius: 30,
                           spreadRadius: 2)
                     ]),
                 child: Lottie.asset('animations/sensor.json',
-                    reverse: true, height: 500),
+                    reverse: true, height: 200),
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              textAlign: TextAlign.start,
-              "Sensor seem to be working",
-              style: GoogleFonts.montserrat(
-                fontSize: 30,
-                fontWeight: FontWeight.w900,
-                fontStyle: FontStyle.normal,
-              ),
-            ),
-          )
         ],
       ),
     );

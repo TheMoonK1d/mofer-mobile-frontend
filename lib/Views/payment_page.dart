@@ -2,10 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:mofer/Utils/dialog.dart';
 import 'package:mofer/Views/payment_login.dart';
-import 'package:mofer/models/bank_login.dart';
-import 'package:slider_button/slider_button.dart';
 
 //Might be null Test first
 
@@ -42,7 +39,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Future getPackage() async {
     debugPrint("Fetching data");
     final response = await http
-        .get(Uri.parse('http://192.168.1.3:5000/api/android/allPackages'));
+        .get(Uri.parse('http://192.168.1.4:5000/api/android/allPackages'));
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     setState(() {

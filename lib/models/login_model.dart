@@ -6,6 +6,7 @@ import 'package:mofer/Utils/dialog.dart';
 import 'package:mofer/Views/check_status.dart';
 import 'package:mofer/Auth/token.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 String? error;
 String? _uid;
@@ -21,9 +22,9 @@ class Login {
       getToken();
       debugPrint("Navigating to CheckStatus Page...");
       if (context.mounted) {
-        Navigator.pop(context);
+        //Navigator.pop(context);
 
-        Future.delayed(Duration(milliseconds: 9), () {
+        Future.delayed(const Duration(milliseconds: 9), () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const CheckStatus()));
         });
@@ -37,7 +38,9 @@ class Login {
         content: Text("⚠ $error"),
       ));
     }
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 }
 
@@ -49,7 +52,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': _uid};
   final http.Response response = await http.post(
-    Uri.parse('http://192.168.1.3:5000/api/android/login'),
+    Uri.parse('http://192.168.1.4:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -59,10 +62,12 @@ getToken() async {
   if (response.statusCode == 200) {
     debugPrint("Sending $_uid to API : $data");
     debugPrint("getting Token...");
-    var _token = jsonDecode(response.body);
-    token = _token['Authorization'];
+    var apiToken = jsonDecode(response.body);
+    token = apiToken['Authorization'];
     Token saveToken = Token();
     saveToken.localSave(token);
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString('Tracking', 0.toString());
     debugPrint(token);
   } else {
     debugPrint("$_uid does not exist");

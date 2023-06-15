@@ -1,21 +1,22 @@
 import 'dart:convert';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:confetti/confetti.dart';
+import 'package:countup/countup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/physics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../Utils/dialog.dart';
 import 'login.dart';
 
 class ActivityPage extends StatefulWidget {
-  const ActivityPage({super.key});
+  ActivityPage({super.key, required this.name, required this.traceId});
 
+  int? traceId;
+  String? name;
   @override
   State<ActivityPage> createState() => _ActivityPageState();
 }
@@ -24,25 +25,43 @@ class _ActivityPageState extends State<ActivityPage>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   CurvedAnimation? curve;
-  String report = "Generating report";
-  String result = "Waiting...";
-  String? uid;
+  String? report = "Generating report", result = "Waiting...", uid;
+
   var paragraph_1, paragraph_2;
   bool isPlaying = true;
+  int? temprature, humidity, soilMoisture;
+  String? tempratureStatus, humidityStatus, soilMoistureStatus;
+  double temp = 0, humi = 0, soil = 0;
+  //Water Color
+  Color waterCurrentColor = Colors.black;
+  Color waterGood = Colors.blue;
+  Color waterAvg = Colors.teal;
+  Color waterBad = Colors.red;
 
-  final con_controller = ConfettiController();
-  Future getAnalysis() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      uid = user.uid;
-    }
+  //Humidity Color
+  Color humidityCurrentColor = Colors.black;
+  Color humidityGood = Colors.purple;
+  Color humidityAvg = Colors.yellowAccent;
+  Color humidityBad = Colors.red;
+
+  //Temp Color
+  Color tempCurrentColor = Colors.black;
+  Color tempGood = Colors.orange;
+  Color tempAvg = Colors.green;
+  Color tempBad = Colors.red;
+
+  final conController = ConfettiController();
+  Future getSettingsData() async {
+    debugPrint(widget.traceId.toString());
     final prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString("Token");
-    debugPrint("Getting user info");
-    final data = {'uid': uid};
-    //http://192.168.1.3:5000/api/arduino/generate_analaytics
-    final uri = Uri.http(
-        '192.168.1.3:5000', '/api/arduino/generate_analaytics', data);
+    //final data = {'trace_id': widget.traceId};
+
+    final Map<String, dynamic> data = {
+      'trace_id': widget.traceId.toString(),
+      'plant_name': widget.name,
+    };
+    final uri =
+        Uri.http('192.168.1.4:5000', '/api/android/generate_activity', data);
     final response = await http.get(
       uri,
       headers: {
@@ -50,15 +69,52 @@ class _ActivityPageState extends State<ActivityPage>
         'Authorization': prefs.getString("Token").toString(),
       },
     );
-
-    var analysis = jsonDecode(response.body);
+//moisture
+    var data0 = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      setState(() {
-        result = 'Found the result 📋';
-        paragraph_1 = analysis['paragraph_1'];
-        paragraph_2 = analysis['paragraph_2'];
-        debugPrint("DDDDDDDDDDDd $paragraph_1 $paragraph_1 ");
-      });
+      temprature = data0['mean']['temprature'];
+      humidity = data0['mean']['humidity'];
+      soilMoisture = data0['mean']['soil_moisture'];
+
+      tempratureStatus = data0['status']['temprature'];
+      humidityStatus = data0['status']['humidity'];
+      soilMoistureStatus = data0['status']['soil_moisture'];
+
+      //Water color assignment
+      if (soilMoistureStatus == "below average") {
+        waterCurrentColor = waterBad;
+      } else if (soilMoistureStatus == "average") {
+        waterCurrentColor = waterAvg;
+      } else if (soilMoistureStatus == "above average") {
+        waterCurrentColor = waterGood;
+      } else {
+        waterCurrentColor = waterCurrentColor;
+      }
+
+      //Humidity color assignment
+      if (humidityStatus == "below average") {
+        humidityCurrentColor = humidityBad;
+      } else if (humidityStatus == "average") {
+        humidityCurrentColor = humidityAvg;
+      } else if (humidityStatus == "above average") {
+        humidityCurrentColor = humidityGood;
+      } else {
+        humidityCurrentColor = humidityCurrentColor;
+      }
+      //Temp color assignment
+      if (tempratureStatus == "below average") {
+        tempCurrentColor = tempBad;
+      } else if (tempratureStatus == "average") {
+        tempCurrentColor = tempAvg;
+      } else if (tempratureStatus == "above average") {
+        tempCurrentColor = tempGood;
+      } else {
+        tempCurrentColor = tempCurrentColor;
+      }
+
+      temp = temprature!.toDouble();
+      humi = humidity!.toDouble();
+      soil = soilMoisture!.toDouble();
     } else if (response.statusCode == 401) {
       if (context.mounted) {
         loadingDialog(context);
@@ -67,17 +123,15 @@ class _ActivityPageState extends State<ActivityPage>
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       }
     } else {
-      result = 'Something went wrong';
-      paragraph_1 = '😔';
-      debugPrint("$uid does not exist");
+      debugPrint("does not exist");
     }
   }
 
   @override
   void initState() {
     super.initState();
-    getAnalysis();
-    con_controller.stop();
+    getSettingsData();
+    conController.stop();
     controller = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
@@ -89,7 +143,7 @@ class _ActivityPageState extends State<ActivityPage>
   @override
   void dispose() {
     controller.dispose();
-    con_controller.dispose();
+    conController.dispose();
     super.dispose();
   }
 
@@ -114,331 +168,332 @@ class _ActivityPageState extends State<ActivityPage>
                   ? Brightness.dark
                   : Brightness.light,
         ),
-        child: Stack(children: [
-          Scaffold(
+        child: Scaffold(
             appBar: AppBar(),
-            body: ListView(
-              children: [
-                Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              textAlign: TextAlign.start,
-                              "Your Activity",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w900,
-                                fontStyle: FontStyle.normal,
+            body: FutureBuilder(
+              future: getSettingsData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: SizedBox(child: CircularProgressIndicator()),
+                  );
+                } else {
+                  return ListView(
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    textAlign: TextAlign.start,
+                                    "${widget.name}'s activity",
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w900,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                  ),
+                                ],
                               ),
+                            ],
+                          )),
+                      SizedBox(
+                        height: 510,
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: navColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      offset: const Offset(0, 80),
+                                      blurRadius: 50,
+                                      spreadRadius: 5),
+                                ],
+                                borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30))),
+                            child: Padding(
+                              padding: const EdgeInsets.all(30),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                        height: 150,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SimpleCircularProgressBar(
+                                              backStrokeWidth: 0,
+                                              progressColors: [
+                                                navColor,
+                                                waterCurrentColor
+                                              ],
+                                              mergeMode: false,
+                                              onGetText: (double value) {
+                                                return Text(
+                                                  'Moisture',
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 60,
+                                              child: Countup(
+                                                begin: 0,
+                                                end: soil,
+                                                duration:
+                                                    const Duration(seconds: 6),
+                                                separator: ',',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.w900,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(child: Container()),
+                                            Container(
+                                              width: 160,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary
+                                                      .withOpacity(0.2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Center(
+                                                child: Text(
+                                                  soilMoistureStatus!,
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                    SizedBox(
+                                        height: 150,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SimpleCircularProgressBar(
+                                              backStrokeWidth: 0,
+                                              progressColors: [
+                                                navColor,
+                                                humidityCurrentColor
+                                              ],
+                                              mergeMode: false,
+                                              onGetText: (double value) {
+                                                return Text(
+                                                  'Humidity',
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 60,
+                                              child: Countup(
+                                                begin: 0,
+                                                end: humi,
+                                                duration:
+                                                    const Duration(seconds: 6),
+                                                separator: ',',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.w900,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(child: Container()),
+                                            Container(
+                                              width: 160,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary
+                                                      .withOpacity(0.2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Center(
+                                                child: Text(
+                                                  humidityStatus!,
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                    SizedBox(
+                                        height: 150,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SimpleCircularProgressBar(
+                                              backStrokeWidth: 0,
+                                              progressColors: [
+                                                navColor,
+                                                tempCurrentColor
+                                              ],
+                                              mergeMode: false,
+                                              onGetText: (double value) {
+                                                return Text(
+                                                  'Temp',
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                            const SizedBox(
+                                              width: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 60,
+                                              child: Countup(
+                                                begin: 0,
+                                                end: temp,
+                                                duration:
+                                                    const Duration(seconds: 6),
+                                                separator: ',',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.w900,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(child: Container()),
+                                            Container(
+                                              width: 160,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary
+                                                      .withOpacity(0.2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Center(
+                                                child: Text(
+                                                  tempratureStatus!,
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ]),
                             ),
-                          ],
+                          ),
                         ),
-                      ],
-                    )),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            DraggableCard(
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
-                                curve: Curves.fastLinearToSlowEaseIn,
-                                height: 150,
-                                width: 150,
-                                decoration:
-                                    BoxDecoration(color: Colors.transparent),
-                                child: Center(
-                                  child: Image.asset(
-                                    "assets/final.png",
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withOpacity(0.3),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  child: Text(
-                    textAlign: TextAlign.start,
-                    report,
-                    style: GoogleFonts.montserrat(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: DefaultTextStyle(
-                    style: GoogleFonts.montserrat(
-                      fontSize: 20,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.normal,
-                    ),
-                    child: AnimatedTextKit(
-                      repeatForever: false,
-                      isRepeatingAnimation: false,
-
-                      onFinished: () {
-                        setState(() {
-                          report = "Result";
-                          controller.forward();
-                          debugPrint("Done");
-                        });
-                      },
-                      //pause: Duration(seconds: 0),
-
-                      animatedTexts: [
-                        TypewriterAnimatedText('Please wait...'),
-                        TypewriterAnimatedText('Found the result 📋'),
-                        TypewriterAnimatedText(
-                          "${paragraph_1}",
-                        ),
-                        // TypewriterAnimatedText(
-                        //     'We hope we have helped with our report'),
-                      ],
-                    ),
-                  ),
-                ),
-                FadeTransition(
-                    opacity: curve!,
-                    child: SizedBox(
-                      height: 60,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 10, 2, 10),
-                            child: TextButton.icon(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text(
-                                      "We are sorry",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                    content: Text(
-                                      "Tell us what went wrong bu submitting a report, your opinion means a great deal to us",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          "Report",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                          ),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          "Cancel",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.keyboard_arrow_down_rounded),
-                              label: Text(
-                                textAlign: TextAlign.start,
-                                "Not helpful",
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w900,
-                                  fontStyle: FontStyle.normal,
-                                ),
-                              ),
+                          Text(
+                            'Color key',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(2, 10, 10, 10),
-                            child: TextButton.icon(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  action: SnackBarAction(
-                                    label: '🎊🥳',
-                                    onPressed: () {
-                                      setState(() {
-                                        con_controller.play();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          action: SnackBarAction(
-                                            label: 'Yes!',
-                                            onPressed: () {
-                                              setState(() {
-                                                con_controller.stop();
-                                              });
-                                            },
-                                          ),
-                                          content: Text('Stop the celebration'),
-                                        ));
-                                      });
-                                    },
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'For Moisture',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900,
+                                    fontStyle: FontStyle.normal,
                                   ),
-                                  content:
-                                      Text('YEY Thank you for the feedback'),
-                                ));
-                              },
-                              icon: const Icon(Icons.keyboard_arrow_up_rounded),
-                              label: Text(
-                                textAlign: TextAlign.start,
-                                "Helpful",
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w900,
-                                  fontStyle: FontStyle.normal,
                                 ),
-                              ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      'Good',
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 14,
+                                        color: waterGood,
+                                        fontWeight: FontWeight.w900,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Average',
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 14,
+                                        color: waterAvg,
+                                        fontWeight: FontWeight.w900,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Bad',
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 14,
+                                        color: waterBad,
+                                        fontWeight: FontWeight.w900,
+                                        fontStyle: FontStyle.normal,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           )
                         ],
-                      ),
-                    )),
-                const SizedBox(
-                  height: 50,
-                )
-              ],
-            ),
-          ),
-          ConfettiWidget(
-            confettiController: con_controller,
-            shouldLoop: false,
-            gravity: 1.0,
-            emissionFrequency: 0.05,
-            numberOfParticles: 50,
-            minBlastForce: 10,
-            maxBlastForce: 100,
-            blastDirectionality: BlastDirectionality.explosive,
-            colors: [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.primary.withOpacity(0.5),
-              Theme.of(context).colorScheme.secondary,
-              Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-              Theme.of(context).colorScheme.tertiary,
-            ],
-          )
-        ]));
-  }
-}
-
-class DraggableCard extends StatefulWidget {
-  final Widget child;
-
-  DraggableCard({required this.child});
-
-  @override
-  _DraggableCardState createState() => _DraggableCardState();
-}
-
-class _DraggableCardState extends State<DraggableCard>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-
-  var _dragAlignment = Alignment.center;
-
-  Animation<Alignment>? _animation;
-
-  final _spring = const SpringDescription(
-    mass: 7,
-    stiffness: 1200,
-    damping: 0.7,
-  );
-
-  double _normalizeVelocity(Offset velocity, Size size) {
-    final normalizedVelocity = Offset(
-      velocity.dx / size.width,
-      velocity.dy / size.height,
-    );
-    return -normalizedVelocity.distance;
-  }
-
-  void _runAnimation(Offset velocity, Size size) {
-    _animation = _controller!.drive(
-      AlignmentTween(
-        begin: _dragAlignment,
-        end: Alignment.center,
-      ),
-    );
-
-    final simulation =
-        SpringSimulation(_spring, 0.0, 1.0, _normalizeVelocity(velocity, size));
-
-    _controller!.animateWith(simulation);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController.unbounded(vsync: this)
-      ..addListener(() => setState(() => _dragAlignment = _animation!.value));
-  }
-
-  @override
-  void dispose() {
-    _controller!.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onPanStart: (details) => _controller!.stop(canceled: true),
-      onPanUpdate: (details) => setState(
-        () => _dragAlignment += Alignment(
-          details.delta.dx / (size.width / 2),
-          details.delta.dy / (size.height / 2),
-        ),
-      ),
-      onPanEnd: (details) =>
-          _runAnimation(details.velocity.pixelsPerSecond, size),
-      child: Align(
-        alignment: _dragAlignment,
-        child: widget.child,
-      ),
-    );
+                      )
+                    ],
+                  );
+                }
+              },
+            )));
   }
 }

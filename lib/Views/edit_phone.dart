@@ -10,7 +10,7 @@ class EditPhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _phone = TextEditingController();
+    final TextEditingController phoneController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     Color navColor = ElevationOverlay.applySurfaceTint(
         Theme.of(context).colorScheme.surface,
@@ -105,7 +105,7 @@ class EditPhone extends StatelessWidget {
                           Flexible(
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
-                              controller: _phone,
+                              controller: phoneController,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: (value) => newPhoneValidator(value),
@@ -147,7 +147,7 @@ class EditPhone extends StatelessWidget {
                         //Fix this
                         //Don't pass null.
                         editPhoneModel.updatePhone(
-                            _phone.text, 'null', context);
+                            phoneController.text, 'null', context);
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 20,

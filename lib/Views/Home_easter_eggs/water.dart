@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Water extends StatefulWidget {
+  const Water({super.key});
+
   @override
   _WaterState createState() => _WaterState();
 }
@@ -25,7 +27,7 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
     super.initState();
 
     firstController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 1500));
     firstAnimation = Tween<double>(begin: 1.9, end: 2.1).animate(
         CurvedAnimation(parent: firstController, curve: Curves.easeInOut))
       ..addListener(() {
@@ -40,7 +42,7 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
       });
 
     secondController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 1500));
     secondAnimation = Tween<double>(begin: 1.8, end: 2.4).animate(
         CurvedAnimation(parent: secondController, curve: Curves.easeInOut))
       ..addListener(() {
@@ -55,7 +57,7 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
       });
 
     thirdController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 1500));
     thirdAnimation = Tween<double>(begin: 1.8, end: 2.4).animate(
         CurvedAnimation(parent: thirdController, curve: Curves.easeInOut))
       ..addListener(() {
@@ -70,7 +72,7 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
       });
 
     fourthController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1500));
+        vsync: this, duration: const Duration(milliseconds: 1500));
     fourthAnimation = Tween<double>(begin: 1.9, end: 2.1).animate(
         CurvedAnimation(parent: fourthController, curve: Curves.easeInOut))
       ..addListener(() {
@@ -84,15 +86,15 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
         }
       });
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       firstController.forward();
     });
 
-    Timer(Duration(milliseconds: 1600), () {
+    Timer(const Duration(milliseconds: 1600), () {
       secondController.forward();
     });
 
-    Timer(Duration(milliseconds: 800), () {
+    Timer(const Duration(milliseconds: 800), () {
       thirdController.forward();
     });
 
@@ -118,9 +120,9 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
         systemNavigationBarContrastEnforced: true,
-        systemNavigationBarColor: Color(0xfff407fe9),
+        systemNavigationBarColor: const Color(0xff407fe9),
         statusBarColor: navColor,
-        systemNavigationBarDividerColor: Color(0xfff407fe9),
+        systemNavigationBarDividerColor: const Color(0xff407fe9),
         systemNavigationBarIconBrightness:
             Theme.of(context).brightness == Brightness.light
                 ? Brightness.dark
@@ -135,7 +137,7 @@ class _WaterState extends State<Water> with TickerProviderStateMixin {
         //backgroundColor: Color(0xff2B2C56),
         body: Stack(
           children: [
-            Center(
+            const Center(
               child: Text('50 %',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,

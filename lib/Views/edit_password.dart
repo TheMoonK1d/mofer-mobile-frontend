@@ -10,8 +10,8 @@ class EditPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _password = TextEditingController();
-    final TextEditingController _cPassword = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController cPasswordController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     Color navColor = ElevationOverlay.applySurfaceTint(
         Theme.of(context).colorScheme.surface,
@@ -79,7 +79,7 @@ class EditPassword extends StatelessWidget {
                         child: TextFormField(
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: true,
-                          controller: _password,
+                          controller: passwordController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) => editPasswordValidator(value),
                           decoration: InputDecoration(
@@ -112,7 +112,7 @@ class EditPassword extends StatelessWidget {
                         child: TextFormField(
                           keyboardType: TextInputType.visiblePassword,
                           obscureText: true,
-                          controller: _cPassword,
+                          controller: cPasswordController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) => editCPasswordValidator(value),
                           decoration: InputDecoration(
@@ -144,7 +144,7 @@ class EditPassword extends StatelessWidget {
                       onPressed: () {
                         EditPasswordModel editPassword = EditPasswordModel();
                         editPassword.updatePassword(
-                            _password.text, uid, context);
+                            passwordController.text, uid, context);
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 20,

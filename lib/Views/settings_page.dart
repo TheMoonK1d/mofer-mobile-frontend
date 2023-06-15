@@ -13,7 +13,6 @@ import 'package:http/http.dart' as http;
 import 'package:mofer/models/edit_user_status_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Utils/dialog.dart';
-import 'package:slider_button/slider_button.dart';
 
 import 'about_us.dart';
 
@@ -39,7 +38,7 @@ class _SettingPageState extends State<SettingPage> {
     //var token = prefs.getString("Token");
     debugPrint("Getting user info");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.1.3:5000', '/api/android/get_user', data);
+    final uri = Uri.http('192.168.1.4:5000', '/api/android/get_user', data);
     final response = await http.get(
       uri,
       headers: {
@@ -445,8 +444,10 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AboutUs()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AboutUs()));
                   },
                 ),
               ),

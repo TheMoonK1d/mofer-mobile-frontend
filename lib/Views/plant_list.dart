@@ -2,9 +2,13 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Utils/dialog.dart';
+import 'home_page.dart';
 import 'login.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,7 +22,7 @@ class PlantList extends StatefulWidget {
 }
 
 int index = 0;
-String PlantName = "";
+String plantName = "";
 int len = 0;
 int selected = 0;
 // Map? data;
@@ -32,9 +36,9 @@ class _PlantListState extends State<PlantList> {
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.1.3.112.112:5000/api/android/update_phone_no');
-    //api/arduino/get_trackPlant
-    final uri = Uri.http('192.168.1.3:5000', '/api/arduino/get_trackPlant');
+    //     Uri.parse('http://192.168.1.4.112.112:5000/api/android/update_phone_no');
+    //api/android/get_trackPlant
+    final uri = Uri.http('192.168.1.4:5000', '/api/android/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -53,7 +57,10 @@ class _PlantListState extends State<PlantList> {
         debugPrint(dataArray!.length.toString());
         Map<String, dynamic> firstDataItem = dataArray![index];
         len = dataArray!.length;
-        PlantName = firstDataItem['plant_name'];
+        plantName = firstDataItem['plant_name'];
+        String dataEnteredDate = firstDataItem['entered_date'];
+        DateTime dateTime = DateTime.parse(dataEnteredDate);
+        formattedDate = DateFormat.yMMMMd().format(dateTime);
       });
     } else if (response.statusCode == 401) {
       if (context.mounted) {
@@ -75,39 +82,97 @@ class _PlantListState extends State<PlantList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: ListView.builder(
-        itemCount: dataArray == null ? 0 : dataArray!.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              selected = index;
-              debugPrint(selected.toString());
-              trackingPlant();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    'You are now tracking your ${dataArray![index]["plant_name"]}'),
-              ));
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => MainPage()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Card(
-                child: SizedBox(
-                  height: 100,
-                  child: Text(
-                    dataArray![index]["plant_name"],
-                    style: TextStyle(fontSize: 20),
+    Color navColor = ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surface,
+        Theme.of(context).colorScheme.surfaceTint,
+        0);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light.copyWith(
+          systemNavigationBarContrastEnforced: true,
+          systemNavigationBarColor: navColor,
+          statusBarColor: navColor,
+          systemNavigationBarDividerColor: navColor,
+          systemNavigationBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
+        ),
+        child: Scaffold(
+            appBar: AppBar(),
+            body: Column(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              textAlign: TextAlign.start,
+                              "Your Plants",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w900,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: dataArray == null ? 0 : dataArray!.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: ListTile(
+                          leading: const Icon(Icons.compost),
+                          title: Text(
+                            dataArray![index]["plant_name"] != null
+                                ? dataArray![index]["plant_name"].toString()
+                                : "Loading...",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                          subtitle: Text(
+                            //entered_date
+                            formattedDate != null
+                                ? "Last tracked on $formattedDate"
+                                : "Loading...",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                          onTap: () {
+                            selected = index;
+                            debugPrint(selected.toString());
+                            trackingPlant();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'You are now tracking your ${dataArray![index]["plant_name"]}'),
+                            ));
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MainPage()));
+                          },
+                        ),
+                      );
+                    },
                   ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+                )
+              ],
+            )));
   }
 }
 

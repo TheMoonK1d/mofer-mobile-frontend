@@ -1,12 +1,13 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
+import 'package:mofer/Views/plant_list.dart';
+import 'package:mofer/Views/recommendation.dart';
 import 'package:mofer/Views/settings_page.dart';
 import 'package:mofer/Views/your_activity.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Utils/dialog.dart';
 import 'login.dart';
@@ -18,13 +19,62 @@ class DataPage extends StatefulWidget {
   State<DataPage> createState() => _DataPageState();
 }
 
+int index = 0, traceId = 0;
+String? name;
+
 class _DataPageState extends State<DataPage> {
+  Future getStatusData() async {
+    final prefs = await SharedPreferences.getInstance();
+    index = int.parse(prefs.getString("Tracking")!);
+    //http://localhost:5000/api/android/getPlant
+    final uri = Uri.http('192.168.1.4:5000', '/api/android/getPlant');
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': prefs.getString("Token").toString(),
+      },
+    );
+    debugPrint(response.body.toString());
+
+    if (response.statusCode == 200) {
+      setState(() {
+        Map<String, dynamic> data = json.decode(response.body);
+        List<dynamic> dataArray = data['data'];
+        debugPrint(dataArray.length.toString());
+        Map<String, dynamic> _data = dataArray[index];
+
+        // int _id = _data['trace_id'];
+        // String _name = _data['plant_name'];
+
+        name = _data['plant_name'];
+        traceId = _data['trace_id'];
+      });
+      debugPrint("Yeeeeyy");
+    } else if (response.statusCode == 401) {
+      if (context.mounted) {
+        loadingDialog(context);
+        FirebaseAuth.instance.signOut();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      }
+    } else {
+      debugPrint("Something went wrong");
+    }
+  }
+
+  @override
+  void initState() {
+    getStatusData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Color navColor = ElevationOverlay.applySurfaceTint(
-        Theme.of(context).colorScheme.surface,
-        Theme.of(context).colorScheme.surfaceTint,
-        0);
+    // Color navColor = ElevationOverlay.applySurfaceTint(
+    //     Theme.of(context).colorScheme.surface,
+    //     Theme.of(context).colorScheme.surfaceTint,
+    //     0);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -63,38 +113,23 @@ class _DataPageState extends State<DataPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              textAlign: TextAlign.start,
-                              "Pick your plant",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                fontStyle: FontStyle.normal,
-                              ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const PlantList(),
+                                ));
+                          },
+                          child: Text(
+                            textAlign: TextAlign.start,
+                            name != null ? "$name".toString() : "Loading",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
                             ),
-                            PopupMenuButton<String>(
-                              icon:
-                                  const Icon(Icons.keyboard_arrow_down_rounded),
-                              itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<String>>[
-                                PopupMenuItem<String>(
-                                    value: 'x',
-                                    child: Text(
-                                      'Test plant',
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        fontStyle: FontStyle.normal,
-                                        // color: Colors.white,
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                         Text(
                           textAlign: TextAlign.start,
@@ -105,7 +140,7 @@ class _DataPageState extends State<DataPage> {
                             fontStyle: FontStyle.normal,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Stack(
@@ -138,7 +173,8 @@ class _DataPageState extends State<DataPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   height: 160,
                   decoration: BoxDecoration(
                     color:
@@ -189,7 +225,10 @@ class _DataPageState extends State<DataPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ActivityPage(),
+                                      builder: (context) => ActivityPage(
+                                        name: name,
+                                        traceId: traceId,
+                                      ),
                                     ));
                               },
                               child: Text(
@@ -228,7 +267,7 @@ class _DataPageState extends State<DataPage> {
                         Row(
                           children: [
                             const Icon(
-                              Icons.date_range_rounded,
+                              Icons.recommend_rounded,
                               size: 30,
                             ),
                             const SizedBox(
@@ -236,7 +275,7 @@ class _DataPageState extends State<DataPage> {
                             ),
                             Text(
                               textAlign: TextAlign.start,
-                              "Your Timeline",
+                              "Recommendation",
                               style: GoogleFonts.montserrat(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w900,
@@ -247,7 +286,7 @@ class _DataPageState extends State<DataPage> {
                         ),
                         Text(
                           textAlign: TextAlign.start,
-                          "What have you been up to",
+                          "What to do to get better result",
                           style: GoogleFonts.montserrat(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
@@ -260,11 +299,14 @@ class _DataPageState extends State<DataPage> {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text(
-                                      '📅 Timeline will be available on the next build'),
-                                ));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RecommendationPage(
+                                        name: name,
+                                        traceId: traceId,
+                                      ),
+                                    ));
                               },
                               child: Text(
                                 textAlign: TextAlign.start,

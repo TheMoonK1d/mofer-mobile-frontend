@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mofer/Views/main_page.dart';
 import 'package:mofer/models/bank_login.dart';
 import 'package:mofer/models/opt_model.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -154,7 +153,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                     Theme.of(context).colorScheme.primary.withOpacity(0.1),
                 borderColor: navColor,
                 borderWidth: 5,
-                decoration: InputDecoration(border: InputBorder.none),
+                decoration: const InputDecoration(border: InputBorder.none),
 
                 focusedBorderColor:
                     Theme.of(context).colorScheme.primary.withOpacity(0.5),
@@ -163,7 +162,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
 
                 //set to true to show as box or false to show as dash
                 showFieldAsBox: true,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
 
                 //runs when a code is typed in
                 onCodeChanged: (String code) {
@@ -175,7 +174,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text("Verification Code"),
+                          title: const Text("Verification Code"),
                           content: Text('Code entered is $pin'),
                         );
                       });
@@ -187,7 +186,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Text(
-                "you can resend sms in ${_counter} sec",
+                "you can resend sms in $_counter sec",
                 style: GoogleFonts.montserrat(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,

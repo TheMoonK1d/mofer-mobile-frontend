@@ -4,8 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:mofer/Views/Bank_view/bank_otp.dart';
 import 'package:mofer/Views/payment_page.dart';
 
-import '../Views/login.dart';
-
 var result, token, phone, order_id, uid;
 
 class Bank {
@@ -19,7 +17,7 @@ class Bank {
       'username': username,
       'password': password,
     };
-    final uri = Uri.http('192.168.1.3:7000', '/useraccount/login', data);
+    final uri = Uri.http('192.168.1.4:7000', '/useraccount/login', data);
     var response = await http.get(uri);
     if (response.statusCode == 200) {
       debugPrint(response.body);
@@ -30,9 +28,11 @@ class Bank {
     } else {
       debugPrint("something went wrong");
       debugPrint(response.body);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Logged Out!'),
-      ));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Logged Out!'),
+        ));
+      }
     }
   }
 
@@ -44,7 +44,7 @@ class Bank {
       'receiver': 10000002,
     };
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.3:7000/order/order'),
+      Uri.parse('http://192.168.1.4:7000/order/order'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': '$token',

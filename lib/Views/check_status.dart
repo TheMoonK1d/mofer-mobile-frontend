@@ -11,7 +11,6 @@ import 'package:mofer/Views/user_disabled.dart';
 import 'package:lottie/lottie.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckStatus extends StatefulWidget {
   const CheckStatus({Key? key}) : super(key: key);
@@ -30,7 +29,7 @@ class _CheckStatusState extends State<CheckStatus> {
     String uid = currentUser.uid;
     debugPrint("Sending UID $uid");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.1.3:5000', '/api/android/check', data);
+    final uri = Uri.http('192.168.1.4:5000', '/api/android/check', data);
     final response = await http.get(uri);
     var data0 = jsonDecode(response.body);
     if (response.statusCode == 200) {

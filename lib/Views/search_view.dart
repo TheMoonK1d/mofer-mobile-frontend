@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -152,7 +151,7 @@ class _SearchState extends State<Search> {
                               fontStyle: FontStyle.normal,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Text(

@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../Utils/dialog.dart';
 import '../Views/login.dart';
 import '../Views/settings_page.dart';
@@ -25,7 +23,7 @@ class EditAddressModel {
     };
     final prefs = await SharedPreferences.getInstance();
     final http.Response response = await http.put(
-      Uri.parse('http://192.168.1.3:5000/api/android/update_address'),
+      Uri.parse('http://192.168.1.4:5000/api/android/update_address'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),
@@ -41,8 +39,8 @@ class EditAddressModel {
       debugPrint(result[0].toString());
       if (context.mounted) {
         //Navigator.pop(context);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => SettingPage()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const SettingPage()));
       }
     } else if (response.statusCode == 401) {
       if (context.mounted) {
