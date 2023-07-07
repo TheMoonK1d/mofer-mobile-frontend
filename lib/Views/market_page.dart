@@ -31,7 +31,7 @@ class _MarketPageState extends State<MarketPage> {
   Future getProducts() async {
     debugPrint("Fetching products");
     final response = await http
-        .get(Uri.parse('http://192.168.1.4:5000/api/android/allProducts'));
+        .get(Uri.parse('http://192.168.1.100:5000/api/android/allProducts'));
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     lst = data!["data"];
@@ -66,7 +66,11 @@ class _MarketPageState extends State<MarketPage> {
           future: getProducts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text("Wait");
+              return Center(
+                child: SizedBox(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             }
             return Column(
               children: [

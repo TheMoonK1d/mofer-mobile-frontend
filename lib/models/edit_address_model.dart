@@ -23,7 +23,7 @@ class EditAddressModel {
     };
     final prefs = await SharedPreferences.getInstance();
     final http.Response response = await http.put(
-      Uri.parse('http://192.168.1.4:5000/api/android/update_address'),
+      Uri.parse('http://192.168.1.100:5000/api/android/update_address'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),

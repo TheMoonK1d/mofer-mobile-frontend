@@ -1,48 +1,69 @@
 import 'dart:convert';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mofer/Views/expired_page.dart';
-import 'package:mofer/Views/free_trial.dart';
-import 'package:mofer/Views/main_page.dart';
-import 'package:mofer/Views/tracking_amount.dart';
-import 'package:mofer/Views/user_disabled.dart';
 import 'package:lottie/lottie.dart';
-import 'package:avatar_glow/avatar_glow.dart';
+import 'package:mofer/models/login_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import '../Utils/dialog.dart';
+import 'login.dart';
+import 'main_page.dart';
+import 'no_plant.dart';
 
-class CheckStatus extends StatefulWidget {
-  const CheckStatus({Key? key}) : super(key: key);
+class TrackingAmount extends StatefulWidget {
+  const TrackingAmount({super.key});
 
   @override
-  State<CheckStatus> createState() => _CheckStatusState();
+  State<TrackingAmount> createState() => _TrackingAmountState();
 }
 
-int? exp, dsl, _new;
-//String? uid;
-var token;
+class _TrackingAmountState extends State<TrackingAmount> {
+  late List dataArray;
+  bool tracking = false;
+  String plantAmount = "plant";
+  int len = 0;
+  int? index;
+  bool hasPlant = true;
 
-class _CheckStatusState extends State<CheckStatus> {
-  Future checkUser() async {
-    User currentUser = FirebaseAuth.instance.currentUser!;
-    String uid = currentUser.uid;
-    debugPrint("Sending UID $uid");
-    final data = {'uid': uid};
-    final uri = Uri.http('192.168.1.100:5000', '/api/android/check', data);
-    final response = await http.get(uri);
-    var data0 = jsonDecode(response.body);
+  Future getPlantList() async {
+    final prefs = await SharedPreferences.getInstance();
+    //var token = prefs.getString("Token");
+    debugPrint("Getting Plant Status info");
+    debugPrint(prefs.getString("Token").toString());
+    //final data = {'uid': uid};
+    // final uri =
+    //     Uri.parse('http://192.168.1.100.112.112:5000/api/android/update_phone_no');
+    //api/android/get_trackPlant
+    final uri = Uri.http('192.168.1.100:5000', '/api/android/get_trackPlant');
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': prefs.getString("Token").toString(),
+      },
+    );
+    debugPrint(response.body.toString());
+    //var _data = jsonDecode(response.body);
+    //List<dynamic> _data = jsonEncode(data);
+
     if (response.statusCode == 200) {
-      debugPrint("Value");
-      exp = data0['data']['is_expired'];
-      dsl = data0['data']['is_disabled'];
-      _new = data0['data']['is_new'];
-      debugPrint("Expire: $exp Disable: $dsl");
-      debugPrint("EXP: $exp");
-      debugPrint("DSL: $dsl");
+      hasPlant = true;
+    } else if (response.statusCode == 401) {
+      if (context.mounted) {
+        loadingDialog(context);
+        FirebaseAuth.instance.signOut();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      }
+    } else if (response.statusCode == 404) {
+      hasPlant = false;
     } else {
-      debugPrint("$uid does not exist");
+      debugPrint("Something went wrong");
     }
   }
 
@@ -50,7 +71,7 @@ class _CheckStatusState extends State<CheckStatus> {
   void initState() {
     super.initState();
     debugPrint("Checking user status.....");
-    checkUser();
+    getPlantList();
   }
 
   @override
@@ -77,7 +98,7 @@ class _CheckStatusState extends State<CheckStatus> {
       child: Scaffold(
         body: Center(
           child: FutureBuilder(
-            future: checkUser(),
+            future: getPlantList(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -118,7 +139,7 @@ class _CheckStatusState extends State<CheckStatus> {
                               children: [
                                 Text(
                                   textAlign: TextAlign.start,
-                                  "Connecting",
+                                  "looking for your plants",
                                   style: GoogleFonts.montserrat(
                                     fontSize: 15,
                                     color: Colors.grey,
@@ -174,18 +195,12 @@ class _CheckStatusState extends State<CheckStatus> {
                   ],
                 );
               } else {
-                if (_new == 1) {
-                  debugPrint("User has a free trail");
-                  return const FreeTrial();
-                } else if (exp == 1) {
-                  debugPrint("User account has expired");
-                  return const ExpiredAccount();
-                } else if (dsl == 1) {
-                  debugPrint("User has disabled the account");
-                  return const UserDisabledAccount();
+                if (hasPlant == false) {
+                  //debugPrint("User has a free trail");
+                  return const NoPlantPage();
                 }
-                debugPrint("All seems to be good going to main account");
-                return const TrackingAmount();
+                debugPrint("We good broooo!");
+                return const MainPage();
               }
             },
           ),

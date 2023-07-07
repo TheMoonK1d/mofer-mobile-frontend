@@ -52,9 +52,9 @@ class _RecommendationPageState extends State<RecommendationPage>
       'trace_id': widget.traceId.toString(),
       'plant_name': widget.name,
     };
-    //http://192.168.1.4:5000/api/android/generate_analaytics
-    final uri =
-        Uri.http('192.168.1.4:5000', '/api/android/generate_analaytics', data);
+    //http://192.168.1.100:5000/api/android/generate_analaytics
+    final uri = Uri.http(
+        '192.168.1.100:5000', '/api/android/generate_analaytics', data);
     final response = await http.get(
       uri,
       headers: {

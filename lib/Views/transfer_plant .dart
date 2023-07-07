@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mofer/Views/transfer_done.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart'; //Use this when image is not loaded
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +24,7 @@ class TransferPlant extends StatefulWidget {
 int qnt = 1;
 bool imageAdded = false;
 String? plant_name;
+TextEditingController priceController = TextEditingController();
 
 class _TransferPlantState extends State<TransferPlant> {
   File? _imageFile;
@@ -33,7 +35,8 @@ class _TransferPlantState extends State<TransferPlant> {
   bool _isAuthenticating = false;
   Future<void> transferPlant() async {
     // Set the API endpoint URL
-    Uri url = Uri.parse('http://192.168.1.4:5000/api/android/transferProduct');
+    Uri url =
+        Uri.parse('http://192.168.1.100:5000/api/android/transferProduct');
 
     // Create the multipart request
     var request = http.MultipartRequest('POST', url);
@@ -66,6 +69,11 @@ class _TransferPlantState extends State<TransferPlant> {
       if (response.statusCode == 200) {
         // Request successful
         print('Data sent successfully!');
+        final pref = await SharedPreferences.getInstance();
+        await pref.setString('Tracking', 0.toString());
+        debugPrint(token);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => TransferDone()));
         // } else {
         //   // Request failed
         //   print('Failed to send data. Status code: ${response.statusCode}');
@@ -77,13 +85,20 @@ class _TransferPlantState extends State<TransferPlant> {
               context, MaterialPageRoute(builder: (context) => LoginPage()));
         }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Some thing went wrong try again'),
-        ));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Some thing went wrong try again'),
+          ));
+        }
       }
     } catch (e) {
       // Request error
-      print('Error occurred while sending data: $e');
+      debugPrint('Error occurred while sending data: $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(e.toString()),
+        ));
+      }
     }
   }
 
@@ -101,6 +116,11 @@ class _TransferPlantState extends State<TransferPlant> {
   validate() {
     if (imageAdded) {
       debugPrint("${imageAdded.toString()} Image has been added");
+      if (priceController.text == "") {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('You need to the price first'),
+        ));
+      }
       transferPlant();
     } else if (!imageAdded) {
       debugPrint("${imageAdded.toString()} Image has not been added");
@@ -292,165 +312,174 @@ class _TransferPlantState extends State<TransferPlant> {
             ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                height: 300,
-                width: 400,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withOpacity(0.03)),
-                child: Column(
+              child: Column(children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          textAlign: TextAlign.start,
-                          "Quantity",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                        Expanded(child: Container()),
-                        Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondary
-                                  .withOpacity(0.2),
-                            ),
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.exposure_minus_1_rounded,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                onPressed: () {}),
-                          ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Container(
-                              height: 50,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withOpacity(0.2),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  textAlign: TextAlign.start,
-                                  "1",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900,
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
-                              ),
-                            )),
-                        Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondary
-                                  .withOpacity(0.2),
-                            ),
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.plus_one_rounded,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                onPressed: () {}),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      textAlign: TextAlign.start,
+                      "Quantity",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.normal,
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          textAlign: TextAlign.start,
-                          "Price",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
-                          ),
+                    Expanded(child: Container()),
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondary
+                              .withOpacity(0.2),
                         ),
-                        Expanded(child: Container()),
-                        Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: Container(
-                              height: 50,
-                              width: 175,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary
-                                    .withOpacity(0.2),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.exposure_minus_1_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () {
+                              if (qnt == 1) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text('Minimum is one'),
+                                ));
+                              } else {
+                                setState(() {
+                                  qnt--;
+                                });
+                              }
+                            }),
+                      ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Container(
+                          height: 50,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                          ),
+                          child: Center(
+                            child: Text(
+                              textAlign: TextAlign.start,
+                              "$qnt",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                fontStyle: FontStyle.normal,
                               ),
-                              child: Center(
-                                  child: TextField(
-                                keyboardType: TextInputType.number,
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.montserrat(
+                            ),
+                          ),
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondary
+                              .withOpacity(0.2),
+                        ),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.plus_one_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                qnt++;
+                              });
+                            }),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      textAlign: TextAlign.start,
+                      "Price",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Container(
+                          height: 50,
+                          width: 175,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                          ),
+                          child: Center(
+                              child: TextField(
+                            controller: priceController,
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                            ),
+                            decoration: InputDecoration(
+                                hintText: "1 ETB",
+                                hintStyle: GoogleFonts.montserrat(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
                                 ),
-                                decoration: InputDecoration(
-                                    hintText: "1 ETB",
-                                    hintStyle: GoogleFonts.montserrat(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w900,
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                    border: InputBorder.none),
-                              )),
-                            )),
-                      ],
-                    ),
-                    Expanded(child: Container()),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: ElevatedButton(
-                        onPressed: authenticate,
-                        style: ElevatedButton.styleFrom(
-                          //backgroundColor: const Color(0xff2a9d8f),
-                          elevation: 20,
-                          minimumSize: const Size(400, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        child: Text(
-                          _isAuthenticating ? 'Cancel' : 'Finish Transfer',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                      ),
-                    ),
+                                border: InputBorder.none),
+                          )),
+                        )),
                   ],
+                ),
+              ]),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(50),
+              child: ElevatedButton(
+                onPressed: authenticate,
+                onLongPress: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TransferDone(),
+                      ));
+                },
+                style: ElevatedButton.styleFrom(
+                  //backgroundColor: const Color(0xff2a9d8f),
+                  elevation: 20,
+                  minimumSize: const Size(400, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                child: Text(
+                  _isAuthenticating ? 'Cancel' : 'Finish Transfer',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                    fontStyle: FontStyle.normal,
+                  ),
                 ),
               ),
             ),
@@ -461,7 +490,9 @@ class _TransferPlantState extends State<TransferPlant> {
   }
 
   Future<void> _pickImageFromGallery() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
     if (pickedFile != null) {
       setState(() {
         imageAdded = true;

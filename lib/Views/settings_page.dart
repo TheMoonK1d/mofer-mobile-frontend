@@ -13,7 +13,6 @@ import 'package:http/http.dart' as http;
 import 'package:mofer/models/edit_user_status_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Utils/dialog.dart';
-
 import 'about_us.dart';
 
 class SettingPage extends StatefulWidget {
@@ -38,7 +37,7 @@ class _SettingPageState extends State<SettingPage> {
     //var token = prefs.getString("Token");
     debugPrint("Getting user info");
     final data = {'uid': uid};
-    final uri = Uri.http('192.168.1.4:5000', '/api/android/get_user', data);
+    final uri = Uri.http('192.168.1.100:5000', '/api/android/get_user', data);
     final response = await http.get(
       uri,
       headers: {

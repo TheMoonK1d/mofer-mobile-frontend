@@ -30,11 +30,11 @@ class HomePage extends StatefulWidget {
 String _greeting() {
   final hour = TimeOfDay.now().hour;
   if (hour <= 12) {
-    return "Selam 👋🏾\nGood morning";
+    return "Good morning";
   } else if (hour <= 17) {
-    return "Selam 👋🏾\nGood evening";
+    return "Good afternoon";
   }
-  return "Selam 👋🏾\nGood afternoon";
+  return "Good evening";
 }
 
 var water, temp, humidity, read, entered_date, plant_name;
@@ -45,11 +45,11 @@ String? formattedDate;
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin<HomePage> {
   int index = 0;
-  String? plantName;
+  String? plantName, username;
   int len = 0;
   int selected = 0;
 // Map? data;
-  List? dataArray;
+  List? dataArray, nameArray;
   bool tracking = false;
   String plantAmount = "plant";
 
@@ -60,9 +60,9 @@ class _HomePageState extends State<HomePage>
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.1.4.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.1.100.112.112:5000/api/android/update_phone_no');
     //api/android/get_trackPlant
-    final uri = Uri.http('192.168.1.4:5000', '/api/android/get_trackPlant');
+    final uri = Uri.http('192.168.1.100:5000', '/api/android/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -106,9 +106,9 @@ class _HomePageState extends State<HomePage>
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.1.4.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.1.100.112.112:5000/api/android/update_phone_no');
     //api/android/get_trackPlant
-    final uri = Uri.http('192.168.1.4:5000', '/api/android/get_trackPlant');
+    final uri = Uri.http('192.168.1.100:5000', '/api/android/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -128,7 +128,12 @@ class _HomePageState extends State<HomePage>
 
       // Access values from the "data" array
       List<dynamic> dataArray = data['data'];
-      debugPrint(dataArray.length.toString());
+      List<dynamic> nameArray = data['displayName'];
+      //email = data0['data']['email'];
+
+      //debugPrint(dataArray.length.toString());
+      Map<String, dynamic> namePointer = nameArray[0];
+      username = namePointer['customer_fname'];
       Map<String, dynamic> firstDataItem = dataArray[index];
       //int id = firstDataItem['id'];
       int dataCount = firstDataItem['count'];
@@ -255,9 +260,7 @@ class _HomePageState extends State<HomePage>
                       ),
                     ),
                   ),
-
                   Expanded(child: Container()),
-
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -390,86 +393,6 @@ class _HomePageState extends State<HomePage>
                       ],
                     ),
                   ),
-
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     Container(
-                  //       padding: EdgeInsets.all(10),
-                  //       height: 150,
-                  //       width: 150,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(20),
-                  //         color:
-                  //             Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  //       ),
-                  //       child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //         children: [
-                  //           Icon(
-                  //             Icons.water_drop_rounded,
-                  //             size: 35,
-                  //             color: Colors.blue,
-                  //           ),
-                  //           Text(
-                  //             "Water level",
-                  //             style: GoogleFonts.montserrat(
-                  //               fontSize: 15,
-                  //               fontWeight: FontWeight.w500,
-                  //               fontStyle: FontStyle.normal,
-                  //             ),
-                  //           ),
-                  //           Text(
-                  //             "20%",
-                  //             style: GoogleFonts.montserrat(
-                  //               fontSize: 40,
-                  //               fontWeight: FontWeight.w900,
-                  //               fontStyle: FontStyle.normal,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       padding: EdgeInsets.all(10),
-                  //       height: 150,
-                  //       width: 150,
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(20),
-                  //         color:
-                  //             Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  //       ),
-                  //       child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //         children: [
-                  //           Icon(
-                  //             Icons.water_drop_rounded,
-                  //             size: 35,
-                  //             color: Colors.blue,
-                  //           ),
-                  //           Text(
-                  //             "Water level",
-                  //             style: GoogleFonts.montserrat(
-                  //               fontSize: 15,
-                  //               fontWeight: FontWeight.w500,
-                  //               fontStyle: FontStyle.normal,
-                  //             ),
-                  //           ),
-                  //           Text(
-                  //             "20%",
-                  //             style: GoogleFonts.montserrat(
-                  //               fontSize: 40,
-                  //               fontWeight: FontWeight.w900,
-                  //               fontStyle: FontStyle.normal,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -492,7 +415,7 @@ class _HomePageState extends State<HomePage>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Lottie.asset('animations/home_plant.json',
+                            Lottie.asset('animations/transfer_done.json',
                                 reverse: true, height: 150),
                             Expanded(child: Container()),
                             Padding(
@@ -501,13 +424,27 @@ class _HomePageState extends State<HomePage>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    _greeting(),
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w900,
-                                      fontStyle: FontStyle.normal,
-                                    ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Selam👋🏾 $username",
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle: FontStyle.normal,
+                                        ),
+                                      ),
+                                      Text(
+                                        _greeting(),
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w900,
+                                          fontStyle: FontStyle.normal,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
                                     height: 10,
@@ -904,7 +841,7 @@ class _HomePageState extends State<HomePage>
                               ),
                               builder: (BuildContext context) {
                                 return Container(
-                                    height: 500.0,
+                                    height: 800,
                                     padding: const EdgeInsets.all(20),
                                     child: Column(
                                         crossAxisAlignment:
@@ -921,7 +858,7 @@ class _HomePageState extends State<HomePage>
                                                   size: 40,
                                                 )),
                                           ),
-                                          Expanded(child: Container()),
+                                          // Expanded(child: Container()),
                                           Text(
                                             "Currently \ntracking $plantName",
                                             style: GoogleFonts.montserrat(
@@ -1005,9 +942,7 @@ class _HomePageState extends State<HomePage>
                                                   ),
                                                 )),
                                           ),
-                                          const SizedBox(
-                                            height: 50,
-                                          ),
+                                          Expanded(child: Container()),
                                           Text(
                                             "You have ${dataArray!.length.toString()} $plantAmount",
                                             style: GoogleFonts.montserrat(
@@ -1016,34 +951,37 @@ class _HomePageState extends State<HomePage>
                                               fontStyle: FontStyle.normal,
                                             ),
                                           ),
-                                          Wrap(
-                                            children: List.generate(
-                                              dataArray == null
-                                                  ? 0
-                                                  : dataArray!.length,
-                                              (index) => Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: FilterChip(
-                                                  selected: tracking,
-                                                  onSelected: (tracking) {},
-                                                  label: Text(
-                                                    dataArray![index]
-                                                        ["plant_name"],
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontStyle:
-                                                          FontStyle.normal,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 10),
+                                            child: Row(
+                                              children: List.generate(
+                                                dataArray == null
+                                                    ? 0
+                                                    : dataArray!.length,
+                                                (index) => Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: FilterChip(
+                                                    selected: tracking,
+                                                    onSelected: (tracking) {},
+                                                    label: Text(
+                                                      dataArray![index]
+                                                          ["plant_name"],
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          Expanded(child: Container()),
                                         ]));
                               },
                             );

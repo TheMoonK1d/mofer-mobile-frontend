@@ -20,7 +20,7 @@ class EditPasswordModel {
     final prefs = await SharedPreferences.getInstance();
 
     final http.Response response = await http.put(
-      Uri.parse('http://192.168.1.4:5000/api/android/update_password'),
+      Uri.parse('http://192.168.1.100:5000/api/android/update_password'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),

@@ -36,7 +36,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
   DateTime? _currentBackPressTime;
   @override
   void initState() {
-    controller!.forward();
+    //controller!.forward();
     super.initState();
 
     controller = AnimationController(
@@ -196,19 +196,17 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                 ),
               ),
             ),
-            FadeTransition(
-                opacity: curve!,
-                child: SizedBox(
-                  height: 60,
-                  child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          otp.resendOTP(token);
-                        },
-                        child: const Text("Resend"),
-                      )),
-                )),
+            SizedBox(
+              height: 60,
+              child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      otp.resendOTP(token);
+                    },
+                    child: const Text("Resend"),
+                  )),
+            )
           ])),
         ));
   }

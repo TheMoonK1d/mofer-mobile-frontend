@@ -33,7 +33,7 @@ class _PaymentLoginState extends State<PaymentLogin> {
               children: [
                 Text(
                   textAlign: TextAlign.start,
-                  "You will pay\n ${widget.newAmount} ETB",
+                  "You will pay\n${widget.newAmount} ETB",
                   style: GoogleFonts.montserrat(
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
@@ -137,13 +137,16 @@ class _PaymentLoginState extends State<PaymentLogin> {
             ),
           ),
           Expanded(child: Container()),
-          Text(
-            textAlign: TextAlign.start,
-            "Once logged in yoy session will last for 15 ⌚ min only",
-            style: GoogleFonts.montserrat(
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              fontStyle: FontStyle.normal,
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              textAlign: TextAlign.start,
+              "Once logged in your session will last for 15 ⌚ min only",
+              style: GoogleFonts.montserrat(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+                fontStyle: FontStyle.normal,
+              ),
             ),
           ),
         ],

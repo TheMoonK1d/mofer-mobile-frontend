@@ -21,14 +21,14 @@ class Login {
           email: email.trim(), password: password.trim());
       getToken();
       debugPrint("Navigating to CheckStatus Page...");
-      if (context.mounted) {
-        //Navigator.pop(context);
-
-        Future.delayed(const Duration(milliseconds: 9), () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const CheckStatus()));
-        });
-      }
+      navToHome(context);
+      // if (context.mounted) {
+      //   Navigator.push(context,
+      //       MaterialPageRoute(builder: (context) => const CheckStatus()));
+      //
+      //   // Navigator.pushReplacement(context,
+      //   //     MaterialPageRoute(builder: (context) => const CheckStatus()));
+      // }
     } on FirebaseAuthException catch (e) {
       error = e.message;
       debugPrint("E.msg $error");
@@ -38,9 +38,9 @@ class Login {
         content: Text("⚠ $error"),
       ));
     }
-    if (context.mounted) {
-      Navigator.pop(context);
-    }
+    // if (context.mounted) {
+    //   Navigator.pop(context);
+    // }
   }
 }
 
@@ -52,7 +52,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': _uid};
   final http.Response response = await http.post(
-    Uri.parse('http://192.168.1.4:5000/api/android/login'),
+    Uri.parse('http://192.168.1.100:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -71,5 +71,17 @@ getToken() async {
     debugPrint(token);
   } else {
     debugPrint("$_uid does not exist");
+  }
+}
+
+navToHome(context){
+  debugPrint("please just f***ing work");
+  Navigator.pop(context);
+  if (context.mounted) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CheckStatus()));
+
+    // Navigator.pushReplacement(context,
+    //     MaterialPageRoute(builder: (context) => const CheckStatus()));
   }
 }

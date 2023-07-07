@@ -6,12 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../Utils/dialog.dart';
 import 'home_page.dart';
 import 'login.dart';
 import 'package:http/http.dart' as http;
-
 import 'main_page.dart';
 
 class PlantList extends StatefulWidget {
@@ -36,9 +34,9 @@ class _PlantListState extends State<PlantList> {
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.1.4.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.1.100.112.112:5000/api/android/update_phone_no');
     //api/android/get_trackPlant
-    final uri = Uri.http('192.168.1.4:5000', '/api/android/get_trackPlant');
+    final uri = Uri.http('192.168.1.100:5000', '/api/android/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -51,17 +49,15 @@ class _PlantListState extends State<PlantList> {
     //List<dynamic> _data = jsonEncode(data);
 
     if (response.statusCode == 200) {
-      setState(() {
-        Map<String, dynamic> data = json.decode(response.body);
-        dataArray = data['data'];
-        debugPrint(dataArray!.length.toString());
-        Map<String, dynamic> firstDataItem = dataArray![index];
-        len = dataArray!.length;
-        plantName = firstDataItem['plant_name'];
-        String dataEnteredDate = firstDataItem['entered_date'];
-        DateTime dateTime = DateTime.parse(dataEnteredDate);
-        formattedDate = DateFormat.yMMMMd().format(dateTime);
-      });
+      Map<String, dynamic> data = json.decode(response.body);
+      dataArray = data['data'];
+      debugPrint(dataArray!.length.toString());
+      Map<String, dynamic> firstDataItem = dataArray![index];
+      len = dataArray!.length;
+      plantName = firstDataItem['plant_name'];
+      String dataEnteredDate = firstDataItem['entered_date'];
+      DateTime dateTime = DateTime.parse(dataEnteredDate);
+      formattedDate = DateFormat.yMMMMd().format(dateTime);
     } else if (response.statusCode == 401) {
       if (context.mounted) {
         loadingDialog(context);
@@ -124,52 +120,67 @@ class _PlantListState extends State<PlantList> {
                         ),
                       ],
                     )),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: dataArray == null ? 0 : dataArray!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: ListTile(
-                          leading: const Icon(Icons.compost),
-                          title: Text(
-                            dataArray![index]["plant_name"] != null
-                                ? dataArray![index]["plant_name"].toString()
-                                : "Loading...",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                          subtitle: Text(
-                            //entered_date
-                            formattedDate != null
-                                ? "Last tracked on $formattedDate"
-                                : "Loading...",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
-                          onTap: () {
-                            selected = index;
-                            debugPrint(selected.toString());
-                            trackingPlant();
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  'You are now tracking your ${dataArray![index]["plant_name"]}'),
-                            ));
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MainPage()));
+                FutureBuilder(
+                  future: getPlantList(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                          child: SizedBox(child: CircularProgressIndicator()));
+                    } else if (snapshot.hasError == true) {
+                      return const Text("Something went wrong");
+                    } else {
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: dataArray == null ? 0 : dataArray!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: ListTile(
+                                leading: const Icon(Icons.yard),
+                                title: Text(
+                                  dataArray![index]["plant_name"] != null
+                                      ? dataArray![index]["plant_name"]
+                                          .toString()
+                                      : "Loading...",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  //entered_date
+                                  formattedDate != null
+                                      ? "Last tracked on $formattedDate"
+                                      : "Loading...",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                                onTap: () {
+                                  selected = index;
+                                  debugPrint(selected.toString());
+                                  trackingPlant();
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        'You are now tracking your ${dataArray![index]["plant_name"]}'),
+                                  ));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MainPage()));
+                                },
+                              ),
+                            );
                           },
                         ),
                       );
-                    },
-                  ),
+                    }
+                  },
                 )
               ],
             )));

@@ -60,8 +60,8 @@ class _ActivityPageState extends State<ActivityPage>
       'trace_id': widget.traceId.toString(),
       'plant_name': widget.name,
     };
-    final uri =
-        Uri.http('192.168.1.4:5000', '/api/android/generate_activity', data);
+    final uri = Uri.http(
+        '192.168.1.100:5000', '/api/android/generate_activity', data);
     final response = await http.get(
       uri,
       headers: {

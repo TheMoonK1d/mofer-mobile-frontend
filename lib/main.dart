@@ -7,18 +7,50 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mofer/Views/check_status.dart';
+import 'package:mofer/Views/first_time.dart';
+import 'package:mofer/root.dart';
+import 'package:mofer/test_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Views/login.dart';
+import 'first_screen.dart';
+
+bool? firstTimeChecker;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  runApp(MyApp());
 }
 
 //send token
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool? check;
+
+  firstTimeCheckerFun() async {
+    final prefs = await SharedPreferences.getInstance();
+    firstTimeChecker = prefs.getBool("notFirstTime");
+    debugPrint("First Time: $firstTimeChecker");
+  }
+
+  @override
+  void initState() {
+    firstTimeCheckerFun();
+    if (firstTimeChecker == null) {
+      firstTimeChecker = false;
+    } else {
+      firstTimeChecker = true;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,130 +100,65 @@ class MyApp extends StatelessWidget {
               darkTheme:
                   ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
               themeMode: ThemeMode.system,
-              home: StreamBuilder<User?>(
-                  stream: FirebaseAuth.instance.authStateChanges(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Scaffold(
-                        body: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                  child: Center(
-                                child: AvatarGlow(
-                                  glowColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  endRadius: 150,
-                                  duration: const Duration(milliseconds: 3000),
-                                  repeat: true,
-                                  showTwoGlows: true,
-                                  curve: Curves.easeOutQuad,
-                                  child: Container(
-                                      height: 80,
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          borderRadius:
-                                              BorderRadius.circular(99)),
-                                      child: SizedBox(
-                                        height: 150,
-                                        width: 100,
-                                        child: Image.asset(
-                                          "assets/final.png",
-                                          color: navColor.withOpacity(0.5),
-                                        ),
-                                      )),
-                                ),
-                              )),
-                              Center(
-                                child: Padding(
-                                    padding: const EdgeInsets.all(50),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          textAlign: TextAlign.start,
-                                          "Connecting",
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                            fontStyle: FontStyle.normal,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 13,
-                                          child: DefaultTextStyle(
-                                            style: GoogleFonts.montserrat(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              fontStyle: FontStyle.normal,
-                                            ),
-                                            child: AnimatedTextKit(
-                                              repeatForever: true,
-                                              animatedTexts: [
-                                                TyperAnimatedText(''),
-                                                TyperAnimatedText('.'),
-                                                TyperAnimatedText('..'),
-                                                TyperAnimatedText('...'),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return AlertDialog(
-                        title: Text(
-                          "Something went wrong",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                        content: Text(
-                          "We are facing a problem, try again",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              "Okay",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.normal,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    } else if (snapshot.hasData) {
-                      return const CheckStatus();
-                    } else {
-                      //return LoginPage();
-                      //For testing
-                      return LoginPage();
-                    }
-                  })));
+              home: FutureBuilder(
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading...");
+                  } else if (snapshot.hasError == true) {
+                    return Text("Something went wrong");
+                  } else if (firstTimeChecker == false) {
+                    //return LoginPage();
+                    setFirstTime();
+                    return FirstScreen();
+                  } else if (firstTimeChecker == null) {
+                    //return LoginPage();
+                    setFirstTime();
+                    return FirstScreen();
+                  } else {
+                    return Root();
+                  }
+                },
+              )));
     });
   }
+}
+
+// class FirstTime extends StatefulWidget {
+//   FirstTime({Key? key, required this.firstTime}) : super(key: key);
+//   bool? firstTime;
+
+//   @override
+//   State<FirstTime> createState() => _FirstTimeState();
+// }
+
+// class _FirstTimeState extends State<FirstTime> {
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         body: FutureBuilder(
+//           //future: checkFirstTime(),
+//           builder: (context, snapshot) {
+//             if (firstTimeChecker == true) {
+//               return FirstScreen();
+//             } else if (firstTimeChecker == false || firstTimeChecker == null) {
+//               return MyApp();
+//             } else {
+//               return Text("error");
+//             }
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+setFirstTime() async {
+  final pref = await SharedPreferences.getInstance();
+  await pref.setBool('notFirstTime', true);
 }

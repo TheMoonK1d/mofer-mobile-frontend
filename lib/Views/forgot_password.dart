@@ -14,8 +14,8 @@ class ForgotPassword extends StatelessWidget {
     sendData() async {
       debugPrint("Function called");
       final data = {'customer_email': emailController.text.toString()};
-      final uri =
-          Uri.http('192.168.1.4:5000', '/api/android/forget_password', data);
+      final uri = Uri.http(
+          '192.168.1.100:5000', '/api/android/forget_password', data);
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         debugPrint(
@@ -29,7 +29,11 @@ class ForgotPassword extends StatelessWidget {
           Navigator.pop(context);
         }
       } else {
-        debugPrint("${emailController.text} does not exist");
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${emailController.text} does not exist'),
+          ));
+        }
       }
     }
 

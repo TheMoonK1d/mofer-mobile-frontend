@@ -27,7 +27,7 @@ class _DataPageState extends State<DataPage> {
     final prefs = await SharedPreferences.getInstance();
     index = int.parse(prefs.getString("Tracking")!);
     //http://localhost:5000/api/android/getPlant
-    final uri = Uri.http('192.168.1.4:5000', '/api/android/getPlant');
+    final uri = Uri.http('192.168.1.100:5000', '/api/android/getPlant');
     final response = await http.get(
       uri,
       headers: {
