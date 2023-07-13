@@ -23,7 +23,7 @@ class VerifyEmailPage extends StatefulWidget {
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
 }
 
-const String url = 'http://192.168.1.100:5000/api/android/signup';
+const String url = 'http://192.168.138.209:5000/api/android/signup';
 bool _buttonEnabled = true;
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
@@ -136,7 +136,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   // Future sendData() async {
   //   debugPrint("Fetching data");
   //   final response =
-  //   await http.post(Uri.parse('http://192.168.1.100:5000/p/allPackages'));
+  //   await http.post(Uri.parse('http://192.168.138.209:5000/p/allPackages'));
   //   debugPrint(response.statusCode.toString());
   //   //data = jsonDecode(response.body);
   //

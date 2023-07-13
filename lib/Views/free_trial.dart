@@ -45,7 +45,7 @@ class _FreeTrialState extends State<FreeTrial> {
     final prefs = await SharedPreferences.getInstance();
 
     final http.Response response = await http.post(
-      Uri.parse('http://192.168.1.100:5000/api/android/start'),
+      Uri.parse('http://192.168.138.209:5000/api/android/start'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),

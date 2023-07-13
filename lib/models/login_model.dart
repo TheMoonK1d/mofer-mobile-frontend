@@ -52,7 +52,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': _uid};
   final http.Response response = await http.post(
-    Uri.parse('http://192.168.1.100:5000/api/android/login'),
+    Uri.parse('http://192.168.138.209:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -74,12 +74,12 @@ getToken() async {
   }
 }
 
-navToHome(context){
+navToHome(context) {
   debugPrint("please just f***ing work");
   Navigator.pop(context);
   if (context.mounted) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const CheckStatus()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const CheckStatus()));
 
     // Navigator.pushReplacement(context,
     //     MaterialPageRoute(builder: (context) => const CheckStatus()));
