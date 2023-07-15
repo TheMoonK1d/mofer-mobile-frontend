@@ -20,7 +20,7 @@ class EditPhoneModel {
     final prefs = await SharedPreferences.getInstance();
 
     final http.Response response = await http.put(
-      Uri.parse('http://192.168.138.209:5000/api/android/update_phone_no'),
+      Uri.parse('http://192.168.8.209:5000/api/android/update_phone_no'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': prefs.getString("Token").toString(),

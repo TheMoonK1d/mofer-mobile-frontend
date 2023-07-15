@@ -52,7 +52,7 @@ getToken() async {
   debugPrint("Sending uid");
   final data = {'uid': _uid};
   final http.Response response = await http.post(
-    Uri.parse('http://192.168.138.209:5000/api/android/login'),
+    Uri.parse('http://192.168.8.209:5000/api/android/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

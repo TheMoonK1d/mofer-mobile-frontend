@@ -50,7 +50,7 @@ class _UserDisabledAccountState extends State<UserDisabledAccount> {
                           child: Row(
                             children: [
                               Text(
-                                'Activated',
+                                'Re activate',
                                 style: GoogleFonts.montserrat(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w900,

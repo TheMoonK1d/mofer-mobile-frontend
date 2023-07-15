@@ -36,7 +36,7 @@ class _TransferPlantState extends State<TransferPlant> {
   Future<void> transferPlant() async {
     // Set the API endpoint URL
     Uri url =
-        Uri.parse('http://192.168.138.209:5000/api/android/transferProduct');
+        Uri.parse('http://192.168.8.209:5000/api/android/transferProduct');
 
     // Create the multipart request
     var request = http.MultipartRequest('POST', url);
@@ -309,6 +309,37 @@ class _TransferPlantState extends State<TransferPlant> {
                   ),
                 ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withOpacity(0.03)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Icon(Icons.warning, color: Colors.redAccent),
+                    ),
+                    Text(
+                      textAlign: TextAlign.start,
+                      "Make sure the image you picked is of a plant",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 13,
+                        //color: Colors.redAccent,
+                        fontWeight: FontWeight.w800,
+                        fontStyle: FontStyle.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(20),

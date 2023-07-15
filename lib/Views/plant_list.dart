@@ -34,9 +34,9 @@ class _PlantListState extends State<PlantList> {
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.138.209.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.8.209.112.112:5000/api/android/update_phone_no');
     //api/android/get_trackPlant
-    final uri = Uri.http('192.168.138.209:5000', '/api/android/get_trackPlant');
+    final uri = Uri.http('192.168.8.209:5000', '/api/android/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {

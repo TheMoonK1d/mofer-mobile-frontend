@@ -34,14 +34,14 @@ class _ActivityPageState extends State<ActivityPage>
   double temp = 0, humi = 0, soil = 0;
   //Water Color
   Color waterCurrentColor = Colors.black;
-  Color waterGood = Colors.blue;
-  Color waterAvg = Colors.teal;
+  Color waterGood = Colors.orange;
+  Color waterAvg = Colors.green;
   Color waterBad = Colors.red;
 
   //Humidity Color
   Color humidityCurrentColor = Colors.black;
-  Color humidityGood = Colors.purple;
-  Color humidityAvg = Colors.yellowAccent;
+  Color humidityGood = Colors.orange;
+  Color humidityAvg = Colors.green;
   Color humidityBad = Colors.red;
 
   //Temp Color
@@ -60,8 +60,8 @@ class _ActivityPageState extends State<ActivityPage>
       'trace_id': widget.traceId.toString(),
       'plant_name': widget.name,
     };
-    final uri = Uri.http(
-        '192.168.138.209:5000', '/api/android/generate_activity', data);
+    final uri =
+        Uri.http('192.168.8.209:5000', '/api/android/generate_activity', data);
     final response = await http.get(
       uri,
       headers: {
@@ -200,7 +200,7 @@ class _ActivityPageState extends State<ActivityPage>
                             ],
                           )),
                       SizedBox(
-                        height: 510,
+                        height: 550,
                         child: Padding(
                           padding: const EdgeInsets.all(0),
                           child: Container(
@@ -222,7 +222,7 @@ class _ActivityPageState extends State<ActivityPage>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                        height: 150,
+                                        height: 170,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -265,7 +265,7 @@ class _ActivityPageState extends State<ActivityPage>
                                             ),
                                             Expanded(child: Container()),
                                             Container(
-                                              width: 160,
+                                              width: 130,
                                               height: 50,
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
@@ -332,7 +332,7 @@ class _ActivityPageState extends State<ActivityPage>
                                             ),
                                             Expanded(child: Container()),
                                             Container(
-                                              width: 160,
+                                              width: 130,
                                               height: 50,
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
@@ -399,7 +399,7 @@ class _ActivityPageState extends State<ActivityPage>
                                             ),
                                             Expanded(child: Container()),
                                             Container(
-                                              width: 160,
+                                              width: 130,
                                               height: 50,
                                               decoration: BoxDecoration(
                                                   color: Theme.of(context)
@@ -432,35 +432,30 @@ class _ActivityPageState extends State<ActivityPage>
                       ),
                       Column(
                         children: [
-                          Text(
-                            'Color key',
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w900,
-                              fontStyle: FontStyle.normal,
-                            ),
-                          ),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: Column(
                               children: [
                                 Text(
-                                  'For Moisture',
+                                  'Color key',
                                   style: GoogleFonts.montserrat(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w900,
                                     fontStyle: FontStyle.normal,
                                   ),
                                 ),
+                                SizedBox(
+                                  height: 20,
+                                ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Text(
-                                      'Good',
+                                      'Extreme',
                                       style: GoogleFonts.montserrat(
-                                        fontSize: 14,
-                                        color: waterGood,
+                                        fontSize: 20,
+                                        color: Colors.orange,
                                         fontWeight: FontWeight.w900,
                                         fontStyle: FontStyle.normal,
                                       ),
@@ -468,8 +463,8 @@ class _ActivityPageState extends State<ActivityPage>
                                     Text(
                                       'Average',
                                       style: GoogleFonts.montserrat(
-                                        fontSize: 14,
-                                        color: waterAvg,
+                                        fontSize: 20,
+                                        color: Colors.teal,
                                         fontWeight: FontWeight.w900,
                                         fontStyle: FontStyle.normal,
                                       ),
@@ -477,8 +472,8 @@ class _ActivityPageState extends State<ActivityPage>
                                     Text(
                                       'Bad',
                                       style: GoogleFonts.montserrat(
-                                        fontSize: 14,
-                                        color: waterBad,
+                                        fontSize: 20,
+                                        color: Colors.red,
                                         fontWeight: FontWeight.w900,
                                         fontStyle: FontStyle.normal,
                                       ),

@@ -202,7 +202,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
                     onPressed: () {
-                      otp.resendOTP(token);
+                      otp.resendOTP(token, _uid);
                     },
                     child: const Text("Resend"),
                   )),

@@ -52,9 +52,9 @@ class _RecommendationPageState extends State<RecommendationPage>
       'trace_id': widget.traceId.toString(),
       'plant_name': widget.name,
     };
-    //http://192.168.138.209:5000/api/android/generate_analaytics
+    //http://192.168.8.209:5000/api/android/generate_analaytics
     final uri = Uri.http(
-        '192.168.138.209:5000', '/api/android/generate_analaytics', data);
+        '192.168.8.209:5000', '/api/android/generate_analaytics', data);
     final response = await http.get(
       uri,
       headers: {
@@ -139,7 +139,7 @@ class _RecommendationPageState extends State<RecommendationPage>
                           children: [
                             Text(
                               textAlign: TextAlign.start,
-                              "Your Activity",
+                              "Recommendation",
                               style: GoogleFonts.montserrat(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w900,

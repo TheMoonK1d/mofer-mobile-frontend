@@ -31,7 +31,7 @@ class _MarketPageState extends State<MarketPage> {
   Future getProducts() async {
     debugPrint("Fetching products");
     final response = await http
-        .get(Uri.parse('http://192.168.138.209:5000/api/android/allProducts'));
+        .get(Uri.parse('http://192.168.8.209:5000/api/android/allProducts'));
     debugPrint(response.statusCode.toString());
     data = jsonDecode(response.body);
     lst = data!["data"];
@@ -66,7 +66,7 @@ class _MarketPageState extends State<MarketPage> {
           future: getProducts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: SizedBox(
                   child: CircularProgressIndicator(),
                 ),
@@ -181,13 +181,13 @@ class _MarketPageState extends State<MarketPage> {
                                             "${lst![index]["s_image"]}")),
                                     Container(
                                       padding: const EdgeInsets.all(5),
-                                      height: 70,
+                                      height: 85,
                                       width: 200,
                                       decoration: BoxDecoration(
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary
-                                              .withOpacity(0.1),
+                                              .withOpacity(0.01),
                                           borderRadius: const BorderRadius.only(
                                               bottomLeft: Radius.circular(15),
                                               bottomRight:
@@ -205,14 +205,50 @@ class _MarketPageState extends State<MarketPage> {
                                               ),
                                             ),
                                             //s_quanity
-                                            Text(
-                                              '${lst![index]["s_quanity"]} amount',
-                                              style: GoogleFonts.montserrat(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                                fontStyle: FontStyle.normal,
-                                                // color: Colors.white,
-                                              ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '${lst![index]["s_price"]} ETB',
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle: FontStyle.normal,
+                                                    // color: Colors.white,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  10)),
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary
+                                                          .withOpacity(0.05)),
+                                                  child: Center(
+                                                    child: Text(
+                                                      '${lst![index]["s_quanity"]} Left',
+                                                      style: GoogleFonts
+                                                          .montserrat(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w800,
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        // color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             )
                                           ]),
                                     )

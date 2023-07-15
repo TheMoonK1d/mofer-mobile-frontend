@@ -27,7 +27,7 @@ class _DataPageState extends State<DataPage> {
     final prefs = await SharedPreferences.getInstance();
     index = int.parse(prefs.getString("Tracking")!);
     //http://localhost:5000/api/android/getPlant
-    final uri = Uri.http('192.168.138.209:5000', '/api/android/getPlant');
+    final uri = Uri.http('192.168.8.209:5000', '/api/android/getPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -307,80 +307,6 @@ class _DataPageState extends State<DataPage> {
                                         traceId: traceId,
                                       ),
                                     ));
-                              },
-                              child: Text(
-                                textAlign: TextAlign.start,
-                                "Show More",
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w200,
-                                  fontStyle: FontStyle.normal,
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  height: 160,
-                  decoration: BoxDecoration(
-                    color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.note_rounded,
-                              size: 30,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              textAlign: TextAlign.start,
-                              "Your Notes",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                fontStyle: FontStyle.normal,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          textAlign: TextAlign.start,
-                          "Take notes to keep track",
-                          style: GoogleFonts.montserrat(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                        Expanded(child: Container()),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text(
-                                      '📝 Notes will be available on the next build'),
-                                ));
                               },
                               child: Text(
                                 textAlign: TextAlign.start,

@@ -60,9 +60,9 @@ class _HomePageState extends State<HomePage>
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.138.209.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.8.209.112.112:5000/api/android/update_phone_no');
     //api/android/get_trackPlant
-    final uri = Uri.http('192.168.138.209:5000', '/api/android/get_trackPlant');
+    final uri = Uri.http('192.168.8.209:5000', '/api/android/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -75,14 +75,16 @@ class _HomePageState extends State<HomePage>
     //List<dynamic> _data = jsonEncode(data);
 
     if (response.statusCode == 200) {
-      setState(() {
-        Map<String, dynamic> data = json.decode(response.body);
-        dataArray = data['data'];
-        debugPrint(dataArray!.length.toString());
-        Map<String, dynamic> firstDataItem = dataArray![index];
-        len = dataArray!.length;
-        plantName = firstDataItem['plant_name'];
-      });
+      if (mounted) {
+        setState(() {
+          Map<String, dynamic> data = json.decode(response.body);
+          dataArray = data['data'];
+          debugPrint(dataArray!.length.toString());
+          Map<String, dynamic> firstDataItem = dataArray![index];
+          len = dataArray!.length;
+          plantName = firstDataItem['plant_name'];
+        });
+      }
     } else if (response.statusCode == 401) {
       if (context.mounted) {
         loadingDialog(context);
@@ -106,9 +108,9 @@ class _HomePageState extends State<HomePage>
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.138.209.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.8.209.112.112:5000/api/android/update_phone_no');
     //api/android/get_trackPlant
-    final uri = Uri.http('192.168.138.209:5000', '/api/android/get_trackPlant');
+    final uri = Uri.http('192.168.8.209:5000', '/api/android/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -415,7 +417,7 @@ class _HomePageState extends State<HomePage>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Lottie.asset('animations/transfer_done.json',
+                            Lottie.asset('animations/home_plant.json',
                                 reverse: true, height: 150),
                             Expanded(child: Container()),
                             Padding(
@@ -505,7 +507,8 @@ class _HomePageState extends State<HomePage>
                                     height: 50,
                                     width: 50,
                                     data: water,
-                                    des: "",
+                                    des:
+                                        "Moisture is vital for plant growth. It refers to the water content in the soil that plants absorb through their roots. Adequate moisture is crucial for photosynthesis, nutrient uptake, and overall plant health. Insufficient moisture causes wilting, while excessive moisture leads to root rot. Proper watering and monitoring soil moisture are essential for plant care and productivity.",
                                     sign: "%",
                                   ),
                                 ));

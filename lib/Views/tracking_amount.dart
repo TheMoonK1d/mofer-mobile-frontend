@@ -37,9 +37,9 @@ class _TrackingAmountState extends State<TrackingAmount> {
     debugPrint(prefs.getString("Token").toString());
     //final data = {'uid': uid};
     // final uri =
-    //     Uri.parse('http://192.168.138.209.112.112:5000/api/android/update_phone_no');
+    //     Uri.parse('http://192.168.8.209.112.112:5000/api/android/update_phone_no');
     //api/android/get_trackPlant
-    final uri = Uri.http('192.168.138.209:5000', '/api/android/get_trackPlant');
+    final uri = Uri.http('192.168.8.209:5000', '/api/android/get_trackPlant');
     final response = await http.get(
       uri,
       headers: {
@@ -107,66 +107,49 @@ class _TrackingAmountState extends State<TrackingAmount> {
                     children: [
                       Expanded(
                           child: Center(
-                        child: AvatarGlow(
-                          glowColor: Theme.of(context).colorScheme.primary,
-                          endRadius: 150,
-                          duration: const Duration(milliseconds: 3000),
-                          repeat: true,
-                          showTwoGlows: true,
-                          curve: Curves.easeOutQuad,
-                          child: Container(
-                              height: 80,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  borderRadius: BorderRadius.circular(99)),
-                              child: SizedBox(
-                                height: 150,
-                                width: 100,
-                                child: Image.asset(
-                                  "assets/final.png",
-                                  color: navColor.withOpacity(0.5),
-                                ),
-                              )),
-                        ),
+                        child: Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                                //color: Theme.of(context).colorScheme.primary,
+                                borderRadius: BorderRadius.circular(99)),
+                            child: SizedBox(
+                              height: 150,
+                              width: 100,
+                              child: Image.asset(
+                                "assets/final.png",
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.5),
+                              ),
+                            )),
                       )),
                       Center(
                         child: Padding(
                             padding: const EdgeInsets.all(50),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            child: Column(
                               children: [
                                 Text(
                                   textAlign: TextAlign.start,
-                                  "looking for your plants",
+                                  "Getting things Ready",
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 15,
+                                    //color: Colors.grey,
+                                    fontWeight: FontWeight.w800,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                                Text(
+                                  textAlign: TextAlign.start,
+                                  "for you",
                                   style: GoogleFonts.montserrat(
                                     fontSize: 15,
                                     color: Colors.grey,
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FontStyle.normal,
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 13,
-                                  child: DefaultTextStyle(
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 15,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500,
-                                      fontStyle: FontStyle.normal,
-                                    ),
-                                    child: AnimatedTextKit(
-                                      repeatForever: true,
-                                      animatedTexts: [
-                                        TyperAnimatedText(''),
-                                        TyperAnimatedText('.'),
-                                        TyperAnimatedText('..'),
-                                        TyperAnimatedText('...'),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                )
                               ],
                             )),
                       ),
