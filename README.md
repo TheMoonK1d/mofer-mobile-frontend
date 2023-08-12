@@ -41,7 +41,29 @@
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/13.jpg" width="200" />
 
 ## Home
-<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/6.jpg" width="200" />
+<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/14.jpg" width="200" />
+
+## Home
+<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/15.jpg" width="200" />
+
+## Home
+<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/16.jpg" width="200" />
+
+## Home
+<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/17.jpg" width="200" />
+
+## Home
+<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/18.jpg" width="200" />
+
+## Home
+<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/19.jpg" width="200" />
+
+## Home
+<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/20.jpg" width="200" />
+
+## Home
+<img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/21.jpg" width="200" />
+
 
 
 
