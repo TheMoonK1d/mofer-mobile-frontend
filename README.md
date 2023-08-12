@@ -55,13 +55,13 @@
 ## Home
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/18.jpg" width="200" />
 
-## Home
+## Update name
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/19.jpg" width="200" />
 
-## Home
+## Plant list
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/20.jpg" width="200" />
 
-## Home
+## Home Loading
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/21.jpg" width="200" />
 
 
