@@ -16,43 +16,43 @@
 ## Sign Up Step 4
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/5.jpg" width="200" />
 
-## Home
+## Home page
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/6.jpg" width="200" />
 
-## Home
+## Home more options
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/7.jpg" width="200" />
 
-## Home
+## Data page
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/8.jpg" width="200" />
 
-## Home
+## Payment package list
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/9.jpg" width="200" />
 
-## Home
+## Bank login
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/10.jpg" width="200" />
 
-## Home
+## Account expired page
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/11.jpg" width="200" />
 
-## Home
+## Plant tranfer page
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/12.jpg" width="200" />
 
-## Home
+## Recommendation page
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/13.jpg" width="200" />
 
-## Home
+## Activity page
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/14.jpg" width="200" />
 
-## Home
+## Update password
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/15.jpg" width="200" />
 
-## Home
+## Update address
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/16.jpg" width="200" />
 
-## Home
+## Update phone
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/17.jpg" width="200" />
 
-## Home
+## Update email
 <img src="https://raw.githubusercontent.com/TheMoonK1d/mofer-mobile-frontend/master/img/18.jpg" width="200" />
 
 ## Update name
